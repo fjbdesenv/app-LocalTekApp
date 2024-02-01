@@ -1,9 +1,10 @@
 <template>
-  <b-container fluid class="d-flex align-items-center justify-content-center h-100 ">
+  <b-container id="login-view" fluid class="d-flex align-items-center justify-content-center h-100">
     <b-row>
       <b-col cols="12">
         <b-container class="w-100">
-          <FormLogin @login="login"/>
+          <FormLogin v-if="!loggingIn" @login="login" />
+          <Loading v-else />
         </b-container>
       </b-col>
     </b-row>
@@ -14,6 +15,7 @@
 import { defineComponent } from 'vue';
 import { BContainer, BRow, BCol } from 'bootstrap-vue-next';
 import FormLogin from '@/components/Forms/FormLogin.vue';
+import Loading from '@/components/Loadings/Loading.vue';
 import { Login } from '@/interfaces/Login'
 
 export default defineComponent({
@@ -27,14 +29,15 @@ export default defineComponent({
   }),
   components: {
     FormLogin,
+    Loading,
     BContainer,
     BRow,
     BCol,
   },
-  methods:{
-    login(form: Login){
-      console.log(form);
+  methods: {
+    login(form: Login) {
       this.loggingIn = true;
+      setTimeout(() => this.loggingIn = false, 5000);
     }
   }
 });

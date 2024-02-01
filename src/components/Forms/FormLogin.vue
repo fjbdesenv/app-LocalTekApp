@@ -9,11 +9,11 @@
         </b-form-group>
 
         <b-form-group id="input-group-2" label="Senha" label-for="senha">
-            <b-form-input id="senha" v-model="form.senha" type="password" placeholder="Senha" required size="lg">
+            <b-form-input id="senha" v-model="form.senha" type="password" placeholder="Senha" autocomplete="off" required size="lg">
             </b-form-input>
         </b-form-group>
 
-        <b-container class="d-flex justify-content-center  mt-3 ">
+        <b-container class="d-flex justify-content-center  mt-3">
             <b-button squared type="submit" variant="primary" size="lg"> Logar </b-button>
         </b-container>
 
