@@ -1,7 +1,10 @@
 <template>
-  <b-container fluid class="d-inline-block h-100 w-100 p-3 bg-info">
-    <b-row class="w-100 bg-danger">
-      <b-col v-for="(module, index) in modules" :key="index" cols="4"  class="bg-success">
+  <b-container
+    fluid
+    class="d-flex justify-content-center align-items-center h-100 w-100 p-3"
+  >
+    <b-row class="w-100 align-items-center">
+      <b-col v-for="(module, index) in modules" :key="index" cols="4">
         <b-card
           :title="module.name"
           :img-src="module.img"
