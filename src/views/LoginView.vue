@@ -4,7 +4,7 @@
       <b-col cols="12">
         <b-container class="w-100">
           <FormLogin v-if="!loggingIn && !error.show" @login="login" />
-          <AlertMessage v-if="error.show" :message="error.message" type="danger" />
+          <AlertMessage v-if="error.show" :message="error.message" :type="error.type" />
           <Loading v-if="loggingIn" />
         </b-container>
       </b-col>
@@ -21,15 +21,12 @@ import { BContainer, BRow, BCol } from 'bootstrap-vue-next';
 import { Login } from '@/interfaces';
 import { Api } from "@/class/Api";
 import { AxiosError } from 'axios';
+import mixinErro from '@/mixins/mixinErro';
 
 export default defineComponent({
   name: 'LoginView',
   data: () => ({
     loggingIn: false,
-    error: {
-      show: false,
-      message: ''
-    }
   }),
   components: {
     FormLogin,
@@ -56,25 +53,18 @@ export default defineComponent({
           }).catch((error: AxiosError) => {
 
             if (error.response?.status == 401) {
-              this.showErro('Email ou senha incorreto, por favor verifique!');
+              this.errorAuth();
             } else {
               throw error;
             }
 
           });
       } catch (error) {
-        this.showErro('Erro interno, tente novamente mais tarde!');
+        this.errorInternal();
       }
       this.loggingIn = false;
     },
-
-    showErro(message: string) {
-      this.error.show = true;
-      this.error.message = message;
-      setTimeout(() => {
-        this.error.show = false;
-      }, 3000);
-    }
-  }
+  },
+  mixins: [mixinErro]
 });
 </script>

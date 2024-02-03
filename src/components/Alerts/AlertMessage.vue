@@ -1,6 +1,6 @@
 <template>
     <b-container :class="`alert alert-${type} p-3 `">
-      <BIconExclamationCircleFill variant="danger" class="h3" /> {{ message }}
+      <BIconExclamationCircleFill :variant="type" class="h3" /> {{ message }}
     </b-container>
 </template>
 
