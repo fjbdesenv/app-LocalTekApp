@@ -1,3 +1,4 @@
 import { Login } from "./Login";
+import { Module } from "./Module";
 
-export { Login } 
+export { Login, Module } 
