@@ -1,5 +1,5 @@
 <template>
-  <b-container id="login-view" fluid class="d-flex align-items-center justify-content-center h-100">
+  <b-container fluid class="d-flex align-items-center justify-content-center h-100">
     <b-row>
       <b-col cols="12">
         <b-container class="w-100">
