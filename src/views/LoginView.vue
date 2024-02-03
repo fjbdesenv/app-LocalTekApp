@@ -4,7 +4,7 @@
       <b-col cols="12">
         <b-container class="w-100">
           <FormLogin v-if="!loggingIn && !error.show" @login="login" />
-          <AlertMessage v-if="error.show" :message="error.message" :type="error.type" />
+          <AlertMessage v-if="error.show" :message="error.message" :type="error.type"/>
           <Loading v-if="loggingIn" />
         </b-container>
       </b-col>
