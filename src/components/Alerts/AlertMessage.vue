@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <b-container class="alert alert-danger p-3 "> <BIconExclamationCircleFill variant="danger" class="h3" /> {{ message }} </b-container>
-  </div>
+    <b-container :class="`alert alert-${type} p-3 `">
+      <BIconExclamationCircleFill variant="danger" class="h3" /> {{ message }}
+    </b-container>
 </template>
 
 <script lang="ts">
@@ -15,6 +15,10 @@ export default defineComponent({
     message: {
       type: String,
       required: true,
+    },
+    type: {
+      type: String,
+      required: true
     }
   },
   components: {

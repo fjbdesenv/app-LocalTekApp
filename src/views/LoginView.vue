@@ -3,9 +3,8 @@
     <b-row>
       <b-col cols="12">
         <b-container class="w-100">
-          {{ loggingIn }} - {{ error.show }}
           <FormLogin v-if="!loggingIn && !error.show" @login="login" />
-          <AlertMessage v-if="error.show" :message="error.message" />
+          <AlertMessage v-if="error.show" :message="error.message" type="danger" />
           <Loading v-if="loggingIn" />
         </b-container>
       </b-col>
@@ -51,7 +50,7 @@ export default defineComponent({
 
         await api.auth(form)
           .then(res => {
-            
+
             // Fazer
             console.log(res.data);
           }).catch((error: AxiosError) => {
