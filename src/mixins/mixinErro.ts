@@ -21,8 +21,9 @@ export default defineComponent({
                 this.error.show = false;
             }, time);
         },
-        errorInternal() {
-            this.messageShowTime('Erro interno, tente novamente mais tarde!', 'danger',3000);
+        errorInternal(error: any) {
+            if (error) console.error(error?.message);
+            this.messageShowTime('Erro interno, tente novamente mais tarde!', 'danger', 3000);
         },
         errorAuth() {
             this.messageShowTime('Email ou senha incorreto, por favor verifique!', 'danger', 3000);

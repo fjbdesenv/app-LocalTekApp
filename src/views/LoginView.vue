@@ -19,7 +19,7 @@ import AlertMessage from '@/components/Alerts/AlertMessage.vue';
 import { defineComponent } from 'vue';
 import { BContainer, BRow, BCol } from 'bootstrap-vue-next';
 import { Login } from '@/interfaces';
-import { Api } from "@/class/Api";
+import { Api, LocalStorage } from "@/class";
 import { AxiosError } from 'axios';
 import mixinErro from '@/mixins/mixinErro';
 
@@ -47,9 +47,13 @@ export default defineComponent({
 
         await api.auth(form)
           .then(res => {
+            const token = res.data?.token;
+            const localStorage = new LocalStorage();
+            const typeToken = typeof token;
 
-            // Fazer
-            console.log(res.data);
+            if (token && typeToken === 'string') localStorage.token = token;
+            else throw new Error(`Token type is invalid. \nType: ${typeToken}`);
+
           }).catch((error: AxiosError) => {
 
             if (error.response?.status == 401) {
@@ -60,7 +64,7 @@ export default defineComponent({
 
           });
       } catch (error) {
-        this.errorInternal();
+        this.errorInternal(error);
       }
       this.loggingIn = false;
     },
