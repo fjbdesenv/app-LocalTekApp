@@ -12,4 +12,9 @@ export class LocalStorage {
     set token(token: Token) {
         if (token) localStorage.setItem(this.keys.token, token);
     }
+
+    /* Funcões para limpar dados do localStorage */
+    tokenClear() {
+        localStorage.removeItem(this.keys.token);
+    }
 }

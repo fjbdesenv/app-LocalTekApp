@@ -21,7 +21,7 @@ import { BContainer, BRow, BCol } from "bootstrap-vue-next";
 import { Login } from "@/interfaces";
 import { Api, LocalStorage } from "@/class";
 import { AxiosError } from "axios";
-import mixinErro from "@/mixins/mixinErro";
+import { MixinErro } from "@/mixins";
 
 export default defineComponent({
   name: "LoginView",
@@ -70,7 +70,7 @@ export default defineComponent({
       this.loggingIn = false;
     },
   },
-  mixins: [mixinErro],
+  mixins: [MixinErro],
   beforeCreate() {
     const localStorage = new LocalStorage();
     if (typeof localStorage.token == "string") this.$router.push({ name: "Home" });
