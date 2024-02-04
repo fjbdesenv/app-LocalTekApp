@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { HomeRoutes } from './home'
-import { ModulesRoutes } from './modules'
+import { ModulesRoutes } from './modules/modules'
 import { LoginRoutes } from './login'
 import { NotFoundRoutes } from './notFound';
 import { LocalStorage } from '@/class';

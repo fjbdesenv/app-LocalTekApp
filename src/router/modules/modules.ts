@@ -1,5 +1,5 @@
-import EspecificidadesView from '../views/modules/EspecificidadesView.vue';
-import RemessasView from '../views/modules/RemessasView.vue';
+import EspecificidadesView from '@/views/modules/EspecificidadesView.vue';
+import { RemessasRoutes } from './remessa';
 
 export const ModulesRoutes = [
     {
@@ -13,12 +13,7 @@ export const ModulesRoutes = [
                 alias: '/especificidades',
                 component: EspecificidadesView
             },
-            {
-                path: 'remessas',
-                name: 'Remessas',
-                alias: '/remessas',
-                component: RemessasView
-            }
+            ...RemessasRoutes
         ]
     }
 ];

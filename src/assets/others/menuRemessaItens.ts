@@ -6,5 +6,5 @@ export const menuRemessaItens:Array<ItemMenu> =[
     { title: 'Clientes', link: 'Home' },
     { title: 'Bancos', link: 'Home' },
     { title: 'Cnab', link: 'Home' },
-    { title: 'Status', link: 'Home' }
+    { title: 'Status', link: 'StatusLista' }
 ]
