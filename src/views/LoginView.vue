@@ -13,18 +13,18 @@
 </template>
 
 <script lang="ts">
-import FormLogin from '@/components/Forms/FormLogin.vue';
-import Loading from '@/components/Loadings/Loading.vue';
-import AlertMessage from '@/components/Alerts/AlertMessage.vue';
-import { defineComponent } from 'vue';
-import { BContainer, BRow, BCol } from 'bootstrap-vue-next';
-import { Login } from '@/interfaces';
+import FormLogin from "@/components/Forms/FormLogin.vue";
+import Loading from "@/components/Loadings/Loading.vue";
+import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import { defineComponent } from "vue";
+import { BContainer, BRow, BCol } from "bootstrap-vue-next";
+import { Login } from "@/interfaces";
 import { Api, LocalStorage } from "@/class";
-import { AxiosError } from 'axios';
-import mixinErro from '@/mixins/mixinErro';
+import { AxiosError } from "axios";
+import mixinErro from "@/mixins/mixinErro";
 
 export default defineComponent({
-  name: 'LoginView',
+  name: "LoginView",
   data: () => ({
     loggingIn: false,
   }),
@@ -45,23 +45,24 @@ export default defineComponent({
       try {
         const api = new Api();
 
-        await api.auth(form)
-          .then(res => {
+        await api
+          .auth(form)
+          .then((res) => {
             const token = res.data?.token;
             const localStorage = new LocalStorage();
             const typeToken = typeof token;
 
-            if (token && typeToken === 'string') localStorage.token = token;
+            if (token && typeToken === "string") localStorage.token = token;
             else throw new Error(`Token type is invalid. \nType: ${typeToken}`);
 
-          }).catch((error: AxiosError) => {
-
+            this.$router.push({ name: "Home" });
+          })
+          .catch((error: AxiosError) => {
             if (error.response?.status == 401) {
               this.errorAuth();
             } else {
               throw error;
             }
-
           });
       } catch (error) {
         this.errorInternal(error);
@@ -69,6 +70,10 @@ export default defineComponent({
       this.loggingIn = false;
     },
   },
-  mixins: [mixinErro]
+  mixins: [mixinErro],
+  beforeCreate() {
+    const localStorage = new LocalStorage();
+    if (typeof localStorage.token == "string") this.$router.push({ name: "Home" });
+  },
 });
 </script>

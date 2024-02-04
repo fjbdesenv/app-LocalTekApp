@@ -1,49 +1,33 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
-import MudulesView from '../views/MudulesView.vue'
-import EspecificidadesView from '../views/modules/EspecificidadesView.vue'
-import RemessasView from '../views/modules/RemessasView.vue'
+import { HomeRoutes } from './home'
+import { ModulesRoutes } from './modules'
+import { LoginRoutes } from './login'
+import { NotFoundRoutes } from './notFound';
+import { LocalStorage } from '@/class';
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: HomeView,
-    children: [
-      {
-        path: 'especificidades',
-        name: 'Especificidades',
-        component: EspecificidadesView
-      },
-      {
-        path: 'remessas',
-        name: 'Remessas',
-        component: RemessasView
-      }
-    ]
-  },
-  {
-    path: '/modulos',
-    name: 'Modulos',
-    component: MudulesView
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: LoginView
-  },
-  {
-    path: '/:catchAll(.*)*',
-    name: 'NotFound',
-    component: NotFoundView
-  }
-]
+  ...HomeRoutes,
+  ...ModulesRoutes,
+  ...LoginRoutes,
+  ...NotFoundRoutes
+];
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+// Validar acesso as rotas
+router.beforeEach((to, from, next) => {
+  const localStorage = new LocalStorage();
+
+  if (!localStorage.token && to.name != 'NotFound' && to.name != 'Login') {
+    return next({ name: "Login" });
+  } else {
+    return next();
+  }
+
+});
 
 export default router
