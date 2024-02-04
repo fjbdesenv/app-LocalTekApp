@@ -15,11 +15,13 @@ export const HomeRoutes = [
             {
                 path: 'especificidades',
                 name: 'Especificidades',
+                alias: '/especificidades',
                 component: EspecificidadesView
             },
             {
                 path: 'remessas',
                 name: 'Remessas',
+                alias: '/remessas',
                 component: RemessasView
             }
         ]
