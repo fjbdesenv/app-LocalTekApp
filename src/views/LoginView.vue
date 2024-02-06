@@ -3,8 +3,8 @@
     <b-row>
       <b-col cols="12">
         <b-container class="w-100">
-          <FormLogin v-if="!loggingIn && !error.show" @login="login" />
-          <AlertMessage v-if="error.show" :message="error.message" :type="error.type" />
+          <FormLogin v-if="!loggingIn && !show" @login="login" />
+          <AlertMessage v-if="show" :message="message" :type="type" />
           <Loading v-if="loggingIn" />
         </b-container>
       </b-col>
@@ -21,7 +21,7 @@ import { BContainer, BRow, BCol } from "bootstrap-vue-next";
 import { Login } from "@/interfaces";
 import { Api, LocalStorage } from "@/class";
 import { AxiosError } from "axios";
-import { MixinErro } from "@/mixins";
+import { MixinMessage } from "@/mixins";
 
 export default defineComponent({
   name: "LoginView",
@@ -61,7 +61,7 @@ export default defineComponent({
             if (error.response?.status == 401) {
               this.errorAuth();
             } else {
-              throw error;
+              throw new Error(error.message);
             }
           });
       } catch (error) {
@@ -70,7 +70,7 @@ export default defineComponent({
       this.loggingIn = false;
     },
   },
-  mixins: [MixinErro],
+  mixins: [MixinMessage],
   beforeCreate() {
     const localStorage = new LocalStorage();
     if (typeof localStorage.token == "string") this.$router.push({ name: "Home" });
