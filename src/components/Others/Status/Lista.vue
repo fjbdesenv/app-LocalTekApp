@@ -12,7 +12,7 @@
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
         <td>{{ registro.descricao }}</td>
-        <td>{{ registro.tipo }}</td>
+        <td>{{ tipo(registro.tipo) }}</td>
         <td class="d-flex justify-content-center">
           <router-link
             :to="{ name: 'StatusEditar', params: { codigo: registro.codigo } }"
@@ -38,10 +38,24 @@ import { mixinRegisters } from "@/mixins";
 
 export default defineComponent({
   name: "ListaComponente",
-
   components: {
     BIconClipboard2Check,
     BIconTrashFill,
+  },
+  methods: {
+    tipo(tipo: number | undefined): string {
+      if (tipo) {
+        switch (tipo) {
+          case 1:
+            return "Padrão";
+          case 2:
+            return "Remessa";
+          case 3:
+            return "Especificidade";
+        }
+      }
+      return "";
+    },
   },
   mixins: [mixinRegisters],
 });

@@ -21,7 +21,7 @@ export default defineComponent({
           aux.forEach((item: TypesAcepts) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
-          this.$emit("naoDeletado");
+          this.$emit("erro", error);
           console.error(error.message);
         });
     },

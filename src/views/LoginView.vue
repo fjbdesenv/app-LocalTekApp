@@ -59,13 +59,13 @@ export default defineComponent({
           })
           .catch((error: AxiosError) => {
             if (error.response?.status == 401) {
-              this.errorAuth();
+              this.MSGerrorAuth();
             } else {
               throw new Error(error.message);
             }
           });
       } catch (error) {
-        this.errorInternal(error);
+        this.MSGerrorInternal(error);
       }
       this.loggingIn = false;
     },

@@ -42,12 +42,13 @@ import { BForm, BFormInput, BFormGroup, BButton, BFormSelect } from "bootstrap-v
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 
 export default defineComponent({
-  name: "StatusEditar",
+  name: "StatusCadastro",
   data: () => ({
     registro: new Status(),
     optionsTipoStatus,
-    title: "Edição",
+    title: "Cadastro",
   }),
+  props: {},
   components: {
     BForm,
     BFormInput,
@@ -74,7 +75,8 @@ export default defineComponent({
           this.MSGNotFound();
         });
     },
-    updateRegister(link: string) {
+
+    updateRegister() {
       const api = new Api();
       const codigo = Number(this.$route.params.codigo);
       this.registro.codigo = undefined;
@@ -83,16 +85,16 @@ export default defineComponent({
         .updateOne(codigo, this.registro)
         .then((response) => {
           this.MSGUpdate();
-          //this.$router.push({ name: link });
         })
         .catch((error) => {
           console.log(error?.message);
           this.MSGerrorInternal(error);
         });
     },
+
     onSubmit(event: Event) {
       event.preventDefault();
-      this.updateRegister("StatusLista");
+      this.updateRegister();
     },
   },
   mixins: [MixinMessage],

@@ -19,18 +19,24 @@ export default defineComponent({
                 this.show = false;
             }, time);
         },
-        errorInternal(error: any) {
+        MSGerrorInternal(error: any) {
             console.error(error?.message);
             this.messageShowTime('Erro interno, tente novamente mais tarde!', 'danger', 3000);
         },
-        errorAuth() {
-            this.messageShowTime('Email ou senha incorreto, por favor verifique!', 'danger', 3000);
+        MSGerrorAuth() {
+            this.messageShowTime('Email ou senha incorreto, por favor verifique!', 'danger', 1500);
         },
-        deletado() {
-            this.messageShowTime('Registro deletado com sucesso!', 'success', 2000);
+        MSGdeletado() {
+            this.messageShowTime('Registro deletado com sucesso!', 'success', 1500);
         },
-        naoDeletado() {
-            this.messageShowTime('Não foi possível deletar esse registro!', 'danger', 3000);
-        }
+        MSGnaoDeletado() {
+            this.messageShowTime('Não foi possível deletar esse registro!', 'danger', 1500);
+        },
+        MSGNotFound() {
+            this.messageShowTime('Não encontrado!', 'danger', 1500);
+        },
+        MSGUpdate() {
+            this.messageShowTime('Registro atualizado com sucesso', 'success', 1500);
+        },
     },
 });
