@@ -34,7 +34,7 @@ import { optionsTipoStatus } from "@/assets/others/options/tipoStatus";
 import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
 import { Api, Status } from "@/class";
 import { MixinMessage } from "@/mixins";
-import BotoesForm from "@/components/Others/BotoesForm.vue";
+import BotoesForm from "@/components/Forms/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 
 export default defineComponent({

@@ -26,18 +26,23 @@ export default defineComponent({
         });
     },
     deletar(codigo: number) {
-      const api = new Api();
+      const confirmacao = confirm(`Desenja remover o item ${codigo}?`);
 
-      api.status
-        .deleteOne(codigo)
-        .then(() => {
-          this.getLista();
-          this.$emit("deletado");
-        })
-        .catch((error: ErrorEvent) => {
-          this.$emit("naoDeletado");
-          console.error(error.message);
-        });
+      if (confirmacao) {
+        const api = new Api();
+
+        api.status
+          .deleteOne(codigo)
+          .then(() => {
+            this.getLista();
+            this.$emit("deletado");
+          })
+          .catch((error: ErrorEvent) => {
+            this.$emit("naoDeletado");
+            console.error(error.message);
+          });
+      }
+
     },
   },
   created() {
