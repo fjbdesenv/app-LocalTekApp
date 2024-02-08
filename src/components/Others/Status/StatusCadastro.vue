@@ -20,12 +20,7 @@
         ></b-form-select>
       </b-form-group>
 
-      <b-button class="m-3" type="submit" variant="success">Gravar</b-button>
-      <router-link :to="{ name: 'StatusLista' }"
-        ><b-button class="m-3" type="button" variant="danger"
-          >Voltar</b-button
-        ></router-link
-      >
+      <BotoesForm />
     </b-form>
   </div>
 
@@ -38,8 +33,9 @@ import { Status } from "@/class/Status";
 import { Api } from "@/class";
 import { MixinMessage } from "@/mixins";
 import { optionsTipoStatus } from "@/assets/others/options/tipoStatus";
-import { BForm, BFormInput, BFormGroup, BButton, BFormSelect } from "bootstrap-vue-next";
+import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import BotoesForm from "@/components/Others/BotoesForm.vue";
 
 export default defineComponent({
   name: "StatusCadastro",
@@ -53,38 +49,20 @@ export default defineComponent({
     BForm,
     BFormInput,
     BFormGroup,
-    BButton,
     BFormSelect,
     AlertMessage,
+    BotoesForm,
   },
   methods: {
-    getRegistro(codigo: number) {
-      const api = new Api();
-
-      api.status
-        .findOne(codigo)
-        .then((response) => {
-          this.registro = response.data;
-
-          /* Remover datas para evitar erros, o servidor atualizara as datas */
-          this.registro.data_criacao = undefined;
-          this.registro.data_atualizacao = undefined;
-        })
-        .catch((error) => {
-          console.log(error?.message);
-          this.MSGNotFound();
-        });
-    },
-
-    updateRegister() {
+    create() {
       const api = new Api();
       const codigo = Number(this.$route.params.codigo);
       this.registro.codigo = undefined;
 
       api.status
-        .updateOne(codigo, this.registro)
+        .createOne(this.registro)
         .then((response) => {
-          this.MSGUpdate();
+          this.MSGdCreate();
         })
         .catch((error) => {
           console.log(error?.message);
@@ -94,13 +72,12 @@ export default defineComponent({
 
     onSubmit(event: Event) {
       event.preventDefault();
-      this.updateRegister();
+      this.create();
     },
   },
   mixins: [MixinMessage],
   created() {
-    const codigo = Number(this.$route.params.codigo);
-    this.getRegistro(codigo);
+    this.registro.tipo = 1;
   },
 });
 </script>

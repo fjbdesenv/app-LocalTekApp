@@ -38,5 +38,8 @@ export default defineComponent({
         MSGUpdate() {
             this.messageShowTime('Registro atualizado com sucesso', 'success', 1500);
         },
+        MSGdCreate() {
+            this.messageShowTime('Registro criado com sucesso!', 'success', 1500);
+        },
     },
 });

@@ -20,12 +20,8 @@
         ></b-form-select>
       </b-form-group>
 
-      <b-button class="m-3" type="submit" variant="success">Gravar</b-button>
-      <router-link :to="{ name: 'StatusLista' }"
-        ><b-button class="m-3" type="button" variant="danger"
-          >Voltar</b-button
-        ></router-link
-      >
+      <BotoesForm />
+      
     </b-form>
   </div>
 
@@ -38,8 +34,9 @@ import { Status } from "@/class/Status";
 import { Api } from "@/class";
 import { MixinMessage } from "@/mixins";
 import { optionsTipoStatus } from "@/assets/others/options/tipoStatus";
-import { BForm, BFormInput, BFormGroup, BButton, BFormSelect } from "bootstrap-vue-next";
+import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import BotoesForm from "@/components/Others/BotoesForm.vue";
 
 export default defineComponent({
   name: "StatusEditar",
@@ -52,9 +49,9 @@ export default defineComponent({
     BForm,
     BFormInput,
     BFormGroup,
-    BButton,
     BFormSelect,
     AlertMessage,
+    BotoesForm,
   },
   methods: {
     getRegistro(codigo: number) {

@@ -44,6 +44,7 @@ export default defineComponent({
   },
   methods: {
     tipo(tipo: number | undefined): string {
+      /* Mepear os tipos de status */
       if (tipo) {
         switch (tipo) {
           case 1:
@@ -54,6 +55,7 @@ export default defineComponent({
             return "Especificidade";
         }
       }
+
       return "";
     },
   },
