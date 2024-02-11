@@ -49,6 +49,7 @@ export class Api {
     public status;
     public cnab;
     public banco;
+    public cliente;
 
     /* Metodos para injeção de funcões de consulta */
     public auth(login: Login) {
@@ -59,6 +60,7 @@ export class Api {
         this.status = this.resource('/status');
         this.cnab = this.resource('/cnabs');
         this.banco = this.resource('/bancos');
+        this.cliente = this.resource('/clientes');
     }
 
 
