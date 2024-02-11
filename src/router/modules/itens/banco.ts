@@ -4,7 +4,7 @@ import BancoCadastro from '@/components/Others/Banco/BancoCadastro.vue';
 
 const PATH = 'Banco';
 
-export const BancoRoutes = (MODULO: String) => [
+export const BancoRoutes = (MODULO: string) => [
     {
         path: PATH.toLocaleLowerCase(),
         redirect: { name: MODULO + PATH + 'Lista' },

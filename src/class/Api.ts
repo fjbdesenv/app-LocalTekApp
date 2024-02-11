@@ -7,6 +7,7 @@ export class Api {
         baseURL: 'http://localhost:5000/',
     });
 
+    /* Injeção de metodos padrão */
     private resource(path: string) {
         return {
             findAll: () => {
@@ -44,16 +45,22 @@ export class Api {
         };
     }
 
+    /* Variaveis */
     public status;
     public cnab;
+    public banco;
+
+    /* Metodos para injeção de funcões de consulta */
+    public auth(login: Login) {
+        return this.axiosInstance.post('/auth', login);
+    }
 
     constructor() {
         this.status = this.resource('/status');
         this.cnab = this.resource('/cnabs');
+        this.banco = this.resource('/bancos');
     }
 
-    public auth(login: Login) {
-        return this.axiosInstance.post('/auth', login);
-    }
+
 
 }
