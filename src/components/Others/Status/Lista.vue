@@ -15,7 +15,7 @@
         <td>{{ mapeamentoStatusTipo(registro.tipo) }}</td>
         <td class="d-flex justify-content-center">
           <router-link
-            :to="{ name: 'RemessaStatusEditar', params: { codigo: registro.codigo } }"
+            :to="{ name: rotas.statusEditar, params: { codigo: registro.codigo } }"
           >
             <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
           </router-link>
@@ -34,19 +34,22 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
-import { mixinMapStatusTipo } from "@/mixins";
+import { MixinMapStatusTipo, MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cnab, Status } from "@/class";
 
 export default defineComponent({
   name: "ListaComponente",
   data: () => ({
     registros: new Array<Status>(),
+    rotas: {
+      statusEditar: "RemessaStatusEditar",
+    },
   }),
   components: {
     BIconClipboard2Check,
     BIconTrashFill,
   },
-  mixins: [mixinMapStatusTipo],
+  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -66,9 +69,7 @@ export default defineComponent({
     },
 
     deletar(codigo: number) {
-      const confirmacao = confirm(`Desenja remover o item ${codigo}?`);
-
-      if (confirmacao) {
+      if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
         api.status

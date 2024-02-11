@@ -3,8 +3,9 @@
     <thead>
       <tr>
         <th>Código</th>
-        <th>Descrição</th>
-        <th>Quantidade Linhas</th>
+        <th>Nome</th>
+        <th>Banco Código</th>
+        <th>Banco Camara</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -12,8 +13,9 @@
     <tbody>
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
-        <td>{{ registro.descricao }}</td>
-        <td>{{ registro.quantidade_linhas }}</td>
+        <td>{{ registro.nome }}</td>
+        <td>{{ registro.codigo_banco }}</td>
+        <td>{{ registro.codigo_camara }}</td>
         <td>
           <router-link
             :to="{
@@ -25,7 +27,7 @@
         </td>
         <td class="d-flex justify-content-center">
           <router-link
-            :to="{ name: rotas.cnabEditar, params: { codigo: registro.codigo } }"
+            :to="{ name: rotas.bancoEditar, params: { codigo: registro.codigo } }"
           >
             <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
           </router-link>
@@ -45,15 +47,15 @@
 import { defineComponent } from "vue";
 import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
-import { Api, Cnab } from "@/class";
+import { Api, Banco } from "@/class";
 
 export default defineComponent({
   name: "ListaComponente",
   data: () => ({
-    registros: new Array<Cnab>(),
+    registros: new Array<Banco>(),
     rotas: {
       statusEditar: "RemessaStatusEditar",
-      cnabEditar: "RemessaCnabEditar",
+      bancoEditar: "RemessaBancoEditar",
     },
   }),
   components: {
@@ -67,11 +69,11 @@ export default defineComponent({
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.cnab
+      api.banco
         .findAll()
         .then((response) => {
-          const aux: Array<Cnab> = response.data;
-          aux.forEach((item: Cnab) => this.registros.push(item));
+          const aux: Array<Banco> = response.data;
+          aux.forEach((item: Banco) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -83,7 +85,7 @@ export default defineComponent({
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
-        api.cnab
+        api.banco
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();

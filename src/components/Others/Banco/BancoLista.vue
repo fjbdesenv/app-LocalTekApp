@@ -27,9 +27,9 @@ import ListaDeStatus from "./Lista.vue";
 import { MixinMessage } from "@/mixins";
 
 export default defineComponent({
-  name: "StatusLista",
+  name: "BancoLista",
   data: () => ({
-    rotaCadatrar: "RemessaCnabCadastrar",
+    rotaCadatrar: "RemessaBancoCadastrar",
   }),
   components: {
     AlertMessage,

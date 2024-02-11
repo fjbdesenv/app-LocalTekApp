@@ -1,11 +1,13 @@
 import MixinMessage from "./mixinMessage";
 import MixinLogout from "./mixinLogout";
-import mixinMapStatusTipo from "./mixinMapStatusTipo";
-import mixinListStatus from "./mixinListStatus";
+import MixinMapStatusTipo from "./mixinMapStatusTipo";
+import MixinListStatus from "./mixinListStatus";
+import MixinConfirmacaoDeletar from "./mixinConfirmacaoDeletar";
 
 export {
     MixinMessage,
     MixinLogout,
-    mixinMapStatusTipo,
-    mixinListStatus
+    MixinMapStatusTipo,
+    MixinListStatus,
+    MixinConfirmacaoDeletar
 };
