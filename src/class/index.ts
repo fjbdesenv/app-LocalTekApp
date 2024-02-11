@@ -1,9 +1,13 @@
 import { LocalStorage } from "./LocalStogare";
-import { Status } from "./Status";
 import { Api } from "./Api";
+import {
+    Status,
+    Cnab
+} from "./itens";
 
 export {
     LocalStorage,
     Status,
-    Api,
+    Cnab,
+    Api
 }

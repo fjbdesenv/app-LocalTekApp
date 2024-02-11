@@ -3,7 +3,7 @@
     <BIconCheck2Circle class="mx-1" /> Gravar
   </b-button>
 
-  <router-link :to="{ name: 'StatusLista' }">
+  <router-link :to="{ name: routerName }">
     <b-button class="m-3" type="button" variant="danger">
       <BIconXCircle class="mx-1" /> Voltar</b-button
     >
@@ -20,7 +20,13 @@ export default defineComponent({
   components: {
     BIconCheck2Circle,
     BIconXCircle,
-    BButton
+    BButton,
+  },
+  props: {
+    routerName: {
+      type: String,
+      required: true,
+    },
   },
 });
 </script>

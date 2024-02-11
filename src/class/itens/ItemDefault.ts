@@ -1,7 +1,5 @@
-export interface Status {
+export class ItemDefault {
     codigo?: number;
-    descricao?: string;
-    tipo?: number;
     data_criacao?: string;
     data_atualizacao?: string;
 }
