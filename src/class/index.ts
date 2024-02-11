@@ -3,7 +3,8 @@ import { Api } from "./Api";
 import {
     Status,
     Cnab,
-    Banco
+    Banco,
+    Cliente
 } from "./itens";
 
 export {
@@ -11,5 +12,6 @@ export {
     Status,
     Cnab,
     Banco,
+    Cliente,
     Api
 }

@@ -2,7 +2,8 @@ import RemessasView from '@/views/modules/RemessasView.vue';
 import {
     StatusRoutes,
     CnabRoutes,
-    BancoRoutes
+    BancoRoutes,
+    ClienteRoutes
 } from './itens';
 
 const MODULO = 'Remessa';
@@ -16,7 +17,8 @@ export const RemessasRoutes = [
         children: [
             ...StatusRoutes(MODULO),
             ...CnabRoutes(MODULO),
-            ...BancoRoutes(MODULO)
+            ...BancoRoutes(MODULO),
+            ...ClienteRoutes(MODULO)
         ]
     }
 ];
