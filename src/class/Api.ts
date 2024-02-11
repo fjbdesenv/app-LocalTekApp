@@ -45,9 +45,11 @@ export class Api {
     }
 
     public status;
+    public cnab;
 
     constructor() {
         this.status = this.resource('/status');
+        this.cnab = this.resource('/cnabs');
     }
 
     public auth(login: Login) {
