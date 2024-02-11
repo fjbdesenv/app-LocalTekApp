@@ -2,24 +2,26 @@ import StatusLista from '@/components/Others/Status/StatusLista.vue';
 import StatusEditar from '@/components/Others/Status/StatusEditar.vue';
 import StatusCadastro from '@/components/Others/Status/StatusCadastro.vue';
 
-export const RemessaStatusRoutes = [
+const PATH = 'Status';
+
+export const StatusRoutes = (MODULO: string) => [
     {
-        path: 'status',
-        redirect: { name: 'RemessaStatusLista' },
+        path: PATH.toLocaleLowerCase(),
+        redirect: { name: MODULO + PATH + 'Lista' },
         children: [
             {
                 path: 'lista',
-                name: 'RemessaStatusLista',
+                name: MODULO + PATH + 'Lista',
                 component: StatusLista
             },
             {
                 path: 'editar/:codigo',
-                name: 'RemessaStatusEditar',
+                name: MODULO + PATH + 'Editar',
                 component: StatusEditar
             },
             {
                 path: 'cadastro',
-                name: 'RemessaStatusCadastrar',
+                name: MODULO + PATH + 'Cadastrar',
                 component: StatusCadastro
             }
         ]
