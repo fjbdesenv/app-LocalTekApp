@@ -1,9 +1,11 @@
 import MixinMessage from "./mixinMessage";
 import MixinLogout from "./mixinLogout";
-import mixinRegisters from "./mixinRegisters";
+import mixinMapStatusTipo from "./mixinMapStatusTipo";
+import mixinListStatus from "./mixinListStatus";
 
 export {
     MixinMessage,
     MixinLogout,
-    mixinRegisters
+    mixinMapStatusTipo,
+    mixinListStatus
 };

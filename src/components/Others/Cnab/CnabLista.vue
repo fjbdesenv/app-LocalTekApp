@@ -1,7 +1,7 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
     <b-container  v-if="!show">
-      <router-link :to="{ name: 'RemessaStatusCadastrar' }">
+      <router-link :to="{ name: 'RemessaCnabCadastrar' }">
         <b-button variant="primary" class="mt-3"> Novo Registro </b-button>
       </router-link>
     </b-container>

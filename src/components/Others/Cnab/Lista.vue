@@ -4,7 +4,8 @@
       <tr>
         <th>Código</th>
         <th>Descrição</th>
-        <th>Tipo</th>
+        <th>Quantidade Linhas</th>
+        <th>Status</th>
         <th></th>
       </tr>
     </thead>
@@ -12,11 +13,15 @@
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
         <td>{{ registro.descricao }}</td>
-        <td>{{ mapeamentoStatusTipo(registro.tipo) }}</td>
-        <td class="d-flex justify-content-center">
+        <td>{{ registro.quantidade_linhas }}</td>
+        <td>
           <router-link
-            :to="{ name: 'RemessaStatusEditar', params: { codigo: registro.codigo } }"
+            :to="{ name: 'RemessaStatusEditar', params: { codigo: registro.codigo_status } }"
+            >{{ registro.status?.descricao }}</router-link
           >
+        </td>
+        <td class="d-flex justify-content-center">
+          <router-link :to="{ name: 'RemessaCnabEditar', params: { codigo: registro.codigo } }">
             <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
           </router-link>
           <button
@@ -34,26 +39,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
-import { mixinMapStatusTipo } from "@/mixins";
-import { Api, Cnab, Status } from "@/class";
+import { Api, Cnab } from "@/class";
 
 export default defineComponent({
   name: "ListaComponente",
   data: () => ({
-    registros: new Array<Status>(),
+    registros: new Array<Cnab>(),
   }),
   components: {
     BIconClipboard2Check,
     BIconTrashFill,
   },
-  mixins: [mixinMapStatusTipo],
   methods: {
     getRegitros() {
       const api = new Api();
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.status
+      api.cnab
         .findAll()
         .then((response) => {
           const aux: Array<Cnab> = response.data;
@@ -71,7 +74,7 @@ export default defineComponent({
       if (confirmacao) {
         const api = new Api();
 
-        api.status
+        api.cnab
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();

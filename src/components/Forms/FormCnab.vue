@@ -13,16 +13,18 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Tipo" label-for="input-2">
-        <b-form-select
+      <b-form-group label="Quantidade de linhas:" label-for="input-2">
+        <b-form-input
           id="input-2"
-          v-model="form.tipo"
-          :options="optionsTipoStatus"
+          type="number"
+          v-model="linhas"
+          placeholder="Quantidade de linhas"
           required
-        ></b-form-select>
+        ></b-form-input>
       </b-form-group>
 
-      <BotoesForm routerName="RemessaStatusLista" />
+      <ListaStatusOptions :statusInicial="getStatusSelected" @updateStatus="(value) => (form.codigo_status = value)" />
+      <BotoesForm routerName="RemessaCnabLista" />
     </b-form>
   </div>
 
@@ -30,19 +32,20 @@
 </template>
 
 <script lang="ts">
+import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
-import { optionsTipoStatus } from "@/assets/others/options/tipoStatus";
-import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { Api, Status } from "@/class";
-import { MixinMessage } from "@/mixins";
+import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
+import { Api, Cnab } from "@/class";
+import { MixinMessage, mixinListStatus } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
 
 export default defineComponent({
   name: "FormStatus",
   data: () => ({
-    form: new Status(),
-    optionsTipoStatus,
+    form: new Cnab(),
+    linhas: 0,
   }),
   props: {
     cadastro: {
@@ -50,16 +53,21 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage],
+  mixins: [MixinMessage, mixinListStatus],
   components: {
     BForm,
     BFormInput,
     BFormGroup,
-    BFormSelect,
     BotoesForm,
     AlertMessage,
+    ListaStatusOptions,
+  },
+  computed: {
+    ...mapGetters(["getStatusSelected"]),
   },
   methods: {
+    ...mapMutations(["setStatusSelected"]),
+
     onSubmit(event: Event) {
       event.preventDefault();
       this.cadastro ? this.create() : this.update();
@@ -68,15 +76,18 @@ export default defineComponent({
     getRegistro(codigo: number) {
       const api = new Api();
 
-      api.status
+      api.cnab
         .findOne(codigo)
         .then((response) => {
           this.form = response.data;
+          this.setStatusSelected(this.form.codigo_status); /* Atualizar store */
 
           /* Remover datas para evitar erros, o servidor atualizara as datas */
           this.form.data_criacao = undefined;
           this.form.data_atualizacao = undefined;
           this.form.codigo = undefined; /* codigo não deve ser enviado no body */
+
+          this.linhas = Number(this.form.quantidade_linhas);
         })
         .catch((error) => {
           console.log(error?.message);
@@ -88,7 +99,7 @@ export default defineComponent({
       const api = new Api();
       this.form.codigo = undefined;
 
-      api.status
+      api.cnab
         .createOne(this.form)
         .then(() => {
           this.MSGdCreate();
@@ -103,7 +114,7 @@ export default defineComponent({
       const api = new Api();
       const codigo = Number(this.$route.params.codigo);
 
-      api.status
+      api.cnab
         .updateOne(codigo, this.form)
         .then(() => {
           this.MSGUpdate();
@@ -114,12 +125,20 @@ export default defineComponent({
         });
     },
   },
+  watch: {
+    linhas(value) {
+      this.form.quantidade_linhas = Number(
+        value
+      ); /* Estava gerando erro, não estava convertento para número */
+    },
+  },
   created() {
     if (this.cadastro) {
       this.form = {
         codigo: undefined,
         descricao: "",
-        tipo: 1,
+        quantidade_linhas: 0,
+        codigo_status: 0,
       };
     } else {
       const codigo = Number(this.$route.params.codigo);
