@@ -3,22 +3,32 @@
     <b-form @submit="onSubmit">
       <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
 
-      <b-form-group label="Descrição:" label-for="input-1">
+      <b-form-group label="Nome:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
-          v-model="form.descricao"
-          placeholder="Descrição"
+          v-model="form.nome"
+          placeholder="Nome do banco"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Quantidade de Linhas:" label-for="input-2">
+      <b-form-group label="Código:" label-for="input-2">
         <b-form-input
           id="input-2"
           type="number"
-          min="1"
-          v-model="form.quantidade_linhas"
+          :min="1"
+          v-model="form.codigo_banco"
+          required
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Camara:" label-for="input-2">
+        <b-form-input
+          id="input-2"
+          type="number"
+          :min="1"
+          v-model="form.codigo_camara"
           required
         ></b-form-input>
       </b-form-group>
@@ -27,7 +37,7 @@
         :statusInicial="getStatusSelected"
         @updateStatus="(value) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.cnabLista" />
+      <BotoesForm :routerName="rotas.bancoLista" />
     </b-form>
   </div>
 
@@ -38,18 +48,18 @@
 import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
-import { Api, Cnab } from "@/class";
+import { Api, Banco } from "@/class";
 import { MixinMessage, MixinListStatus } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
 
 export default defineComponent({
-  name: "FormCnab",
+  name: "FormBanco",
   data: () => ({
-    form: new Cnab(undefined),
+    form: new Banco(undefined),
     rotas: {
-      cnabLista: "RemessaCnabLista",
+      bancoLista: "RemessaBancoLista",
     },
   }),
   props: {
@@ -81,10 +91,10 @@ export default defineComponent({
     getRegistro(codigo: number) {
       const api = new Api();
 
-      api.cnab
+      api.banco
         .findOne(codigo)
         .then((response) => {
-          this.form = new Cnab(response.data);
+          this.form = new Banco(response.data);
           this.setStatusSelected(this.form.codigo_status); /* Atualizar store */
         })
         .catch((error) => {
@@ -97,7 +107,7 @@ export default defineComponent({
       const api = new Api();
       this.form.normalizarSaida();
 
-      api.cnab
+      api.banco
         .createOne(this.form)
         .then(() => {
           this.MSGdCreate();
@@ -113,7 +123,7 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.form.normalizarSaida();
 
-      api.cnab
+      api.banco
         .updateOne(codigo, this.form)
         .then(() => {
           this.MSGUpdate();
@@ -124,6 +134,7 @@ export default defineComponent({
         });
     },
   },
+
   created() {
     if (!this.cadastro) {
       const codigo = Number(this.$route.params.codigo);

@@ -1,5 +1,5 @@
 import EspecificidadesView from '@/views/modules/EspecificidadesView.vue';
-import { RemessasRoutes } from './remessa/remessa';
+import { RemessasRoutes } from './remessa';
 
 export const ModulesRoutes = [
     {

@@ -22,7 +22,7 @@
         ></b-form-select>
       </b-form-group>
 
-      <BotoesForm routerName="RemessaStatusLista" />
+      <BotoesForm :routerName="rotas.statusLista" />
     </b-form>
   </div>
 
@@ -41,8 +41,11 @@ import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 export default defineComponent({
   name: "FormStatus",
   data: () => ({
-    form: new Status(),
+    form: new Status(undefined),
     optionsTipoStatus,
+    rotas: {
+      statusLista: "RemessaStatusLista",
+    },
   }),
   props: {
     cadastro: {
@@ -71,12 +74,7 @@ export default defineComponent({
       api.status
         .findOne(codigo)
         .then((response) => {
-          this.form = response.data;
-
-          /* Remover datas para evitar erros, o servidor atualizara as datas */
-          this.form.data_criacao = undefined;
-          this.form.data_atualizacao = undefined;
-          this.form.codigo = undefined; /* codigo não deve ser enviado no body */
+          this.form = new Status(response.data);
         })
         .catch((error) => {
           console.log(error?.message);
@@ -86,7 +84,7 @@ export default defineComponent({
 
     create() {
       const api = new Api();
-      this.form.codigo = undefined;
+      this.form.normalizarSaida();
 
       api.status
         .createOne(this.form)
@@ -102,6 +100,7 @@ export default defineComponent({
     update() {
       const api = new Api();
       const codigo = Number(this.$route.params.codigo);
+      this.form.normalizarSaida();
 
       api.status
         .updateOne(codigo, this.form)
@@ -115,13 +114,7 @@ export default defineComponent({
     },
   },
   created() {
-    if (this.cadastro) {
-      this.form = {
-        codigo: undefined,
-        descricao: "",
-        tipo: 1,
-      };
-    } else {
+    if (!this.cadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
