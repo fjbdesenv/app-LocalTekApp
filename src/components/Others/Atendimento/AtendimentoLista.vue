@@ -27,9 +27,9 @@ import Lista from "./Lista.vue";
 import { MixinMessage } from "@/mixins";
 
 export default defineComponent({
-  name: "StatusLista",
+  name: "AtendimentoLista",
   data: () => ({
-    rotaCadatrar: "RemessaCnabCadastrar",
+    rotaCadatrar: "RemessaAtendimentoCadastrar",
   }),
   components: {
     AlertMessage,
