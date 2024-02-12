@@ -38,7 +38,7 @@ import { MixinMapStatusTipo, MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cnab, Status } from "@/class";
 
 export default defineComponent({
-  name: "ListaComponente",
+  name: "ListaStatusComponente",
   data: () => ({
     registros: new Array<Status>(),
     rotas: {

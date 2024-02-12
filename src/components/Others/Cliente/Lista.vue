@@ -45,12 +45,12 @@
 import { defineComponent } from "vue";
 import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
-import { Api, Cnab } from "@/class";
+import { Api, Cliente } from "@/class";
 
 export default defineComponent({
-  name: "ListaComponente",
+  name: "ListaClienteComponente",
   data: () => ({
-    registros: new Array<Cnab>(),
+    registros: new Array<Cliente>(),
     rotas: {
       statusEditar: "RemessaStatusEditar",
       clienteEditar: "RemessaClienteEditar",
@@ -70,8 +70,8 @@ export default defineComponent({
       api.cliente
         .findAll()
         .then((response) => {
-          const aux: Array<Cnab> = response.data;
-          aux.forEach((item: Cnab) => this.registros.push(item));
+          const aux: Array<Cliente> = response.data;
+          aux.forEach((item: Cliente) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);

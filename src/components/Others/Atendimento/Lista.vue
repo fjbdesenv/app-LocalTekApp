@@ -56,7 +56,7 @@ import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Atendimento } from "@/class";
 
 export default defineComponent({
-  name: "ListaComponente",
+  name: "ListaAtendimentoComponente",
   data: () => ({
     registros: new Array<Atendimento>(),
     rotas: {

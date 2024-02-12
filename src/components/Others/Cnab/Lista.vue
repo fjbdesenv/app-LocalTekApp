@@ -48,7 +48,7 @@ import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cnab } from "@/class";
 
 export default defineComponent({
-  name: "ListaComponente",
+  name: "ListaCnabComponente",
   data: () => ({
     registros: new Array<Cnab>(),
     rotas: {
