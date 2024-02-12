@@ -1,9 +1,9 @@
 <template>
-  <b-form-group label="Status" label-for="input-select">
+  <b-form-group label="Cliente" label-for="input-select">
     <b-form-select
       label-for="input-select"
       v-model="selected"
-      :options="optionsStatus"
+      :options="optionsCliente"
       required
     ></b-form-select>
   </b-form-group>
@@ -13,15 +13,15 @@
 import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { Api, Status } from "@/class";
+import { Api, Cliente } from "@/class";
 import { MixinMessage } from "@/mixins";
 import { AxiosResponse } from "axios";
 
 export default defineComponent({
-  name: "ListaStatus",
+  name: "ListaCliente",
   data: () => ({
-    listStatus: new Array<Status>(),
-    optionsStatus: new Array<{ value: number | undefined; text: string | undefined }>(),
+    listCliente: new Array<Cliente>(),
+    optionsCliente: new Array<{ value: number | undefined; text: string | undefined }>(),
     selected: 0,
   }),
   props: {
@@ -36,17 +36,17 @@ export default defineComponent({
     BFormGroup,
   },
   computed: {
-    ...mapGetters(["getSelectedStatus"]),
+    ...mapGetters(["getselectedCliente"]),
   },
   methods: {
-    getStatus() {
+    getClintes() {
       const api = new Api();
 
-      api.status
+      api.cliente
         .findAll()
         .then((response: AxiosResponse) => {
-          this.listStatus = response.data;
-          this.gerarListaStatusOptions();
+          this.listCliente = response.data;
+          this.gerarListaClienteOptions();
         })
         .catch((error) => {
           console.log(error?.message);
@@ -54,24 +54,24 @@ export default defineComponent({
         });
     },
 
-    gerarListaStatusOptions() {
-      this.listStatus.forEach((item: Status) => {
-        this.optionsStatus.push({ value: item.codigo, text: item.descricao });
+    gerarListaClienteOptions() {
+      this.listCliente.forEach((item: Cliente) => {
+        this.optionsCliente.push({ value: item.codigo, text: item.razao });
       });
     },
   },
   watch: {
     selected(value: number) {
-      this.$emit("updateStatus", value); /* Enviar o novo status para o form */
+      this.$emit("updateCliente", value); /* Enviar o novo cliente para o form */
     },
     valueInicial(value) {
-      /* O store atualiza depois do componente ser criado, isso atualiza o status selecionando */
+      /* O store atualiza depois do componente ser criado, isso atualiza o cliente selecionando */
       this.selected = value;
     },
   },
   created() {
     this.selected = this.valueInicial;
-    this.getStatus();
+    this.getClintes();
   },
 });
 </script>
