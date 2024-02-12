@@ -6,7 +6,7 @@
       </router-link>
     </b-container>
 
-    <ListaDeStatus
+    <Lista
       v-show="!show"
       @deletado="MSGdeletado"
       @naoDeletado="MSGnaoDeletado"
@@ -23,17 +23,17 @@
 import { defineComponent } from "vue";
 import { BButton, BContainer } from "bootstrap-vue-next";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
-import ListaDeStatus from "./Lista.vue";
+import Lista from "./Lista.vue";
 import { MixinMessage } from "@/mixins";
 
 export default defineComponent({
-  name: "StatusLista",
+  name: "CnabLista",
   data: () => ({
     rotaCadatrar: "RemessaCnabCadastrar",
   }),
   components: {
     AlertMessage,
-    ListaDeStatus,
+    Lista,
     BContainer,
     BButton,
   },

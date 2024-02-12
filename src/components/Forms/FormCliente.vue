@@ -55,8 +55,8 @@
       </b-form-group>
 
       <ListaStatusOptions
-        :statusInicial="getStatusSelected"
-        @updateStatus="(value) => (form.codigo_status = value)"
+        :valueInicial="getSelectedStatus"
+        @updateStatus="(value: number) => (form.codigo_status = value)"
       />
       <BotoesForm :routerName="rotas.cnabLista" />
     </b-form>
@@ -99,10 +99,10 @@ export default defineComponent({
     ListaStatusOptions,
   },
   computed: {
-    ...mapGetters(["getStatusSelected"]),
+    ...mapGetters(["getSelectedStatus"]),
   },
   methods: {
-    ...mapMutations(["setStatusSelected"]),
+    ...mapMutations(["setSelectedStatus"]),
 
     onSubmit(event: Event) {
       event.preventDefault();
@@ -116,7 +116,7 @@ export default defineComponent({
         .findOne(codigo)
         .then((response) => {
           this.form = new Cliente(response.data);
-          this.setStatusSelected(this.form.codigo_status); /* Atualizar store */
+          this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
         })
         .catch((error) => {
           console.log(error?.message);

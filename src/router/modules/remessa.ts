@@ -3,7 +3,8 @@ import {
     StatusRoutes,
     CnabRoutes,
     BancoRoutes,
-    ClienteRoutes
+    ClienteRoutes,
+    AtendimentoRoutes
 } from './itens';
 
 const MODULO = 'Remessa';
@@ -18,7 +19,8 @@ export const RemessasRoutes = [
             ...StatusRoutes(MODULO),
             ...CnabRoutes(MODULO),
             ...BancoRoutes(MODULO),
-            ...ClienteRoutes(MODULO)
+            ...ClienteRoutes(MODULO),
+            ...AtendimentoRoutes(MODULO)
         ]
     }
 ];

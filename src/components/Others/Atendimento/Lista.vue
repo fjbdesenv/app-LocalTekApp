@@ -3,19 +3,37 @@
     <thead>
       <tr>
         <th>Código</th>
-        <th>Descrição</th>
-        <th>Tipo</th>
+        <th>Cód. Atend. Tek-System</th>
+        <th>Cliente</th>
+        <th>Status</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
-        <td>{{ registro.descricao }}</td>
-        <td>{{ mapeamentoStatusTipo(registro.tipo) }}</td>
+        <td>{{ registro.codigo_atendimento_tek }}</td>
+        <td>
+          <router-link
+            :to="{
+              name: rotas.clienteEditar,
+              params: { codigo: registro.codigo_status },
+            }"
+            >{{ registro.cliente?.razao }}</router-link
+          >
+        </td>
+        <td>
+          <router-link
+            :to="{
+              name: rotas.statusEditar,
+              params: { codigo: registro.codigo_status },
+            }"
+            >{{ registro.status?.descricao }}</router-link
+          >
+        </td>
         <td class="d-flex justify-content-center">
           <router-link
-            :to="{ name: rotas.statusEditar, params: { codigo: registro.codigo } }"
+            :to="{ name: rotas.atendimentoEditar, params: { codigo: registro.codigo } }"
           >
             <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
           </router-link>
@@ -34,33 +52,35 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
-import { MixinMapStatusTipo, MixinConfirmacaoDeletar } from "@/mixins";
-import { Api, Cnab, Status } from "@/class";
+import { MixinConfirmacaoDeletar } from "@/mixins";
+import { Api, Atendimento } from "@/class";
 
 export default defineComponent({
-  name: "ListaStatusComponente",
+  name: "ListaAtendimentoComponente",
   data: () => ({
-    registros: new Array<Status>(),
+    registros: new Array<Atendimento>(),
     rotas: {
       statusEditar: "RemessaStatusEditar",
+      clienteEditar: "RemessaClienteEditar",
+      atendimentoEditar: "RemessaAtendimentoEditar",
     },
   }),
   components: {
     BIconClipboard2Check,
     BIconTrashFill,
   },
-  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar],
   methods: {
     getRegitros() {
       const api = new Api();
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.status
+      api.atendimento
         .findAll()
         .then((response) => {
-          const aux: Array<Cnab> = response.data;
-          aux.forEach((item: Cnab) => this.registros.push(item));
+          const aux: Array<Atendimento> = response.data;
+          aux.forEach((item: Atendimento) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -72,7 +92,7 @@ export default defineComponent({
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
-        api.status
+        api.atendimento
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();

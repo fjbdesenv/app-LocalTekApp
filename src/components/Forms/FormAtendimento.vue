@@ -3,41 +3,26 @@
     <b-form @submit="onSubmit">
       <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
 
-      <b-form-group label="Nome:" label-for="input-1">
+      <b-form-group label="Código do Atendimento na Tek-System:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
-          v-model="form.nome"
-          placeholder="Nome do banco"
+          v-model="form.codigo_atendimento_tek"
+          placeholder="Código do cliente na Tek-System"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Código:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          type="number"
-          :min="1"
-          v-model="form.codigo_banco"
-          required
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group label="Camara:" label-for="input-2">
-        <b-form-input
-          id="input-2"
-          type="number"
-          :min="1"
-          v-model="form.codigo_camara"
-          required
-        ></b-form-input>
-      </b-form-group>
+      <ListaClienteOptions
+        :valueInicial="getSelectedCliente"
+        @updateCliente="(value: number) => (form.codigo_cliente = value)"
+      />
 
       <ListaStatusOptions
         :valueInicial="getSelectedStatus"
-        @updateStatus="(value: number) => (form.codigo_status = value)"
+        @updateStatus="(value) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.bancoLista" />
+      <BotoesForm :routerName="rotas.atendimentoLista" />
     </b-form>
   </div>
 
@@ -48,18 +33,19 @@
 import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
-import { Api, Banco } from "@/class";
+import { Api, Atendimento } from "@/class";
 import { MixinMessage, MixinListStatus } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
+import ListaClienteOptions from "@/components/Forms/ListOptions/ListaClienteOptions.vue";
 
 export default defineComponent({
-  name: "FormBanco",
+  name: "FormAtendimento",
   data: () => ({
-    form: new Banco(undefined),
+    form: new Atendimento(undefined),
     rotas: {
-      bancoLista: "RemessaBancoLista",
+      atendimentoLista: "RemessaAtendimentoLista",
     },
   }),
   props: {
@@ -76,12 +62,13 @@ export default defineComponent({
     BotoesForm,
     AlertMessage,
     ListaStatusOptions,
+    ListaClienteOptions,
   },
   computed: {
-    ...mapGetters(["getSelectedStatus"]),
+    ...mapGetters(["getSelectedCliente", "getSelectedStatus"]),
   },
   methods: {
-    ...mapMutations(["setSelectedStatus"]),
+    ...mapMutations(["setSelectedCliente", "setSelectedStatus"]),
 
     onSubmit(event: Event) {
       event.preventDefault();
@@ -91,10 +78,11 @@ export default defineComponent({
     getRegistro(codigo: number) {
       const api = new Api();
 
-      api.banco
+      api.atendimento
         .findOne(codigo)
         .then((response) => {
-          this.form = new Banco(response.data);
+          this.form = new Atendimento(response.data);
+          this.setSelectedCliente(this.form.codigo_cliente); /* Atualizar store */
           this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
         })
         .catch((error) => {
@@ -107,7 +95,7 @@ export default defineComponent({
       const api = new Api();
       this.form.normalizarSaida();
 
-      api.banco
+      api.atendimento
         .createOne(this.form)
         .then(() => {
           this.MSGdCreate();
@@ -123,7 +111,7 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.form.normalizarSaida();
 
-      api.banco
+      api.atendimento
         .updateOne(codigo, this.form)
         .then(() => {
           this.MSGUpdate();
@@ -134,7 +122,6 @@ export default defineComponent({
         });
     },
   },
-
   created() {
     if (!this.cadastro) {
       const codigo = Number(this.$route.params.codigo);
