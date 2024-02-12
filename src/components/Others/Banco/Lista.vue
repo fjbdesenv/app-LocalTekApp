@@ -50,7 +50,7 @@ import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Banco } from "@/class";
 
 export default defineComponent({
-  name: "ListaComponente",
+  name: "ListaBancoComponente",
   data: () => ({
     registros: new Array<Banco>(),
     rotas: {

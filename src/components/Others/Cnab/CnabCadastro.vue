@@ -7,7 +7,7 @@ import { defineComponent } from "vue";
 import FormCnab from "@/components/Forms/FormCnab.vue";
 
 export default defineComponent({
-  name: "StatusCadastro",
+  name: "CnabCadastro",
   components: {
     FormCnab,
   },
