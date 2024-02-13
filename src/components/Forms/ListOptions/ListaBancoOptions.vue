@@ -1,9 +1,9 @@
 <template>
-  <b-form-group label="Cliente:" label-for="input-select">
+  <b-form-group label="Banco:" label-for="input-select">
     <b-form-select
       label-for="input-select"
       v-model="selected"
-      :options="optionsCliente"
+      :options="optionsBanco"
       required
     ></b-form-select>
   </b-form-group>
@@ -13,15 +13,15 @@
 import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { Api, Cliente } from "@/class";
+import { Api, Banco } from "@/class";
 import { MixinMessage } from "@/mixins";
 import { AxiosResponse } from "axios";
 
 export default defineComponent({
-  name: "ListaCliente",
+  name: "ListaBanco",
   data: () => ({
-    listCliente: new Array<Cliente>(),
-    optionsCliente: new Array<{ value: number | undefined; text: string | undefined }>(),
+    listBanco: new Array<Banco>(),
+    optionsBanco: new Array<{ value: number | undefined; text: string | undefined }>(),
     selected: 0,
   }),
   props: {
@@ -36,17 +36,17 @@ export default defineComponent({
     BFormGroup,
   },
   computed: {
-    ...mapGetters(["getselectedCliente"]),
+    ...mapGetters(["getSelectedBanco"]),
   },
   methods: {
-    getClintes() {
+    getBanco() {
       const api = new Api();
 
-      api.cliente
+      api.banco
         .findAll()
         .then((response: AxiosResponse) => {
-          this.listCliente = response.data;
-          this.gerarListaClienteOptions();
+          this.listBanco = response.data;
+          this.gerarListaBancoOptions();
         })
         .catch((error) => {
           console.log(error?.message);
@@ -54,24 +54,24 @@ export default defineComponent({
         });
     },
 
-    gerarListaClienteOptions() {
-      this.listCliente.forEach((item: Cliente) => {
-        this.optionsCliente.push({ value: item.codigo, text: item.razao });
+    gerarListaBancoOptions() {
+      this.listBanco.forEach((item: Banco) => {
+        this.optionsBanco.push({ value: item.codigo, text: item.nome });
       });
     },
   },
   watch: {
     selected(value: number) {
-      this.$emit("updateCliente", value); /* Enviar o novo cliente para o form */
+      this.$emit("updateBanco", value); /* Enviar o novo Banco para o form */
     },
     valueInicial(value) {
-      /* O store atualiza depois do componente ser criado, isso atualiza o cliente selecionando */
+      /* O store atualiza depois do componente ser criado, isso atualiza o Banco selecionando */
       this.selected = value;
     },
   },
   created() {
     this.selected = this.valueInicial;
-    this.getClintes();
+    this.getBanco();
   },
 });
 </script>

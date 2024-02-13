@@ -3,8 +3,11 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Cód. Atend. Tek-System</th>
-        <th>Cliente</th>
+        <th>Atend.</th>
+        <th>Banco</th>
+        <th>Cnab</th>
+        <th>Titular</th>
+        <th>Sacador/Avalista</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -12,16 +15,48 @@
     <tbody>
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
-        <td>{{ registro.codigo_atendimento_tek }}</td>
+
         <td>
           <router-link
             :to="{
-              name: rotas.clienteEditar,
-              params: { codigo: registro.codigo_status },
+              name: rotas.atendimentoEditar,
+              params: { codigo: registro.codigo_atendimento },
             }"
-            >{{ registro.cliente?.razao }}</router-link
           >
+            {{ registro.atendimento?.codigo_atendimento_tek }}
+          </router-link>
         </td>
+
+        <td>
+          <router-link
+            :to="{
+              name: rotas.bancoEditar,
+              params: { codigo: registro.codigo_banco },
+            }"
+          >
+            {{ registro.banco?.nome }}
+          </router-link>
+        </td>
+
+        <td>
+          <router-link
+            :to="{
+              name: rotas.cnabEditar,
+              params: { codigo: registro.codigo_cnab },
+            }"
+          >
+            {{ registro.cnab?.descricao }}
+          </router-link>
+        </td>
+
+        <td>
+          {{ registro.titular }}
+        </td>
+
+        <td>
+          {{ registro.sacador_avalista }}
+        </td>
+
         <td>
           <router-link
             :to="{
@@ -31,12 +66,28 @@
             >{{ registro.status?.descricao }}</router-link
           >
         </td>
+
         <td class="d-flex justify-content-center">
+          <!-- <router-link
+            :to="{
+              name: rotas.remessaFinanceiraConcultar,
+              params: { codigo: registro.codigo },
+            }"
+          >
+            <button class="btn btn-success mx-2">
+              <BIconClipboardPlus />
+            </button>
+          </router-link> -->
+
           <router-link
-            :to="{ name: rotas.atendimentoEditar, params: { codigo: registro.codigo } }"
+            :to="{
+              name: rotas.remessaFinanceiraEditar,
+              params: { codigo: registro.codigo },
+            }"
           >
             <button class="btn btn-primary mx-2"><BIconBrushFill /></button>
           </router-link>
+
           <button
             class="btn btn-danger mx-2"
             @click="() => deletar(registro.codigo ? registro.codigo : 0)"
@@ -51,23 +102,27 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
+import { BIconBrushFill, BIconTrashFill, /* BIconClipboardPlus*/ } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
-import { Api, Atendimento } from "@/class";
+import { Api, RemessaFinanceira } from "@/class";
 
 export default defineComponent({
-  name: "ListaAtendimentoComponente",
+  name: "ListaRemessaFinanceiraComponente",
   data: () => ({
-    registros: new Array<Atendimento>(),
+    registros: new Array<RemessaFinanceira>(),
     rotas: {
+      cnabEditar: "RemessaCnabEditar",
+      bancoEditar: "RemessaBancoEditar",
       statusEditar: "RemessaStatusEditar",
-      clienteEditar: "RemessaClienteEditar",
       atendimentoEditar: "RemessaAtendimentoEditar",
+      remessaFinanceiraEditar: "RemessaRemessaFinanceiraEditar",
+      remessaFinanceiraConcultar: "RemessaRemessaFinanceiraConsultar",
     },
   }),
   components: {
     BIconBrushFill,
     BIconTrashFill,
+    // BIconClipboardPlus,
   },
   mixins: [MixinConfirmacaoDeletar],
   methods: {
@@ -76,11 +131,11 @@ export default defineComponent({
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.atendimento
+      api.remessafinanceira
         .findAll()
         .then((response) => {
-          const aux: Array<Atendimento> = response.data;
-          aux.forEach((item: Atendimento) => this.registros.push(item));
+          const aux: Array<RemessaFinanceira> = response.data;
+          aux.forEach((item: RemessaFinanceira) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -92,7 +147,7 @@ export default defineComponent({
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
-        api.atendimento
+        api.remessafinanceira
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();

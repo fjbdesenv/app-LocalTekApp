@@ -2,7 +2,7 @@
   <table class="table table-hover mt-3">
     <thead>
       <tr>
-        <th>Código</th>
+        <th>#</th>
         <th>Cód. Tek-System</th>
         <th>Razão Social</th>
         <th>Status</th>
@@ -27,7 +27,7 @@
           <router-link
             :to="{ name: rotas.clienteEditar, params: { codigo: registro.codigo } }"
           >
-            <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
+            <button class="btn btn-primary mx-2"><BIconBrushFill /></button>
           </router-link>
           <button
             class="btn btn-danger mx-2"
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
+import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cliente } from "@/class";
 
@@ -57,7 +57,7 @@ export default defineComponent({
     },
   }),
   components: {
-    BIconClipboard2Check,
+    BIconBrushFill,
     BIconTrashFill,
   },
   mixins: [MixinConfirmacaoDeletar],

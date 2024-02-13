@@ -1,5 +1,5 @@
 <template>
-  <b-form-group label="Status" label-for="input-select">
+  <b-form-group label="Status:" label-for="input-select">
     <b-form-select
       label-for="input-select"
       v-model="selected"

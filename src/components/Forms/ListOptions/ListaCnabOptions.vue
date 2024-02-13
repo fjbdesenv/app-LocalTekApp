@@ -1,9 +1,9 @@
 <template>
-  <b-form-group label="Cliente:" label-for="input-select">
+  <b-form-group label="Cnab:" label-for="input-select">
     <b-form-select
       label-for="input-select"
       v-model="selected"
-      :options="optionsCliente"
+      :options="optionsCnab"
       required
     ></b-form-select>
   </b-form-group>
@@ -13,15 +13,15 @@
 import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { Api, Cliente } from "@/class";
+import { Api, Cnab } from "@/class";
 import { MixinMessage } from "@/mixins";
 import { AxiosResponse } from "axios";
 
 export default defineComponent({
-  name: "ListaCliente",
+  name: "ListaCnab",
   data: () => ({
-    listCliente: new Array<Cliente>(),
-    optionsCliente: new Array<{ value: number | undefined; text: string | undefined }>(),
+    listCnab: new Array<Cnab>(),
+    optionsCnab: new Array<{ value: number | undefined; text: string | undefined }>(),
     selected: 0,
   }),
   props: {
@@ -36,17 +36,17 @@ export default defineComponent({
     BFormGroup,
   },
   computed: {
-    ...mapGetters(["getselectedCliente"]),
+    ...mapGetters(["getSelectedCnab"]),
   },
   methods: {
-    getClintes() {
+    getCnab() {
       const api = new Api();
 
-      api.cliente
+      api.cnab
         .findAll()
         .then((response: AxiosResponse) => {
-          this.listCliente = response.data;
-          this.gerarListaClienteOptions();
+          this.listCnab = response.data;
+          this.gerarListaCnabOptions();
         })
         .catch((error) => {
           console.log(error?.message);
@@ -54,24 +54,24 @@ export default defineComponent({
         });
     },
 
-    gerarListaClienteOptions() {
-      this.listCliente.forEach((item: Cliente) => {
-        this.optionsCliente.push({ value: item.codigo, text: item.razao });
+    gerarListaCnabOptions() {
+      this.listCnab.forEach((item: Cnab) => {
+        this.optionsCnab.push({ value: item.codigo, text: item.descricao });
       });
     },
   },
   watch: {
     selected(value: number) {
-      this.$emit("updateCliente", value); /* Enviar o novo cliente para o form */
+      this.$emit("updateCnab", value); /* Enviar o novo Cnab para o form */
     },
     valueInicial(value) {
-      /* O store atualiza depois do componente ser criado, isso atualiza o cliente selecionando */
+      /* O store atualiza depois do componente ser criado, isso atualiza o Cnab selecionando */
       this.selected = value;
     },
   },
   created() {
     this.selected = this.valueInicial;
-    this.getClintes();
+    this.getCnab();
   },
 });
 </script>

@@ -2,8 +2,8 @@ import { ItemMenu } from "@/interfaces";
 
 const MODULO = 'Remessa';
 
-export const menuRemessaItens: Array<ItemMenu> = [
-    { title: 'Conf. Remessa', link: 'Home' },
+export const menuRemessa: Array<ItemMenu> = [
+    { title: 'Remessa Financeira', link: MODULO + 'RemessaFinanceiraLista' },
     { title: 'Atendimentos', link: MODULO + 'AtendimentoLista' },
     { title: 'Clientes', link: MODULO + 'ClienteLista' },
     { title: 'Bancos', link: MODULO + 'BancoLista' },
