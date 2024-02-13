@@ -24,17 +24,12 @@
           >
         </td>
         <td class="d-flex justify-content-center">
-          <router-link
-            :to="{ name: rotas.cnabEditar, params: { codigo: registro.codigo } }"
-          >
-            <button class="btn btn-primary mx-2"><BIconBrushFill /></button>
-          </router-link>
-          <button
-            class="btn btn-danger mx-2"
-            @click="() => deletar(registro.codigo ? registro.codigo : 0)"
-          >
-            <BIconTrashFill />
-          </button>
+          <BotoesListaOpcoes
+            @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
+            :codigo="registro.codigo"
+            :rota-editar="rotas.cnabEditar"
+            :rota-consultar="rotas.cnabConsultar"
+          />
         </td>
       </tr>
     </tbody>
@@ -43,9 +38,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cnab } from "@/class";
+import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaCnabComponente",
@@ -54,11 +49,11 @@ export default defineComponent({
     rotas: {
       statusEditar: "RemessaStatusEditar",
       cnabEditar: "RemessaCnabEditar",
+      cnabConsultar: "RemessaCnabEditar",
     },
   }),
   components: {
-    BIconBrushFill,
-    BIconTrashFill,
+    BotoesListaOpcoes,
   },
   mixins: [MixinConfirmacaoDeletar],
   methods: {

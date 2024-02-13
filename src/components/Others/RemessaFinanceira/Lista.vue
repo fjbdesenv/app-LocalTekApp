@@ -68,32 +68,12 @@
         </td>
 
         <td class="d-flex justify-content-center">
-          <!-- <router-link
-            :to="{
-              name: rotas.remessaFinanceiraConcultar,
-              params: { codigo: registro.codigo },
-            }"
-          >
-            <button class="btn btn-success mx-2">
-              <BIconClipboardPlus />
-            </button>
-          </router-link> -->
-
-          <router-link
-            :to="{
-              name: rotas.remessaFinanceiraEditar,
-              params: { codigo: registro.codigo },
-            }"
-          >
-            <button class="btn btn-primary mx-2"><BIconBrushFill /></button>
-          </router-link>
-
-          <button
-            class="btn btn-danger mx-2"
-            @click="() => deletar(registro.codigo ? registro.codigo : 0)"
-          >
-            <BIconTrashFill />
-          </button>
+          <BotoesListaOpcoes
+            @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
+            :codigo="registro.codigo"
+            :rota-editar="rotas.remessaFinanceiraEditar"
+            :rota-consultar="rotas.remessaFinanceiraConcultar"
+          />
         </td>
       </tr>
     </tbody>
@@ -102,9 +82,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill, /* BIconClipboardPlus*/ } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, RemessaFinanceira } from "@/class";
+import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaRemessaFinanceiraComponente",
@@ -120,9 +100,7 @@ export default defineComponent({
     },
   }),
   components: {
-    BIconBrushFill,
-    BIconTrashFill,
-    // BIconClipboardPlus,
+    BotoesListaOpcoes,
   },
   mixins: [MixinConfirmacaoDeletar],
   methods: {
