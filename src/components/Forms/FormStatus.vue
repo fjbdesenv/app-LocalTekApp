@@ -13,7 +13,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Tipo" label-for="input-2">
+      <b-form-group label="Tipo:" label-for="input-2">
         <b-form-select
           id="input-2"
           v-model="form.tipo"
@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { optionsTipoStatus } from "@/assets/others/options/tipoStatus";
+import { optionsTipoStatus } from "@/assets/others/options";
 import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
 import { Api, Status } from "@/class";
 import { MixinMessage } from "@/mixins";

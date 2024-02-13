@@ -3,9 +3,11 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Nome</th>
-        <th>Banco Código</th>
-        <th>Banco Camara</th>
+        <th>Atend.</th>
+        <th>Banco</th>
+        <th>Cnab</th>
+        <th>Titular</th>
+        <th>Sacador/Avalista</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -13,9 +15,48 @@
     <tbody>
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
-        <td>{{ registro.nome }}</td>
-        <td>{{ registro.codigo_banco }}</td>
-        <td>{{ registro.codigo_camara }}</td>
+
+        <td>
+          <router-link
+            :to="{
+              name: rotas.atendimentoEditar,
+              params: { codigo: registro.codigo_atendimento },
+            }"
+          >
+            {{ registro.atendimento?.codigo_atendimento_tek }}
+          </router-link>
+        </td>
+
+        <td>
+          <router-link
+            :to="{
+              name: rotas.bancoEditar,
+              params: { codigo: registro.codigo_banco },
+            }"
+          >
+            {{ registro.banco?.nome }}
+          </router-link>
+        </td>
+
+        <td>
+          <router-link
+            :to="{
+              name: rotas.cnabEditar,
+              params: { codigo: registro.codigo_cnab },
+            }"
+          >
+            {{ registro.cnab?.descricao }}
+          </router-link>
+        </td>
+
+        <td>
+          {{ registro.titular }}
+        </td>
+
+        <td>
+          {{ registro.sacador_avalista }}
+        </td>
+
         <td>
           <router-link
             :to="{
@@ -25,12 +66,13 @@
             >{{ registro.status?.descricao }}</router-link
           >
         </td>
+
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
-            :rota-editar="rotas.bancoEditar"
-            :rota-consultar="rotas.bancoConsultar"
+            :rota-editar="rotas.remessaFinanceiraEditar"
+            :rota-consultar="rotas.remessaFinanceiraConcultar"
           />
         </td>
       </tr>
@@ -41,17 +83,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
-import { Api, Banco } from "@/class";
+import { Api, RemessaFinanceira } from "@/class";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
-  name: "ListaBancoComponente",
+  name: "ListaRemessaFinanceiraComponente",
   data: () => ({
-    registros: new Array<Banco>(),
+    registros: new Array<RemessaFinanceira>(),
     rotas: {
-      statusEditar: "RemessaStatusEditar",
+      cnabEditar: "RemessaCnabEditar",
       bancoEditar: "RemessaBancoEditar",
-      bancoConsultar: "RemessaBancoEditar",
+      statusEditar: "RemessaStatusEditar",
+      atendimentoEditar: "RemessaAtendimentoEditar",
+      remessaFinanceiraEditar: "RemessaRemessaFinanceiraEditar",
+      remessaFinanceiraConcultar: "RemessaRemessaFinanceiraConsultar",
     },
   }),
   components: {
@@ -64,11 +109,11 @@ export default defineComponent({
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.banco
+      api.remessafinanceira
         .findAll()
         .then((response) => {
-          const aux: Array<Banco> = response.data;
-          aux.forEach((item: Banco) => this.registros.push(item));
+          const aux: Array<RemessaFinanceira> = response.data;
+          aux.forEach((item: RemessaFinanceira) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -80,7 +125,7 @@ export default defineComponent({
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
-        api.banco
+        api.remessafinanceira
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();

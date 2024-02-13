@@ -2,7 +2,7 @@
   <table class="table table-hover mt-3">
     <thead>
       <tr>
-        <th>Código</th>
+        <th>#</th>
         <th>Cód. Tek-System</th>
         <th>Razão Social</th>
         <th>Status</th>
@@ -24,17 +24,12 @@
           >
         </td>
         <td class="d-flex justify-content-center">
-          <router-link
-            :to="{ name: rotas.clienteEditar, params: { codigo: registro.codigo } }"
-          >
-            <button class="btn btn-primary mx-2"><BIconClipboard2Check /></button>
-          </router-link>
-          <button
-            class="btn btn-danger mx-2"
-            @click="() => deletar(registro.codigo ? registro.codigo : 0)"
-          >
-            <BIconTrashFill />
-          </button>
+          <BotoesListaOpcoes
+            @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
+            :codigo="registro.codigo"
+            :rota-editar="rotas.clienteEditar"
+            :rota-consultar="rotas.clienteConsultar"
+          />
         </td>
       </tr>
     </tbody>
@@ -43,9 +38,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconClipboard2Check, BIconTrashFill } from "bootstrap-icons-vue";
 import { MixinConfirmacaoDeletar } from "@/mixins";
 import { Api, Cliente } from "@/class";
+import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaClienteComponente",
@@ -54,11 +49,11 @@ export default defineComponent({
     rotas: {
       statusEditar: "RemessaStatusEditar",
       clienteEditar: "RemessaClienteEditar",
+      clienteConsultar: "RemessaClienteEditar",
     },
   }),
   components: {
-    BIconClipboard2Check,
-    BIconTrashFill,
+    BotoesListaOpcoes,
   },
   mixins: [MixinConfirmacaoDeletar],
   methods: {
