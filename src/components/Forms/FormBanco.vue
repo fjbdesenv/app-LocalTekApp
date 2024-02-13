@@ -23,7 +23,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Camara:" label-for="input-2">
+      <b-form-group label="Câmara:" label-for="input-2">
         <b-form-input
           id="input-2"
           type="number"

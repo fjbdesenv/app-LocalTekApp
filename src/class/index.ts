@@ -5,7 +5,8 @@ import {
     Cnab,
     Banco,
     Cliente,
-    Atendimento
+    Atendimento,
+    RemessaFinanceira,
 } from "./itens";
 
 export {
@@ -15,5 +16,6 @@ export {
     Banco,
     Cliente,
     Atendimento,
+    RemessaFinanceira,
     Api
 }
