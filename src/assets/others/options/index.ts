@@ -3,6 +3,7 @@ import { optionsTipoRemessa } from "./tipoRemessas";
 import { optionsEmitente } from "./emitentes";
 import { optionsPix } from "./pix";
 import { optionsProtesto } from "./protesto";
+import { optionsNivel } from "./nivel";
 
 export {
     optionsTipoStatus,
@@ -10,4 +11,5 @@ export {
     optionsEmitente,
     optionsProtesto,
     optionsPix,
+    optionsNivel,
 };
