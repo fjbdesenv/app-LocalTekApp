@@ -4,6 +4,7 @@ import { Banco } from "./Banco";
 import { Cliente } from "./Cliente";
 import { Atendimento } from "./Atendimento";
 import { RemessaFinanceira } from "./RemessaFinanceira";
+import { Usuario } from "./Usuario";
 
 
 export {
@@ -12,5 +13,6 @@ export {
     Banco,
     Cliente,
     Atendimento,
-    RemessaFinanceira
+    RemessaFinanceira,
+    Usuario
 };

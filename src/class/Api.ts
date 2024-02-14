@@ -52,6 +52,7 @@ export class Api {
     public cliente;
     public atendimento;
     public remessafinanceira;
+    public usuario;
 
     /* Metodos para injeção de funcões de consulta */
     public auth(login: Login) {
@@ -65,8 +66,6 @@ export class Api {
         this.cliente = this.resource('/clientes');
         this.atendimento = this.resource('/atendimentos');
         this.remessafinanceira = this.resource('/remessas-financeiras');
+        this.usuario = this.resource('/usuarios');
     }
-
-
-
 }
