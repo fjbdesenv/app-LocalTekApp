@@ -48,12 +48,14 @@ export default defineComponent({
         await api
           .auth(form)
           .then((res) => {
-            const token = res.data?.token;
+            const { token, usuario } = res.data;
             const localStorage = new LocalStorage();
             const typeToken = typeof token;
 
-            if (token && typeToken === "string") localStorage.token = token;
-            else throw new Error(`Token type is invalid. \nType: ${typeToken}`);
+            if (token && typeToken === "string") {
+              localStorage.token = token;
+              localStorage.usuario = usuario;
+            } else throw new Error(`Token type is invalid. \nType: ${typeToken}`);
 
             this.$router.push({ name: "Home" });
           })

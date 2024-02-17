@@ -22,7 +22,7 @@
         ></b-form-select>
       </b-form-group>
 
-      <BotoesForm :routerName="rotas.statusLista" />
+      <BotoesForm :routerName="rotas.lista.status" />
     </b-form>
   </div>
 
@@ -31,10 +31,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { optionsTipoStatus } from "@/assets/others/options";
 import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
+import { MixinMessage, MixinModuloGet, MixinRoutes } from "@/mixins";
+import { optionsTipoStatus } from "@/assets/others/options";
 import { Api, Status } from "@/class";
-import { MixinMessage } from "@/mixins";
+import { PATHS } from "@/enum";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 
@@ -43,9 +44,6 @@ export default defineComponent({
   data: () => ({
     form: new Status(undefined),
     optionsTipoStatus,
-    rotas: {
-      statusLista: "RemessaStatusLista",
-    },
   }),
   props: {
     cadastro: {
@@ -53,7 +51,7 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage],
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
@@ -118,6 +116,9 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.status = this.getRouteLista(this.getModule(), PATHS.Status);
   },
 });
 </script>

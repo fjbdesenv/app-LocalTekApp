@@ -1,5 +1,6 @@
-import EspecificidadesView from '@/views/modules/EspecificidadesView.vue';
 import { RemessasRoutes } from './remessa';
+import { EspecificidadeRoutes } from './especificidade';
+import { AdministradorRoutes } from './administrador';
 
 export const ModulesRoutes = [
     {
@@ -7,13 +8,9 @@ export const ModulesRoutes = [
         name: 'Modulos',
         redirect: { name: 'Home' },
         children: [
-            {
-                path: 'especificidades',
-                name: 'Especificidades',
-                alias: '/especificidades',
-                component: EspecificidadesView
-            },
-            ...RemessasRoutes
+            ...RemessasRoutes,
+            ...EspecificidadeRoutes,
+            ...AdministradorRoutes,
         ]
     }
 ];

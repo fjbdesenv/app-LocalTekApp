@@ -26,6 +26,7 @@
         <b-form-input
           id="input-3"
           type="password"
+          autocomplete="off"
           v-model="form.senha"
         ></b-form-input>
       </b-form-group>
@@ -40,7 +41,7 @@
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
 
-      <BotoesForm :routerName="rotas.UsuarioLista" />
+      <BotoesForm :routerName="rotas.lista.usuario" />
     </b-form>
   </div>
 
@@ -52,19 +53,17 @@ import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Usuario } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import { MixinMessage, MixinListStatus, MixinRoutes, MixinModuloGet } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
 import ListaNivelOptions from "@/components/Forms/ListOptions/ListaNivelOptions.vue";
+import { PATHS } from "@/enum";
 
 export default defineComponent({
   name: "FormUsuario",
   data: () => ({
     form: new Usuario(undefined),
-    rotas: {
-      UsuarioLista: "RemessaUsuarioLista",
-    },
   }),
   props: {
     cadastro: {
@@ -72,7 +71,7 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
@@ -80,7 +79,7 @@ export default defineComponent({
     BotoesForm,
     AlertMessage,
     ListaStatusOptions,
-    ListaNivelOptions
+    ListaNivelOptions,
   },
   computed: {
     ...mapGetters(["getSelectedStatus", "getSelectedNivel"]),
@@ -146,6 +145,9 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.usuario = this.getRouteLista(this.getModule(), PATHS.Usuario);
   },
 });
 </script>

@@ -3,7 +3,7 @@
     fluid
     class="d-flex flex-column justify-content-center align-items-center h-100 w-100 p-3"
   >
-  <h1 class="mb-3">Modulos</h1>
+  <h1 class="mb-3">MODULOS</h1>
     <b-row class="w-100 align-items-center">
       <b-col v-for="(module, index) in modules" :key="index" cols="auto">
         <b-card

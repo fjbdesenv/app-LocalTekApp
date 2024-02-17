@@ -14,21 +14,13 @@
         <td>{{ registro.codigo }}</td>
         <td>{{ registro.codigo_cliente_tek }}</td>
         <td>{{ registro.razao }}</td>
-        <td>
-          <router-link
-            :to="{
-              name: rotas.statusEditar,
-              params: { codigo: registro.codigo_status },
-            }"
-            >{{ registro.status?.descricao }}</router-link
-          >
-        </td>
+        <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
-            :rota-editar="rotas.clienteEditar"
-            :rota-consultar="rotas.clienteConsultar"
+            :rota-editar="rotas.edicao.cliente"
+            :rota-consultar="rotas.edicao.cliente"
           />
         </td>
       </tr>
@@ -38,24 +30,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar } from "@/mixins";
+import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Cliente } from "@/class";
+import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaClienteComponente",
   data: () => ({
     registros: new Array<Cliente>(),
-    rotas: {
-      statusEditar: "RemessaStatusEditar",
-      clienteEditar: "RemessaClienteEditar",
-      clienteConsultar: "RemessaClienteEditar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -93,6 +81,11 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.path = PATHS.Cliente;
+    this.rotas.edicao.cliente = this.getRouteEdicao(this.getModule(), this.path);
+    this.rotas.consulta.cliente = this.rotas.edicao.cliente; /* Alterar */
   },
 });
 </script>

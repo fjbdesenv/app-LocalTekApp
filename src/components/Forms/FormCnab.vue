@@ -27,7 +27,7 @@
         :valueInicial="getSelectedStatus"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.cnabLista" />
+      <BotoesForm :routerName="rotas.lista.cnab" />
     </b-form>
   </div>
 
@@ -39,7 +39,8 @@ import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Cnab } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import { PATHS } from "@/enum";
+import { MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -48,9 +49,6 @@ export default defineComponent({
   name: "FormCnab",
   data: () => ({
     form: new Cnab(undefined),
-    rotas: {
-      cnabLista: "RemessaCnabLista",
-    },
   }),
   props: {
     cadastro: {
@@ -58,7 +56,7 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
@@ -129,6 +127,9 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.cnab = this.getRouteLista(this.getModule(), PATHS.Cnab);
   },
 });
 </script>

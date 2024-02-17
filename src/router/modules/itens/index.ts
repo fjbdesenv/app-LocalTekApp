@@ -4,7 +4,7 @@ import { BancoRoutes } from "./banco";
 import { ClienteRoutes } from "./cliente";
 import { AtendimentoRoutes } from "./atendimento";
 import { RemessaFinanceiraRoutes } from "./remessaFinanceira";
-import { UsuarioRoutes } from "./usuaria";
+import { UsuarioRoutes } from "./usuario";
 
 export {
     StatusRoutes,

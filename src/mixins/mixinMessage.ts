@@ -29,7 +29,7 @@ export default defineComponent({
         MSGdeletado() {
             this.messageShowTime('Registro deletado com sucesso!', 'success', 1500);
         },
-        MSGnaoDeletado() {
+        MSGNaoDeletado() {
             this.messageShowTime('Não foi possível deletar esse registro!', 'danger', 1500);
         },
         MSGNotFound() {
