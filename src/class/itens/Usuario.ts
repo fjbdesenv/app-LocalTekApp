@@ -8,6 +8,7 @@ export class Usuario extends ItemDefault {
     senha?: string;
     nivel?: number;
     status?: Status;
+    modulos?: string;
 
     constructor(usuario: Usuario | undefined) {
 
@@ -25,6 +26,7 @@ export class Usuario extends ItemDefault {
         this.email = usuario ? usuario?.email : undefined;
         this.senha = usuario ? usuario?.senha : undefined;
         this.nivel = usuario ? usuario?.nivel : 2;
+        this.modulos = usuario ? usuario?.modulos : '';
         this.codigo_status = usuario ? usuario?.codigo_status : 0;
     }
 
@@ -37,5 +39,10 @@ export class Usuario extends ItemDefault {
 
         this.nivel = Number(this.nivel);
         this.codigo_status = Number(this.codigo_status);
+    }
+
+    normalizarModulos(modulos: Array<String>) {
+        this.modulos = modulos.join('|');
+        if (this.modulos.length > 0) this.modulos = this.modulos.substring(1);
     }
 }
