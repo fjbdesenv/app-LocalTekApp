@@ -94,11 +94,7 @@ export default defineComponent({
         case 1:
           return NIVEL_ACESSO.Administrador;
         case 2:
-          return NIVEL_ACESSO.Geral;
-        case 3:
-          return NIVEL_ACESSO.Remessa;
-        case 4:
-          return NIVEL_ACESSO.Especificidade;
+          return NIVEL_ACESSO.Usuario;
         default:
           return "";
       }
