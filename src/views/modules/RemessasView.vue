@@ -1,10 +1,11 @@
 <template>
-  <header><h1 class="text-center py-2 title m-0">Remessas</h1></header>
+  <MuduleTitle />
 
   <b-row class="h-75 m-0">
     <b-col cols="3">
-      <MenuRemessa />
+      <MenuPadrao :menu-itens="menuRemessa" />
     </b-col>
+
     <b-col cols="9">
       <router-view />
     </b-col>
@@ -14,21 +15,28 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BCol, BRow } from "bootstrap-vue-next";
-import MenuRemessa from "@/components/Menus/MenuRemessa.vue";
+import MenuPadrao from "@/components/Menus/MenuPadrao.vue";
+import MuduleTitle from "@/components/Titles/MuduleTitle.vue";
+import { menuRemessa } from "@/assets/others/menus";
+import { MixinModuloClear } from "@/mixins";
+import { LocalStorage } from "@/class";
+import { MODULOS } from "@/enum";
 
 export default defineComponent({
   name: "RemessasView",
+  data: () => ({
+    menuRemessa,
+  }),
   components: {
-    MenuRemessa,
+    MuduleTitle,
+    MenuPadrao,
     BCol,
     BRow,
   },
+  mixins: [MixinModuloClear],
+  created() {
+    const localStorage = new LocalStorage();
+    localStorage.modulo = MODULOS.Remessa;
+  },
 });
 </script>
-
-<style scoped>
-.title {
-  background: #000;
-  color: #fff;
-}
-</style>

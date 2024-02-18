@@ -26,6 +26,7 @@
         <b-form-input
           id="input-3"
           type="password"
+          autocomplete="off"
           v-model="form.senha"
         ></b-form-input>
       </b-form-group>
@@ -40,7 +41,19 @@
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
 
-      <BotoesForm :routerName="rotas.UsuarioLista" />
+      <b-form-group
+        class="m-2 p-2 border-2 rounded-2 bg-secondary-subtle"
+        label="Módulos:"
+      >
+        <b-form-checkbox-group
+          id="checkbox-group-1"
+          v-model="modulos.selected"
+          :options="modulos.options"
+          size="lg"
+        ></b-form-checkbox-group>
+      </b-form-group>
+
+      <BotoesForm :routerName="rotas.lista.usuario" />
     </b-form>
   </div>
 
@@ -50,20 +63,26 @@
 <script lang="ts">
 import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
-import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
+import { BForm, BFormInput, BFormGroup, BFormCheckboxGroup } from "bootstrap-vue-next";
 import { Api, Usuario } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import { MixinMessage, MixinListStatus, MixinRoutes, MixinModuloGet } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
 import ListaNivelOptions from "@/components/Forms/ListOptions/ListaNivelOptions.vue";
+import { PATHS, MODULOS } from "@/enum";
 
 export default defineComponent({
   name: "FormUsuario",
   data: () => ({
     form: new Usuario(undefined),
-    rotas: {
-      UsuarioLista: "RemessaUsuarioLista",
+    modulos: {
+      selected: new Array<string>(),
+      options: [
+        { value: MODULOS.Administrador, text: MODULOS.Administrador },
+        { value: MODULOS.Remessa, text: MODULOS.Remessa },
+        { value: MODULOS.Especificidade, text: MODULOS.Especificidade },
+      ],
     },
   }),
   props: {
@@ -72,15 +91,16 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
     BFormGroup,
     BotoesForm,
+    BFormCheckboxGroup,
     AlertMessage,
     ListaStatusOptions,
-    ListaNivelOptions
+    ListaNivelOptions,
   },
   computed: {
     ...mapGetters(["getSelectedStatus", "getSelectedNivel"]),
@@ -100,6 +120,10 @@ export default defineComponent({
         .findOne(codigo)
         .then((response) => {
           this.form = new Usuario(response.data);
+
+          /* Adicionando modulos no formulario */
+          this.form.modulos?.split("|").forEach((m) => this.modulos.selected.push(m));
+
           this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
           this.setSelectedNivel(this.form.nivel); /* Atualizar store */
         })
@@ -112,6 +136,7 @@ export default defineComponent({
     create() {
       const api = new Api();
       this.form.normalizarSaida();
+      this.form.modulos = this.modulos.selected.join("|");
 
       api.usuario
         .createOne(this.form)
@@ -128,16 +153,17 @@ export default defineComponent({
       const api = new Api();
       const codigo = Number(this.$route.params.codigo);
       this.form.normalizarSaida();
+      this.form.normalizarModulos(this.modulos.selected);
 
-      api.usuario
-        .updateOne(codigo, this.form)
-        .then(() => {
-          this.MSGUpdate();
-        })
-        .catch((error) => {
-          console.log(error?.message);
-          this.MSGerrorInternal(error);
-        });
+      // api.usuario
+      //   .updateOne(codigo, this.form)
+      //   .then(() => {
+      //     this.MSGUpdate();
+      //   })
+      //   .catch((error) => {
+      //     console.log(error?.message);
+      //     this.MSGerrorInternal(error);
+      //   });
     },
   },
 
@@ -146,6 +172,9 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.usuario = this.getRouteLista(this.getModule(), PATHS.Usuario);
   },
 });
 </script>

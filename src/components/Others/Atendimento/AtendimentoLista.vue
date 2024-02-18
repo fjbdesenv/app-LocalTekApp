@@ -1,7 +1,9 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
+    <SubTitle :title="path" />
+
     <b-container v-if="!show">
-      <router-link :to="{ name: rotaCadatrar }">
+      <router-link :to="{ name: rotas.cadastro.atendimento }">
         <b-button variant="primary" class="mt-3"> Novo Registro </b-button>
       </router-link>
     </b-container>
@@ -9,7 +11,7 @@
     <Lista
       v-show="!show"
       @deletado="MSGdeletado"
-      @naoDeletado="MSGnaoDeletado"
+      @naoDeletado="MSGNaoDeletado"
       @erro="MSGerrorInternal"
     />
 
@@ -22,21 +24,26 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BButton, BContainer } from "bootstrap-vue-next";
+import { MixinMessage, MixinModuloGet, MixinRoutes } from "@/mixins";
+import { PATHS } from "@/enum";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import SubTitle from "@/components/Titles/SubTitle.vue";
 import Lista from "./Lista.vue";
-import { MixinMessage } from "@/mixins";
 
 export default defineComponent({
   name: "AtendimentoLista",
-  data: () => ({
-    rotaCadatrar: "RemessaAtendimentoCadastrar",
-  }),
   components: {
     AlertMessage,
+    SubTitle,
     Lista,
     BContainer,
     BButton,
   },
-  mixins: [MixinMessage],
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes],
+  created() {
+    /* Adicionando Rotas */
+    this.path = PATHS.Atendimento;
+    this.rotas.cadastro.atendimento = this.getRouteCadastro(this.getModule(), this.path);
+  },
 });
 </script>

@@ -22,7 +22,7 @@
         :valueInicial="getSelectedStatus"
         @updateStatus="(value) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.atendimentoLista" />
+      <BotoesForm :routerName="rotas.lista.atendimento" />
     </b-form>
   </div>
 
@@ -34,7 +34,8 @@ import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Atendimento } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import { PATHS } from "@/enum";
+import { MixinMessage, MixinListStatus, MixinRoutes, MixinModuloGet } from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -44,9 +45,6 @@ export default defineComponent({
   name: "FormAtendimento",
   data: () => ({
     form: new Atendimento(undefined),
-    rotas: {
-      atendimentoLista: "RemessaAtendimentoLista",
-    },
   }),
   props: {
     cadastro: {
@@ -54,7 +52,7 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
@@ -127,6 +125,12 @@ export default defineComponent({
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.atendimento = this.getRouteLista(
+      this.getModule(),
+      PATHS.Atendimento
+    );
   },
 });
 </script>

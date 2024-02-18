@@ -3,7 +3,7 @@
 
   <b-row class="h-75 m-0">
     <b-col cols="3">
-      <MenuPadrao :menu-itens="menuEspecificidade" />
+      <MenuPadrao :menu-itens="menuAdministrador" />
     </b-col>
 
     <b-col cols="9">
@@ -17,15 +17,15 @@ import { defineComponent } from "vue";
 import { BCol, BRow } from "bootstrap-vue-next";
 import MenuPadrao from "@/components/Menus/MenuPadrao.vue";
 import MuduleTitle from "@/components/Titles/MuduleTitle.vue";
-import { menuEspecificidade } from "@/assets/others/menus";
+import { menuAdministrador } from "@/assets/others/menus";
 import { MixinModuloClear } from "@/mixins";
 import { LocalStorage } from "@/class";
 import { MODULOS } from "@/enum";
 
 export default defineComponent({
-  name: "EspecificidadesView",
+  name: "AdministradorView",
   data: () => ({
-    menuEspecificidade,
+    menuAdministrador,
   }),
   components: {
     MuduleTitle,
@@ -36,7 +36,7 @@ export default defineComponent({
   mixins: [MixinModuloClear],
   created() {
     const localStorage = new LocalStorage();
-    localStorage.modulo = MODULOS.Especificidade;
+    localStorage.modulo = MODULOS.Administrador;
   },
 });
 </script>

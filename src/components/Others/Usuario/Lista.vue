@@ -19,7 +19,7 @@
         <td>
           <router-link
             :to="{
-              name: rotas.statusEditar,
+              name: rotas.edicao.status,
               params: { codigo: registro.codigo_status },
             }"
             >{{ registro.status?.descricao }}</router-link
@@ -29,8 +29,8 @@
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
-            :rota-editar="rotas.usuarioEditar"
-            :rota-consultar="rotas.usuarioConsultar"
+            :rota-editar="rotas.edicao.usuario"
+            :rota-consultar="rotas.consulta.usuario"
           />
         </td>
       </tr>
@@ -40,24 +40,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar } from "@/mixins";
+import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Usuario } from "@/class";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import { PATHS, NIVEL_ACESSO } from "@/enum";
 
 export default defineComponent({
   name: "ListausuarioComponente",
   data: () => ({
     registros: new Array<Usuario>(),
-    rotas: {
-      statusEditar: "RemessaStatusEditar",
-      usuarioEditar: "RemessaUsuarioEditar",
-      usuarioConsultar: "RemessaUsuarioEditar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -93,16 +89,12 @@ export default defineComponent({
       }
     },
 
-    nivelUsuario(nivel: number) {
+    nivelUsuario(nivel: number | undefined) {
       switch (nivel) {
         case 1:
-          return "Administrador";
+          return NIVEL_ACESSO.Administrador;
         case 2:
-          return "Geral";
-        case 3:
-          return "Remessa";
-        case 4:
-          return "Especificidade";
+          return NIVEL_ACESSO.Usuario;
         default:
           return "";
       }
@@ -110,6 +102,12 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.path = PATHS.Usuario;
+    this.rotas.edicao.usuario = this.getRouteEdicao(this.getModule(), this.path);
+    this.rotas.edicao.status = this.getRouteEdicao(this.getModule(), PATHS.Status);
+    this.rotas.consulta.usuario = this.rotas.edicao.usuario; /* Alterar */
   },
 });
 </script>

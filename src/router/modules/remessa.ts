@@ -1,16 +1,14 @@
 import RemessasView from '@/views/modules/RemessasView.vue';
+import { MODULOS } from '@/enum';
 import {
-    StatusRoutes,
     CnabRoutes,
     BancoRoutes,
     ClienteRoutes,
     AtendimentoRoutes,
-    RemessaFinanceiraRoutes,
-    UsuarioRoutes /* Remover */
+    RemessaFinanceiraRoutes
 } from './itens';
 
-const MODULO = 'Remessa';
-
+const MODULO = MODULOS.Remessa;
 export const RemessasRoutes = [
     {
         path: 'remessas',
@@ -18,13 +16,11 @@ export const RemessasRoutes = [
         alias: '/remessas',
         component: RemessasView,
         children: [
-            ...StatusRoutes(MODULO),
             ...CnabRoutes(MODULO),
             ...BancoRoutes(MODULO),
             ...ClienteRoutes(MODULO),
             ...AtendimentoRoutes(MODULO),
             ...RemessaFinanceiraRoutes(MODULO),
-            ...UsuarioRoutes(MODULO)
         ]
     }
 ];

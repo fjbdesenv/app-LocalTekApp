@@ -19,7 +19,7 @@
         <td>
           <router-link
             :to="{
-              name: rotas.atendimentoEditar,
+              name: rotas.edicao.atendimento,
               params: { codigo: registro.codigo_atendimento },
             }"
           >
@@ -30,7 +30,7 @@
         <td>
           <router-link
             :to="{
-              name: rotas.bancoEditar,
+              name: rotas.edicao.banco,
               params: { codigo: registro.codigo_banco },
             }"
           >
@@ -41,7 +41,7 @@
         <td>
           <router-link
             :to="{
-              name: rotas.cnabEditar,
+              name: rotas.edicao.cnab,
               params: { codigo: registro.codigo_cnab },
             }"
           >
@@ -56,23 +56,13 @@
         <td>
           {{ registro.sacador_avalista }}
         </td>
-
-        <td>
-          <router-link
-            :to="{
-              name: rotas.statusEditar,
-              params: { codigo: registro.codigo_status },
-            }"
-            >{{ registro.status?.descricao }}</router-link
-          >
-        </td>
-
+        <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
-            :rota-editar="rotas.remessaFinanceiraEditar"
-            :rota-consultar="rotas.remessaFinanceiraConcultar"
+            :rota-editar="rotas.edicao.remessaFinanceira"
+            :rota-consultar="rotas.consulta.remessaFinanceira"
           />
         </td>
       </tr>
@@ -82,27 +72,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar } from "@/mixins";
+import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, RemessaFinanceira } from "@/class";
+import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaRemessaFinanceiraComponente",
   data: () => ({
     registros: new Array<RemessaFinanceira>(),
-    rotas: {
-      cnabEditar: "RemessaCnabEditar",
-      bancoEditar: "RemessaBancoEditar",
-      statusEditar: "RemessaStatusEditar",
-      atendimentoEditar: "RemessaAtendimentoEditar",
-      remessaFinanceiraEditar: "RemessaRemessaFinanceiraEditar",
-      remessaFinanceiraConcultar: "RemessaRemessaFinanceiraConsultar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -140,6 +123,20 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.path = PATHS.RemessaFinanceira;
+    this.rotas.edicao.remessaFinanceira = this.getRouteEdicao(
+      this.getModule(),
+      this.path
+    );
+    this.rotas.edicao.atendimento = this.getRouteEdicao(
+      this.getModule(),
+      PATHS.Atendimento
+    );
+    this.rotas.edicao.banco = this.getRouteEdicao(this.getModule(), PATHS.Banco);
+    this.rotas.edicao.cnab = this.getRouteEdicao(this.getModule(), PATHS.Cnab);
+    this.rotas.consulta.remessaFinanceira = this.rotas.edicao.remessaFinanceira; /* Alterar */
   },
 });
 </script>

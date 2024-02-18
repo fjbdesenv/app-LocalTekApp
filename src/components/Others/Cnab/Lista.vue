@@ -14,21 +14,13 @@
         <td>{{ registro.codigo }}</td>
         <td>{{ registro.descricao }}</td>
         <td>{{ registro.quantidade_linhas }}</td>
-        <td>
-          <router-link
-            :to="{
-              name: rotas.statusEditar,
-              params: { codigo: registro.codigo_status },
-            }"
-            >{{ registro.status?.descricao }}</router-link
-          >
-        </td>
+        <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
-            :rota-editar="rotas.cnabEditar"
-            :rota-consultar="rotas.cnabConsultar"
+            :rota-editar="rotas.edicao.cnab"
+            :rota-consultar="rotas.consulta.cnab"
           />
         </td>
       </tr>
@@ -38,24 +30,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar } from "@/mixins";
+import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Cnab } from "@/class";
+import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaCnabComponente",
   data: () => ({
     registros: new Array<Cnab>(),
-    rotas: {
-      statusEditar: "RemessaStatusEditar",
-      cnabEditar: "RemessaCnabEditar",
-      cnabConsultar: "RemessaCnabEditar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -93,6 +81,11 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.path = PATHS.Cnab;
+    this.rotas.edicao.cnab = this.getRouteEdicao(this.getModule(), this.path);
+    this.rotas.consulta.cnab = this.rotas.edicao.cnab; /* Alterar */
   },
 });
 </script>
