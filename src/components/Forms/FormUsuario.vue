@@ -1,13 +1,14 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
     <b-form @submit="onSubmit">
-      <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
+      <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Nome:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
           v-model="form.nome"
+          :disabled="disabled"
           placeholder="Nome"
           required
         ></b-form-input>
@@ -18,6 +19,7 @@
           id="input-2"
           type="email"
           v-model="form.email"
+          :disabled="disabled"
           required
         ></b-form-input>
       </b-form-group>
@@ -28,16 +30,19 @@
           type="password"
           autocomplete="off"
           v-model="form.senha"
+          :disabled="disabled"
         ></b-form-input>
       </b-form-group>
 
       <ListaNivelOptions
         :valueInicial="getSelectedNivel"
+        :propsDisabled="disabled"
         @updateNivel="(value: number) => (form.nivel = value)"
       />
 
       <ListaStatusOptions
         :valueInicial="getSelectedStatus"
+        :propsDisabled="disabled"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
 
@@ -49,11 +54,16 @@
           id="checkbox-group-1"
           v-model="modulos.selected"
           :options="modulos.options"
+          :disabled="disabled"
           size="lg"
         ></b-form-checkbox-group>
       </b-form-group>
 
-      <BotoesForm :routerName="rotas.lista.usuario" />
+      <BotoesForm
+        :routerName="rotas.lista.usuario"
+        :disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -65,7 +75,13 @@ import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup, BFormCheckboxGroup } from "bootstrap-vue-next";
 import { Api, Usuario } from "@/class";
-import { MixinMessage, MixinListStatus, MixinRoutes, MixinModuloGet } from "@/mixins";
+import {
+  MixinMessage,
+  MixinListStatus,
+  MixinRoutes,
+  MixinModuloGet,
+  MixinForm,
+} from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -85,13 +101,7 @@ export default defineComponent({
       ],
     },
   }),
-  props: {
-    cadastro: {
-      type: Boolean /* true - Cadastro | false - Edição */,
-      required: false,
-    },
-  },
-  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
     BForm,
     BFormInput,
@@ -110,7 +120,7 @@ export default defineComponent({
 
     onSubmit(event: Event) {
       event.preventDefault();
-      this.cadastro ? this.create() : this.update();
+      this.propsCadastro ? this.create() : this.update();
     },
 
     getRegistro(codigo: number) {
@@ -155,20 +165,21 @@ export default defineComponent({
       this.form.normalizarSaida();
       this.form.normalizarModulos(this.modulos.selected);
 
-      // api.usuario
-      //   .updateOne(codigo, this.form)
-      //   .then(() => {
-      //     this.MSGUpdate();
-      //   })
-      //   .catch((error) => {
-      //     console.log(error?.message);
-      //     this.MSGerrorInternal(error);
-      //   });
+      api.usuario
+        .updateOne(codigo, this.form)
+        .then(() => {
+          this.disabled = true;
+          this.MSGUpdate();
+        })
+        .catch((error) => {
+          console.log(error?.message);
+          this.MSGerrorInternal(error);
+        });
     },
   },
 
   created() {
-    if (!this.cadastro) {
+    if (!this.propsCadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
