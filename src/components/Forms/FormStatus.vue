@@ -1,13 +1,14 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
     <b-form @submit="onSubmit">
-      <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
+      <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Descrição:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
           v-model="form.descricao"
+          :disabled="disabled"
           placeholder="Descrição"
           required
         ></b-form-input>
@@ -18,11 +19,16 @@
           id="input-2"
           v-model="form.tipo"
           :options="optionsTipoStatus"
+          :disabled="disabled"
           required
         ></b-form-select>
       </b-form-group>
 
-      <BotoesForm :routerName="rotas.lista.status" />
+      <BotoesForm
+        :routerName="rotas.lista.status"
+        :disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -32,7 +38,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { MixinMessage, MixinModuloGet, MixinRoutes } from "@/mixins";
+import { MixinMessage, MixinModuloGet, MixinRoutes, MixinForm } from "@/mixins";
 import { optionsTipoStatus } from "@/assets/others/options";
 import { Api, Status } from "@/class";
 import { PATHS } from "@/enum";
@@ -45,13 +51,6 @@ export default defineComponent({
     form: new Status(undefined),
     optionsTipoStatus,
   }),
-  props: {
-    cadastro: {
-      type: Boolean /* true - Cadastro | false - Edição */,
-      required: false,
-    },
-  },
-  mixins: [MixinMessage, MixinModuloGet, MixinRoutes],
   components: {
     BForm,
     BFormInput,
@@ -60,10 +59,11 @@ export default defineComponent({
     BotoesForm,
     AlertMessage,
   },
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinForm],
   methods: {
     onSubmit(event: Event) {
       event.preventDefault();
-      this.cadastro ? this.create() : this.update();
+      this.propsCadastro ? this.create() : this.update();
     },
 
     getRegistro(codigo: number) {
@@ -103,6 +103,7 @@ export default defineComponent({
       api.status
         .updateOne(codigo, this.form)
         .then(() => {
+          this.disabled = true;
           this.MSGUpdate();
         })
         .catch((error) => {
@@ -112,7 +113,7 @@ export default defineComponent({
     },
   },
   created() {
-    if (!this.cadastro) {
+    if (!this.propsCadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
