@@ -1,5 +1,15 @@
 <template>
-  <b-button class="m-3" type="submit" variant="success">
+  <b-button
+    v-if="disabled"
+    @click="$emit('editar')"
+    class="m-3"
+    type="button"
+    variant="success"
+  >
+    <BIconCheck2Circle class="mx-1" /> Editar
+  </b-button>
+
+  <b-button v-else class="m-3" type="submit" variant="success">
     <BIconCheck2Circle class="mx-1" /> Gravar
   </b-button>
 
@@ -27,6 +37,11 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      required: true,
+    },
   },
+  emits: ["editar"],
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <MuduleTitle />
+  <ModuleTitle />
 
   <b-row class="h-75 m-0">
     <b-col cols="3">
@@ -15,12 +15,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BCol, BRow } from "bootstrap-vue-next";
-import MenuPadrao from "@/components/Menus/MenuPadrao.vue";
-import MuduleTitle from "@/components/Titles/MuduleTitle.vue";
 import { menuAdministrador } from "@/assets/others/menus";
 import { MixinModuloClear } from "@/mixins";
 import { LocalStorage } from "@/class";
 import { MODULOS } from "@/enum";
+import MenuPadrao from "@/components/Menus/MenuPadrao.vue";
+import ModuleTitle from "@/components/Titles/ModuleTitle.vue";
 
 export default defineComponent({
   name: "AdministradorView",
@@ -28,7 +28,7 @@ export default defineComponent({
     menuAdministrador,
   }),
   components: {
-    MuduleTitle,
+    ModuleTitle,
     MenuPadrao,
     BCol,
     BRow,

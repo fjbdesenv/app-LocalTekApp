@@ -20,7 +20,6 @@
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
             :rota-editar="rotas.edicao.cnab"
-            :rota-consultar="rotas.consulta.cnab"
           />
         </td>
       </tr>
@@ -85,7 +84,6 @@ export default defineComponent({
     /* Adicionando Rotas */
     this.path = PATHS.Cnab;
     this.rotas.edicao.cnab = this.getRouteEdicao(this.getModule(), this.path);
-    this.rotas.consulta.cnab = this.rotas.edicao.cnab; /* Alterar */
   },
 });
 </script>

@@ -1,35 +1,35 @@
 <template>
   <router-link
     :to="{
-      name: rotaConsultar,
-      params: { codigo },
-    }"
-  >
-    <b-button variant="success" class="mx-2">
-      <BIconClipboardPlus />
-    </b-button>
-  </router-link>
-
-  <router-link
-    :to="{
       name: rotaEditar,
       params: { codigo },
     }"
   >
-    <b-button variant="primary" class="mx-2">
+    <b-button :id="`btn-editar-${codigo}`" variant="primary" class="mx-2">
       <BIconBrushFill />
     </b-button>
   </router-link>
+  <b-tooltip :target="`btn-editar-${codigo}`" triggers="focus" placement="bottom">
+    Editar
+  </b-tooltip>
 
-  <b-button variant="danger" class="mx-2" @click="deletar()">
+  <b-button
+    :id="`btn-deletar-${codigo}`"
+    variant="danger"
+    class="mx-2"
+    @click="deletar()"
+  >
     <BIconTrashFill />
   </b-button>
+  <b-tooltip :target="`btn-deletar-${codigo}`" triggers="focus" placement="bottom">
+    Deletar
+  </b-tooltip>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill, BIconClipboardPlus } from "bootstrap-icons-vue";
-import { BButton } from "bootstrap-vue-next";
+import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
+import { BButton, BTooltip } from "bootstrap-vue-next";
 
 export default defineComponent({
   name: "BotoesListaOpcoes",
@@ -42,16 +42,12 @@ export default defineComponent({
       type: String,
       requered: true,
     },
-    rotaConsultar: {
-      type: String,
-      requered: true,
-    },
   },
   components: {
     BIconBrushFill,
     BIconTrashFill,
-    BIconClipboardPlus,
     BButton,
+    BTooltip,
   },
   emits: ["deletarRegistro"],
   methods: {

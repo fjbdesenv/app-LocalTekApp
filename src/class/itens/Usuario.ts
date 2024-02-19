@@ -43,6 +43,8 @@ export class Usuario extends ItemDefault {
 
     normalizarModulos(modulos: Array<String>) {
         this.modulos = modulos.join('|');
-        if (this.modulos.length > 0) this.modulos = this.modulos.substring(1);
+        /* Remove caracter | da posição 0*/
+        if ((this.modulos.length > 0) && (this.modulos.substring(0, 1) === '|'))
+            this.modulos = this.modulos.substring(1);
     }
 }

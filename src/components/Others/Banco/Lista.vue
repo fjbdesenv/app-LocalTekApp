@@ -22,7 +22,6 @@
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :codigo="registro.codigo"
             :rota-editar="rotas.edicao.banco"
-            :rota-consultar="rotas.consulta.banco"
           />
         </td>
       </tr>
@@ -87,7 +86,6 @@ export default defineComponent({
     /* Adicionando Rotas */
     this.path = PATHS.Banco;
     this.rotas.edicao.banco = this.getRouteEdicao(this.getModule(), this.path);
-    this.rotas.consulta.banco = this.rotas.edicao.banco; /* Alterar */
   },
 });
 </script>
