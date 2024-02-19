@@ -4,6 +4,7 @@
       label-for="input-select"
       v-model="selected"
       :options="optionsProtesto"
+      :disabled="propsDisabled"
       required
     ></b-form-select>
   </b-form-group>
@@ -26,6 +27,10 @@ export default defineComponent({
     valueInicial: {
       type: Boolean,
       required: true,
+    },
+    propsDisabled: {
+      type: Boolean,
+      default: false,
     },
   },
   mixins: [MixinMessage],

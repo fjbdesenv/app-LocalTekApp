@@ -4,6 +4,7 @@
       label-for="input-select"
       v-model="selected"
       :options="optionsCnab"
+      :disabled="propsDisabled"
       required
     ></b-form-select>
   </b-form-group>
@@ -28,6 +29,10 @@ export default defineComponent({
     valueInicial: {
       type: Number,
       required: true,
+    },
+    propsDisabled: {
+      type: Boolean,
+      default: false,
     },
   },
   mixins: [MixinMessage],
