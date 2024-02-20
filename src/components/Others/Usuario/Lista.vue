@@ -21,6 +21,7 @@
             :to="{
               name: rotas.edicao.status,
               params: { codigo: registro.codigo_status },
+              query: { returnList: 'false' },
             }"
             >{{ registro.status?.descricao }}</router-link
           >

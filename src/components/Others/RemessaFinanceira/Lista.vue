@@ -21,6 +21,7 @@
             :to="{
               name: rotas.edicao.atendimento,
               params: { codigo: registro.codigo_atendimento },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.atendimento?.codigo_atendimento_tek }}
@@ -32,6 +33,7 @@
             :to="{
               name: rotas.edicao.banco,
               params: { codigo: registro.codigo_banco },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.banco?.nome }}
@@ -43,6 +45,7 @@
             :to="{
               name: rotas.edicao.cnab,
               params: { codigo: registro.codigo_cnab },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.cnab?.descricao }}

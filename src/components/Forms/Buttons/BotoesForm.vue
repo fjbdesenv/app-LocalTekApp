@@ -1,7 +1,7 @@
 <template>
   <b-button
     v-if="propsDisabled"
-    @click="$emit('editar')"
+    @click="editar()"
     class="m-3"
     type="button"
     variant="success"
@@ -13,11 +13,9 @@
     <BIconCheck2Circle class="mx-1" /> Gravar
   </b-button>
 
-  <router-link :to="{ name: propsRouterName }">
-    <b-button class="m-3" type="button" variant="danger">
-      <BIconXCircle class="mx-1" /> Voltar</b-button
-    >
-  </router-link>
+  <b-button @click="voltar()" class="m-3" type="button" variant="danger">
+    <BIconXCircle class="mx-1" /> Voltar
+  </b-button>
 </template>
 
 <script lang="ts">
@@ -27,6 +25,9 @@ import { BButton } from "bootstrap-vue-next";
 
 export default defineComponent({
   name: "BotoesForm",
+  data: () => ({
+    retornaLista: false,
+  }),
   components: {
     BIconCheck2Circle,
     BIconXCircle,
@@ -41,6 +42,22 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
+  },
+  methods: {
+    editar() {
+      this.$emit("editar");
+    },
+    voltar() {
+      if (this.retornaLista) {
+        this.$router.push({ name: this.propsRouterName });
+      } else {
+        this.$router.back();
+      }
+    },
+  },
+  created() {
+    const { returnList } = this.$route.query;
+    if (returnList === "false") this.retornaLista = false;
   },
   emits: ["editar"],
 });
