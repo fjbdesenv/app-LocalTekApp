@@ -25,8 +25,8 @@
       </b-form-group>
 
       <BotoesForm
-        :routerName="rotas.lista.status"
-        :disabled="disabled"
+        :props-router-name="rotas.lista.status"
+        :props-disabled="disabled"
         @editar="disabled = false"
       />
     </b-form>

@@ -22,7 +22,7 @@ import { BRow, BCol, BTooltip } from "bootstrap-vue-next";
 import { BIconHouseFill } from "bootstrap-icons-vue";
 
 export default defineComponent({
-  name: "MuduleTitle",
+  name: "ModuleTitle",
   data: () => ({
     modulo: "",
     usuarioNome: "",

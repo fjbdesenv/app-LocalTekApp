@@ -24,7 +24,7 @@ export default defineComponent({
     selected: false,
   }),
   props: {
-    valueInicial: {
+    propsValue: {
       type: Boolean,
       required: true,
     },
@@ -45,13 +45,13 @@ export default defineComponent({
     selected(value: number) {
       this.$emit("updateProtesto", value); /* Enviar o novo status para o form */
     },
-    valueInicial(value) {
+    propsValue(value) {
       /* O store atualiza depois do componente ser criado, isso atualiza o status selecionando */
       this.selected = value;
     },
   },
   created() {
-    this.selected = this.valueInicial;
+    this.selected = this.propsValue;
   },
 });
 </script>

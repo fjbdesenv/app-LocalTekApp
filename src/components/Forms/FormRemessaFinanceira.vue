@@ -240,7 +240,7 @@
       <b-row>
         <b-col cols="4">
           <ListaBancoOptions
-            :valueInicial="getSelectedBanco"
+            :props-value="getSelectedBanco"
             :props-disabled="disabled"
             @updateBanco="(value) => (form.codigo_banco = value)"
           />
@@ -248,7 +248,7 @@
 
         <b-col cols="4">
           <ListaCnabOptions
-            :valueInicial="getSelectedCnab"
+            :props-value="getSelectedCnab"
             :props-disabled="disabled"
             @updateCnab="(value) => (form.codigo_cnab = value)"
           />
@@ -256,7 +256,7 @@
 
         <b-col cols="4">
           <ListaStatusOptions
-            :valueInicial="getSelectedStatus"
+            :props-value="getSelectedStatus"
             :props-disabled="disabled"
             @updateStatus="(value) => (form.codigo_status = value)"
           />
@@ -266,7 +266,7 @@
       <b-row>
         <b-col cols="4">
           <ListaProtestoOptions
-            :valueInicial="getSelectedProtesto"
+            :props-value="getSelectedProtesto"
             :props-disabled="disabled"
             @updateProtesto="(value) => (form.protesto = value)"
           />
@@ -287,7 +287,7 @@
 
         <b-col cols="4">
           <ListaPixOptions
-            :valueInicial="getSelectedPix"
+            :props-value="getSelectedPix"
             :props-disabled="disabled"
             @updatePix="(value) => (form.pix = value)"
           />
@@ -295,8 +295,8 @@
       </b-row>
 
       <BotoesForm
-        :routerName="rotas.lista.remessaFinanceira"
-        :disabled="disabled"
+        :props-router-name="rotas.lista.remessaFinanceira"
+        :propsDisabled="disabled"
         @editar="disabled = false"
       />
     </b-form>

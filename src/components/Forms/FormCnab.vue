@@ -26,12 +26,12 @@
       </b-form-group>
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
+        :props-value="getSelectedStatus"
         :props-disabled="disabled"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
       <BotoesForm
-        :routerName="rotas.lista.cnab"
+        :props-router-name="rotas.lista.cnab"
         :propsDisabled="disabled"
         @editar="disabled = false"
       />

@@ -26,7 +26,7 @@ export default defineComponent({
     selected: 0,
   }),
   props: {
-    valueInicial: {
+    propsValue: {
       type: Number,
       required: true,
     },
@@ -69,13 +69,13 @@ export default defineComponent({
     selected(value: number) {
       this.$emit("updateCliente", value); /* Enviar o novo cliente para o form */
     },
-    valueInicial(value) {
+    propsValue(value) {
       /* O store atualiza depois do componente ser criado, isso atualiza o cliente selecionando */
       this.selected = value;
     },
   },
   created() {
-    this.selected = this.valueInicial;
+    this.selected = this.propsValue;
     this.getClintes();
   },
 });

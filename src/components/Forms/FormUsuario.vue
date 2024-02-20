@@ -35,14 +35,14 @@
       </b-form-group>
 
       <ListaNivelOptions
-        :valueInicial="getSelectedNivel"
-        :propsDisabled="disabled"
+        :props-value="getSelectedNivel"
+        :props-disabled="disabled"
         @updateNivel="(value: number) => (form.nivel = value)"
       />
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
-        :propsDisabled="disabled"
+        :props-value="getSelectedStatus"
+        :props-disabled="disabled"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
 
@@ -60,8 +60,8 @@
       </b-form-group>
 
       <BotoesForm
-        :routerName="rotas.lista.usuario"
-        :disabled="disabled"
+        :props-router-name="rotas.lista.usuario"
+        :props-disabled="disabled"
         @editar="disabled = false"
       />
     </b-form>

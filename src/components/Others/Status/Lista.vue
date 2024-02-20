@@ -16,8 +16,8 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :codigo="registro.codigo"
-            :rota-editar="rotas.edicao.status"
+            :props-codigo="registro.codigo"
+            :props-rota-editar="rotas.edicao.status"
           />
         </td>
       </tr>

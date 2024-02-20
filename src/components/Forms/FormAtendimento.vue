@@ -14,15 +14,15 @@
       </b-form-group>
 
       <ListaClienteOptions
-        :valueInicial="getSelectedCliente"
+        :props-value="getSelectedCliente"
         @updateCliente="(value: number) => (form.codigo_cliente = value)"
       />
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
+        :props-value="getSelectedStatus"
         @updateStatus="(value) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.lista.atendimento" />
+      <BotoesForm :props-router-name="rotas.lista.atendimento" />
     </b-form>
   </div>
 

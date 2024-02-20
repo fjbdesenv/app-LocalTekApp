@@ -26,7 +26,7 @@ export default defineComponent({
     selected: 0,
   }),
   props: {
-    valueInicial: {
+    propsValue: {
       type: Number,
       required: true,
     },
@@ -69,13 +69,13 @@ export default defineComponent({
     selected(value: number) {
       this.$emit("updateCnab", value); /* Enviar o novo Cnab para o form */
     },
-    valueInicial(value) {
+    propsValue(value) {
       /* O store atualiza depois do componente ser criado, isso atualiza o Cnab selecionando */
       this.selected = value;
     },
   },
   created() {
-    this.selected = this.valueInicial;
+    this.selected = this.propsValue;
     this.getCnab();
   },
 });

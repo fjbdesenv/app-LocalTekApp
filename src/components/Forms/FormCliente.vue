@@ -55,10 +55,10 @@
       </b-form-group>
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
+        :props-value="getSelectedStatus"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.lista.cliente" />
+      <BotoesForm :props-router-name="rotas.lista.cliente" />
     </b-form>
   </div>
 
