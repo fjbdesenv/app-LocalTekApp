@@ -9,6 +9,7 @@
           type="number"
           min="1"
           v-model="form.codigo_cliente_tek"
+          :disabled="disabled"
           placeholder="Código do cliente na Tek-System"
           required
         ></b-form-input>
@@ -19,6 +20,7 @@
           id="input-2"
           type="text"
           v-model="form.razao"
+          :disabled="disabled"
           placeholder="Razão Social"
           required
         ></b-form-input>
@@ -29,6 +31,7 @@
           id="input-3"
           type="text"
           v-model="form.nome_fantasia"
+          :disabled="disabled"
           placeholder="Nome Fantasia"
           required
         ></b-form-input>
@@ -39,6 +42,7 @@
           id="input-4"
           type="email"
           v-model="form.email"
+          :disabled="disabled"
           placeholder="Email"
           required
         ></b-form-input>
@@ -49,6 +53,7 @@
           id="input-5"
           type="text"
           v-model="form.cnpj_cpf"
+          :disabled="disabled"
           placeholder="CNPJ ou CPF"
           required
         ></b-form-input>
@@ -56,9 +61,14 @@
 
       <ListaStatusOptions
         :props-value="getSelectedStatus"
+        :props-disabled="disabled"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
-      <BotoesForm :props-router-name="rotas.lista.cliente" />
+      <BotoesForm
+        :props-router-name="rotas.lista.cliente"
+        :props-disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -71,7 +81,13 @@ import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Cliente } from "@/class";
 import { PATHS } from "@/enum";
-import { MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes } from "@/mixins";
+import {
+  MixinMessage,
+  MixinListStatus,
+  MixinModuloGet,
+  MixinRoutes,
+  MixinForm,
+} from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -87,7 +103,7 @@ export default defineComponent({
       required: false,
     },
   },
-  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
     BForm,
     BFormInput,
@@ -145,6 +161,7 @@ export default defineComponent({
       api.cliente
         .updateOne(codigo, this.form)
         .then(() => {
+          this.disabled = true;
           this.MSGUpdate();
         })
         .catch((error) => {

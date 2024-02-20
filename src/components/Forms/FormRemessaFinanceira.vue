@@ -296,7 +296,7 @@
 
       <BotoesForm
         :props-router-name="rotas.lista.remessaFinanceira"
-        :propsDisabled="disabled"
+        :props-disabled="disabled"
         @editar="disabled = false"
       />
     </b-form>

@@ -32,7 +32,7 @@
       />
       <BotoesForm
         :props-router-name="rotas.lista.cnab"
-        :propsDisabled="disabled"
+        :props-disabled="disabled"
         @editar="disabled = false"
       />
     </b-form>
