@@ -1,7 +1,7 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
     <b-form @submit="onSubmit">
-      <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
+      <h3 class="text-center">{{ title }}</h3>
 
       <b-row>
         <b-col cols="6">
@@ -10,6 +10,7 @@
               id="input-1"
               type="number"
               v-model="form.codigo_atendimento"
+              :disabled="disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -21,6 +22,7 @@
               id="input-2"
               v-model="form.tipo_remessa"
               :options="options.tipoRemessa"
+              :disabled="disabled"
               required
             ></b-form-select>
           </b-form-group>
@@ -34,6 +36,7 @@
               id="input-3"
               type="number"
               v-model="form.agencia"
+              :disabled="disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -45,6 +48,7 @@
               id="input-4"
               type="number"
               v-model="form.digito_agencia"
+              :disabled="disabled"
               min="0"
               max="9"
             ></b-form-input>
@@ -59,6 +63,7 @@
               id="input-5"
               type="number"
               v-model="form.conta_corrente"
+              :disabled="disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -70,6 +75,7 @@
               id="input-6"
               type="number"
               v-model="form.digito_conta_corrente"
+              :disabled="disabled"
               min="0"
               max="9"
             ></b-form-input>
@@ -80,13 +86,23 @@
       <b-row>
         <b-col cols="6">
           <b-form-group label="Carteira:" label-for="input-7">
-            <b-form-input id="input-7" type="text" v-model="form.carteira"></b-form-input>
+            <b-form-input
+              id="input-7"
+              type="text"
+              v-model="form.carteira"
+              :disabled="disabled"
+            ></b-form-input>
           </b-form-group>
         </b-col>
 
         <b-col cols="6">
           <b-form-group label="Variação:" label-for="input-8">
-            <b-form-input id="input-8" type="text" v-model="form.variacao"></b-form-input>
+            <b-form-input
+              id="input-8"
+              type="text"
+              v-model="form.variacao"
+              :disabled="disabled"
+            ></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -94,13 +110,23 @@
       <b-row>
         <b-col cols="6">
           <b-form-group label="Convênio:" label-for="input-9">
-            <b-form-input id="input-9" type="text" v-model="form.convenio"></b-form-input>
+            <b-form-input
+              id="input-9"
+              type="text"
+              v-model="form.convenio"
+              :disabled="disabled"
+            ></b-form-input>
           </b-form-group>
         </b-col>
 
         <b-col cols="6">
           <b-form-group label="Cedente:" label-for="input-10">
-            <b-form-input id="input-10" type="text" v-model="form.cedente"></b-form-input>
+            <b-form-input
+              id="input-10"
+              type="text"
+              v-model="form.cedente"
+              :disabled="disabled"
+            ></b-form-input>
           </b-form-group>
         </b-col>
       </b-row>
@@ -112,6 +138,7 @@
               id="input-11"
               type="text"
               v-model="form.contrato"
+              :disabled="disabled"
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -122,6 +149,7 @@
               id="input-12"
               v-model="form.emitente"
               :options="options.emitentes"
+              :disabled="disabled"
               required
             ></b-form-select>
           </b-form-group>
@@ -135,6 +163,7 @@
               id="input-13"
               type="text"
               v-model="form.titular"
+              :disabled="disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -145,8 +174,8 @@
             <b-form-input
               id="input-14"
               type="number"
-              :disabled="!form.titular"
               v-model="form.titular_cnpj_cpf"
+              :disabled="!form.titular || disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -160,6 +189,7 @@
               id="input-15"
               type="text"
               v-model="form.sacador_avalista"
+              :disabled="disabled"
               max="14"
             ></b-form-input>
           </b-form-group>
@@ -170,8 +200,8 @@
             <b-form-input
               id="input-16"
               type="number"
-              :disabled="!form.sacador_avalista"
               v-model="form.sacador_avalista_cnpj_cpf"
+              :disabled="!form.sacador_avalista || disabled"
             ></b-form-input>
           </b-form-group>
         </b-col>
@@ -184,6 +214,7 @@
               id="input-17"
               type="number"
               v-model="form.juros"
+              :disabled="disabled"
               :step="0.01"
               min="0"
               required
@@ -197,6 +228,7 @@
               id="input-18"
               type="number"
               v-model="form.multa"
+              :disabled="disabled"
               :step="0.01"
               min="0"
               required
@@ -208,21 +240,24 @@
       <b-row>
         <b-col cols="4">
           <ListaBancoOptions
-            :valueInicial="getSelectedBanco"
+            :props-value="getSelectedBanco"
+            :props-disabled="disabled"
             @updateBanco="(value) => (form.codigo_banco = value)"
           />
         </b-col>
 
         <b-col cols="4">
           <ListaCnabOptions
-            :valueInicial="getSelectedCnab"
+            :props-value="getSelectedCnab"
+            :props-disabled="disabled"
             @updateCnab="(value) => (form.codigo_cnab = value)"
           />
         </b-col>
 
         <b-col cols="4">
           <ListaStatusOptions
-            :valueInicial="getSelectedStatus"
+            :props-value="getSelectedStatus"
+            :props-disabled="disabled"
             @updateStatus="(value) => (form.codigo_status = value)"
           />
         </b-col>
@@ -231,7 +266,8 @@
       <b-row>
         <b-col cols="4">
           <ListaProtestoOptions
-            :valueInicial="getSelectedProtesto"
+            :props-value="getSelectedProtesto"
+            :props-disabled="disabled"
             @updateProtesto="(value) => (form.protesto = value)"
           />
         </b-col>
@@ -242,8 +278,8 @@
               id="input-16"
               type="number"
               min="0"
-              :disabled="!form.protesto"
               v-model="form.protesto_dias"
+              :disabled="!form.protesto || disabled"
               required
             ></b-form-input>
           </b-form-group>
@@ -251,13 +287,18 @@
 
         <b-col cols="4">
           <ListaPixOptions
-            :valueInicial="getSelectedPix"
+            :props-value="getSelectedPix"
+            :props-disabled="disabled"
             @updatePix="(value) => (form.pix = value)"
           />
         </b-col>
       </b-row>
 
-      <BotoesForm :routerName="rotas.remessaFinanceiraLista" />
+      <BotoesForm
+        :props-router-name="rotas.lista.remessaFinanceira"
+        :props-disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -276,8 +317,15 @@ import {
   BCol,
 } from "bootstrap-vue-next";
 import { Api, RemessaFinanceira } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import {
+  MixinMessage,
+  MixinListStatus,
+  MixinRoutes,
+  MixinModuloGet,
+  MixinForm,
+} from "@/mixins";
 import { optionsTipoRemessa, optionsEmitente } from "@/assets/others/options";
+import { PATHS } from "@/enum";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -294,17 +342,8 @@ export default defineComponent({
       tipoRemessa: optionsTipoRemessa,
       emitentes: optionsEmitente,
     },
-    rotas: {
-      remessaFinanceiraLista: "RemessaRemessaFinanceiraLista",
-    },
   }),
-  props: {
-    cadastro: {
-      type: Boolean /* true - Cadastro | false - Edição */,
-      required: false,
-    },
-  },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
     BForm,
     BFormInput,
@@ -340,7 +379,7 @@ export default defineComponent({
 
     onSubmit(event: Event) {
       event.preventDefault();
-      this.cadastro ? this.create() : this.update();
+      this.propsCadastro ? this.create() : this.update();
     },
 
     getRegistro(codigo: number) {
@@ -385,6 +424,7 @@ export default defineComponent({
       api.remessafinanceira
         .updateOne(codigo, this.form)
         .then(() => {
+          this.disabled = true;
           this.MSGUpdate();
         })
         .catch((error) => {
@@ -395,10 +435,16 @@ export default defineComponent({
   },
 
   created() {
-    if (!this.cadastro) {
+    if (!this.propsCadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.remessaFinanceira = this.getRouteLista(
+      this.getModule(),
+      PATHS.RemessaFinanceira
+    );
   },
 });
 </script>

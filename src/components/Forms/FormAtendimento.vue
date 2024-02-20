@@ -1,28 +1,35 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
     <b-form @submit="onSubmit">
-      <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
+      <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Código do Atendimento na Tek-System:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
           v-model="form.codigo_atendimento_tek"
+          :disabled="disabled"
           placeholder="Código do cliente na Tek-System"
           required
         ></b-form-input>
       </b-form-group>
 
       <ListaClienteOptions
-        :valueInicial="getSelectedCliente"
+        :props-value="getSelectedCliente"
+        :props-disabled="disabled"
         @updateCliente="(value: number) => (form.codigo_cliente = value)"
       />
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
+        :props-value="getSelectedStatus"
+        :props-disabled="disabled"
         @updateStatus="(value) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.atendimentoLista" />
+      <BotoesForm
+        :props-router-name="rotas.lista.atendimento"
+        :props-disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -34,7 +41,14 @@ import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Atendimento } from "@/class";
-import { MixinMessage, MixinListStatus } from "@/mixins";
+import { PATHS } from "@/enum";
+import {
+  MixinMessage,
+  MixinListStatus,
+  MixinRoutes,
+  MixinModuloGet,
+  MixinForm,
+} from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -44,17 +58,8 @@ export default defineComponent({
   name: "FormAtendimento",
   data: () => ({
     form: new Atendimento(undefined),
-    rotas: {
-      atendimentoLista: "RemessaAtendimentoLista",
-    },
   }),
-  props: {
-    cadastro: {
-      type: Boolean /* true - Cadastro | false - Edição */,
-      required: false,
-    },
-  },
-  mixins: [MixinMessage, MixinListStatus],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
     BForm,
     BFormInput,
@@ -72,7 +77,7 @@ export default defineComponent({
 
     onSubmit(event: Event) {
       event.preventDefault();
-      this.cadastro ? this.create() : this.update();
+      this.propsCadastro ? this.create() : this.update();
     },
 
     getRegistro(codigo: number) {
@@ -114,6 +119,7 @@ export default defineComponent({
       api.atendimento
         .updateOne(codigo, this.form)
         .then(() => {
+          this.disabled = true;
           this.MSGUpdate();
         })
         .catch((error) => {
@@ -123,10 +129,16 @@ export default defineComponent({
     },
   },
   created() {
-    if (!this.cadastro) {
+    if (!this.propsCadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }
+
+    /* Adicionando Rotas */
+    this.rotas.lista.atendimento = this.getRouteLista(
+      this.getModule(),
+      PATHS.Atendimento
+    );
   },
 });
 </script>

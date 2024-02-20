@@ -16,9 +16,8 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :codigo="registro.codigo"
-            :rota-editar="rotas.statusEditar"
-            :rota-consultar="rotas.statusConsultar"
+            :props-codigo="registro.codigo"
+            :props-rota-editar="rotas.edicao.status"
           />
         </td>
       </tr>
@@ -28,23 +27,25 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinMapStatusTipo, MixinConfirmacaoDeletar } from "@/mixins";
+import {
+  MixinMapStatusTipo,
+  MixinConfirmacaoDeletar,
+  MixinModuloGet,
+  MixinRoutes,
+} from "@/mixins";
 import { Api, Cnab, Status } from "@/class";
+import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaStatusComponente",
   data: () => ({
     registros: new Array<Status>(),
-    rotas: {
-      statusEditar: "RemessaStatusEditar",
-      statusConsultar: "RemessaStatusEditar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar],
+  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -82,6 +83,10 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.path = PATHS.Status;
+    this.rotas.edicao.status = this.getRouteEdicao(this.getModule(), this.path);
   },
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <FormCnab :cadastro="true" />
+  <FormCnab :props-cadastro="true" :props-disabled="false" />
 </template>
 
 <script lang="ts">

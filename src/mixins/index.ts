@@ -1,13 +1,21 @@
-import MixinMessage from "./mixinMessage";
+import MixinModuloClear from "./module/mixinModuloClear";
+import MixinModuloGet from "./module/mixinModuloGet";
 import MixinLogout from "./mixinLogout";
-import MixinMapStatusTipo from "./mixinMapStatusTipo";
+import MixinMessage from "./mixinMessage";
 import MixinListStatus from "./mixinListStatus";
+import MixinMapStatusTipo from "./mixinMapStatusTipo";
 import MixinConfirmacaoDeletar from "./mixinConfirmacaoDeletar";
+import MixinRoutes from "./mixinRoutes";
+import MixinForm from "./mixinForm";
 
 export {
-    MixinMessage,
+    MixinModuloClear,
+    MixinModuloGet,
     MixinLogout,
-    MixinMapStatusTipo,
+    MixinMessage,
     MixinListStatus,
-    MixinConfirmacaoDeletar
+    MixinMapStatusTipo,
+    MixinConfirmacaoDeletar,
+    MixinRoutes,
+    MixinForm
 };

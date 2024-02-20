@@ -6,7 +6,7 @@ export default defineComponent({
         logout() {
             const localStogare = new LocalStorage();
 
-            localStogare.tokenClear();
+            localStogare.allClear();
             this.$router.push({ name: 'Login' });
         }
     }

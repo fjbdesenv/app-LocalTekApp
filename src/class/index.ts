@@ -1,4 +1,5 @@
 import { LocalStorage } from "./LocalStogare";
+import { ItemMenu } from "./ItemMenu";
 import { Api } from "./Api";
 import {
     Status,
@@ -12,6 +13,7 @@ import {
 
 export {
     LocalStorage,
+    ItemMenu,
     Status,
     Cnab,
     Banco,

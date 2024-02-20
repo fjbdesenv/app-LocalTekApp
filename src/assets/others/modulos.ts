@@ -9,5 +9,9 @@ export const modules: Array<Module> = [
         name: 'Remessa',
         img: 'https://cdnbr.guiadoinvestidor.com.br/2021/09/Mashup_Bancos2.png',
         link: 'Remessas'
+    }, {
+        name: 'Administrador',
+        img: 'https://chcadvocacia.adv.br/wp-content/uploads/2023/07/administrador-chc-advocacia-1-1024x623.png',
+        link: 'Administrador'
     }
 ]

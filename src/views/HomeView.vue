@@ -3,7 +3,10 @@
     fluid
     class="d-flex flex-column justify-content-center align-items-center h-100 w-100 p-3"
   >
-  <h1 class="mb-3">Modulos</h1>
+    <h1 class="mb-3">MÓDULOS</h1>
+
+    <AlertMessage v-if="show" :message="message" :type="type" />
+
     <b-row class="w-100 align-items-center">
       <b-col v-for="(module, index) in modules" :key="index" cols="auto">
         <b-card
@@ -30,6 +33,10 @@
 import { defineComponent } from "vue";
 import { BContainer, BCol, BRow, BCard, BCardFooter } from "bootstrap-vue-next";
 import { modules } from "@/assets/others/modulos";
+import { Api, LocalStorage } from "@/class";
+import { AxiosError } from "axios";
+import { MixinMessage } from "@/mixins";
+import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 
 export default defineComponent({
   name: "HomeView",
@@ -42,6 +49,29 @@ export default defineComponent({
     BRow,
     BCard,
     BCardFooter,
+    AlertMessage,
+  },
+  mixins: [MixinMessage],
+  created() {
+    const localStorage = new LocalStorage();
+    const usuario = localStorage.usuario;
+
+    if (usuario) {
+      const api = new Api();
+
+      api.usuario
+        .findOne(usuario.codigo)
+        .then((res) => {
+          const usuariomodulos: string = res.data.modulos;
+          const arrayModulos = usuariomodulos.split("|");
+          this.modules = this.modules.filter((m) => arrayModulos.includes(m.name));
+        })
+        .catch((error: AxiosError) => {
+          /* Atualiza store */
+          this.modules = [];
+          this.MSGerrorInternal(error);
+        });
+    }
   },
 });
 </script>
@@ -49,7 +79,7 @@ export default defineComponent({
 <style scoped>
 .card-module:hover {
   box-shadow: 1px 1px 1px 1px black;
-  color: red
+  color: red;
 }
 .card-footer {
   background-color: cornflowerblue;

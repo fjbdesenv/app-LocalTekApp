@@ -4,6 +4,7 @@
       label-for="input-select"
       v-model="selected"
       :options="optionsBanco"
+      :disabled="propsDisabled"
       required
     ></b-form-select>
   </b-form-group>
@@ -25,9 +26,13 @@ export default defineComponent({
     selected: 0,
   }),
   props: {
-    valueInicial: {
+    propsValue: {
       type: Number,
       required: true,
+    },
+    propsDisabled: {
+      type: Boolean,
+      default: false,
     },
   },
   mixins: [MixinMessage],
@@ -64,13 +69,13 @@ export default defineComponent({
     selected(value: number) {
       this.$emit("updateBanco", value); /* Enviar o novo Banco para o form */
     },
-    valueInicial(value) {
+    propsValue(value) {
       /* O store atualiza depois do componente ser criado, isso atualiza o Banco selecionando */
       this.selected = value;
     },
   },
   created() {
-    this.selected = this.valueInicial;
+    this.selected = this.propsValue;
     this.getBanco();
   },
 });

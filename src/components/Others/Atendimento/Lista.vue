@@ -16,27 +16,18 @@
         <td>
           <router-link
             :to="{
-              name: rotas.clienteEditar,
-              params: { codigo: registro.codigo_status },
+              name: rotas.edicao.cliente,
+              params: { codigo: registro.codigo_cliente },
             }"
             >{{ registro.cliente?.razao }}</router-link
           >
         </td>
-        <td>
-          <router-link
-            :to="{
-              name: rotas.statusEditar,
-              params: { codigo: registro.codigo_status },
-            }"
-            >{{ registro.status?.descricao }}</router-link
-          >
-        </td>
+        <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :codigo="registro.codigo"
-            :rota-editar="rotas.atendimentoEditar"
-            :rota-consultar="rotas.atendimentoConsultar"
+            :props-codigo="registro.codigo"
+            :props-rota-editar="rotas.edicao.atendimento"
           />
         </td>
       </tr>
@@ -46,25 +37,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar } from "@/mixins";
+import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Atendimento } from "@/class";
+import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaAtendimentoComponente",
   data: () => ({
     registros: new Array<Atendimento>(),
-    rotas: {
-      statusEditar: "RemessaStatusEditar",
-      clienteEditar: "RemessaClienteEditar",
-      atendimentoEditar: "RemessaAtendimentoEditar",
-      atendimentoConsultar: "RemessaAtendimentoEditar",
-    },
   }),
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -102,6 +88,13 @@ export default defineComponent({
   },
   created() {
     this.getRegitros();
+
+    /* Adicionando Rotas */
+    this.rotas.edicao.atendimento = this.getRouteEdicao(
+      this.getModule(),
+      PATHS.Atendimento
+    );
+    this.rotas.edicao.cliente = this.getRouteEdicao(this.getModule(), PATHS.Cliente);
   },
 });
 </script>

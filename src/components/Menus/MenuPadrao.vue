@@ -5,7 +5,7 @@
         <BIconPower /> Sair
       </b-button>
     </b-nav-item>
-    <b-nav-item v-for="(item, index) in menuRemessa" :key="index">
+    <b-nav-item v-for="(item, index) in menuItens" :key="index">
       <router-link :to="{ name: item.link }">
         <b-button class="btn-item"> {{ item.title }} </b-button>
       </router-link>
@@ -18,20 +18,16 @@ import { defineComponent } from "vue";
 import { BNav, BNavItem, BButton } from "bootstrap-vue-next";
 import { BIconPower } from "bootstrap-icons-vue";
 import { MixinLogout } from "@/mixins";
-import { menuRemessa } from "@/assets/others/menus/menuRemessa";
-
 export default defineComponent({
-  name: "MenuRemessa",
-  data: () => ({
-    menuRemessa,
-  }),
+  name: "MenuPadrao",
+  props: ['menuItens'],
   components: {
     BNav,
     BNavItem,
     BButton,
     BIconPower,
   },
-  mixins: [MixinLogout],
+  mixins: [MixinLogout]
 });
 </script>
 
