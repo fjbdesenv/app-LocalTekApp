@@ -18,6 +18,7 @@
             :to="{
               name: rotas.edicao.cliente,
               params: { codigo: registro.codigo_cliente },
+              query: { returnList: 'false' },
             }"
             >{{ registro.cliente?.razao }}</router-link
           >
