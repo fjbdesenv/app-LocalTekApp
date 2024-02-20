@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
-    <SubTitle :title="path" />
+    <SubTitle :props-title="path" />
 
     <b-container v-if="!show">
       <router-link :to="{ name: rotas.cadastro.banco }">

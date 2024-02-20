@@ -1,13 +1,14 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
     <b-form @submit="onSubmit">
-      <h3 class="text-center">{{ cadastro ? "Cadastro" : "Edição" }}</h3>
+      <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Nome:" label-for="input-1">
         <b-form-input
           id="input-1"
           type="text"
           v-model="form.nome"
+          :disabled="disabled"
           placeholder="Nome do banco"
           required
         ></b-form-input>
@@ -19,6 +20,7 @@
           type="number"
           :min="1"
           v-model="form.codigo_banco"
+          :disabled="disabled"
           required
         ></b-form-input>
       </b-form-group>
@@ -29,15 +31,21 @@
           type="number"
           :min="1"
           v-model="form.codigo_camara"
+          :disabled="disabled"
           required
         ></b-form-input>
       </b-form-group>
 
       <ListaStatusOptions
-        :valueInicial="getSelectedStatus"
+        :props-value="getSelectedStatus"
+        :props-disabled="disabled"
         @updateStatus="(value: number) => (form.codigo_status = value)"
       />
-      <BotoesForm :routerName="rotas.lista.banco" />
+      <BotoesForm
+        :props-router-name="rotas.lista.banco"
+        :props-disabled="disabled"
+        @editar="disabled = false"
+      />
     </b-form>
   </div>
 
@@ -50,7 +58,13 @@ import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
 import { Api, Banco } from "@/class";
 import { PATHS } from "@/enum";
-import { MixinMessage, MixinListStatus, MixinRoutes, MixinModuloGet } from "@/mixins";
+import {
+  MixinMessage,
+  MixinListStatus,
+  MixinRoutes,
+  MixinModuloGet,
+  MixinForm,
+} from "@/mixins";
 import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
@@ -60,13 +74,7 @@ export default defineComponent({
   data: () => ({
     form: new Banco(undefined),
   }),
-  props: {
-    cadastro: {
-      type: Boolean /* true - Cadastro | false - Edição */,
-      required: false,
-    },
-  },
-  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes],
+  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
     BForm,
     BFormInput,
@@ -83,7 +91,7 @@ export default defineComponent({
 
     onSubmit(event: Event) {
       event.preventDefault();
-      this.cadastro ? this.create() : this.update();
+      this.propsCadastro ? this.create() : this.update();
     },
 
     getRegistro(codigo: number) {
@@ -124,6 +132,7 @@ export default defineComponent({
       api.banco
         .updateOne(codigo, this.form)
         .then(() => {
+          this.disabled = true;
           this.MSGUpdate();
         })
         .catch((error) => {
@@ -134,7 +143,7 @@ export default defineComponent({
   },
 
   created() {
-    if (!this.cadastro) {
+    if (!this.propsCadastro) {
       const codigo = Number(this.$route.params.codigo);
       this.getRegistro(codigo);
     }

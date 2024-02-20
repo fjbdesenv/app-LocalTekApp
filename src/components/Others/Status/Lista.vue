@@ -16,9 +16,8 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :codigo="registro.codigo"
-            :rota-editar="rotas.edicao.status"
-            :rota-consultar="rotas.consulta.status"
+            :props-codigo="registro.codigo"
+            :props-rota-editar="rotas.edicao.status"
           />
         </td>
       </tr>
@@ -88,7 +87,6 @@ export default defineComponent({
     /* Adicionando Rotas */
     this.path = PATHS.Status;
     this.rotas.edicao.status = this.getRouteEdicao(this.getModule(), this.path);
-    this.rotas.consulta.status = this.rotas.edicao.status; /* Alterar */
   },
 });
 </script>

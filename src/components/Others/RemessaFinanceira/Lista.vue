@@ -60,9 +60,8 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :codigo="registro.codigo"
-            :rota-editar="rotas.edicao.remessaFinanceira"
-            :rota-consultar="rotas.consulta.remessaFinanceira"
+            :props-codigo="registro.codigo"
+            :props-rota-editar="rotas.edicao.remessaFinanceira"
           />
         </td>
       </tr>
@@ -136,7 +135,6 @@ export default defineComponent({
     );
     this.rotas.edicao.banco = this.getRouteEdicao(this.getModule(), PATHS.Banco);
     this.rotas.edicao.cnab = this.getRouteEdicao(this.getModule(), PATHS.Cnab);
-    this.rotas.consulta.remessaFinanceira = this.rotas.edicao.remessaFinanceira; /* Alterar */
   },
 });
 </script>

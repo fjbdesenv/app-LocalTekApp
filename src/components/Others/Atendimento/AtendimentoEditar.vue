@@ -1,5 +1,5 @@
 <template>
-  <FormAtendimento :cadastro="false" />
+  <FormAtendimento :props-cadastro="false" />
 </template>
 
 <script lang="ts">

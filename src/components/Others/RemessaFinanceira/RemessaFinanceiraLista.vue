@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
-    <SubTitle :title="path.replace('aF', 'a F')" />
+    <SubTitle :props-title="path.replace('aF', 'a F')" />
 
     <b-container v-if="!show">
       <router-link :to="{ name: rotas.cadastro.remessaFinanceira }">

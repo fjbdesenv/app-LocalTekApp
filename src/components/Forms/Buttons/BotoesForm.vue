@@ -1,9 +1,19 @@
 <template>
-  <b-button class="m-3" type="submit" variant="success">
+  <b-button
+    v-if="propsDisabled"
+    @click="$emit('editar')"
+    class="m-3"
+    type="button"
+    variant="success"
+  >
+    <BIconCheck2Circle class="mx-1" /> Editar
+  </b-button>
+
+  <b-button v-else class="m-3" type="submit" variant="success">
     <BIconCheck2Circle class="mx-1" /> Gravar
   </b-button>
 
-  <router-link :to="{ name: routerName }">
+  <router-link :to="{ name: propsRouterName }">
     <b-button class="m-3" type="button" variant="danger">
       <BIconXCircle class="mx-1" /> Voltar</b-button
     >
@@ -23,10 +33,15 @@ export default defineComponent({
     BButton,
   },
   props: {
-    routerName: {
+    propsRouterName: {
       type: String,
       required: true,
     },
+    propsDisabled: {
+      type: Boolean,
+      required: true,
+    },
   },
+  emits: ["editar"],
 });
 </script>

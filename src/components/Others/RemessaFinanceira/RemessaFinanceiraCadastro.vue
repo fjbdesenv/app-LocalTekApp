@@ -1,5 +1,5 @@
 <template>
-  <FormRemessaFinanceira :cadastro="true" />
+  <FormRemessaFinanceira :props-cadastro="true" :props-disabled="false" />
 </template>
 
 <script lang="ts">

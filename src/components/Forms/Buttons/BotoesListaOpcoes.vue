@@ -1,48 +1,44 @@
 <template>
   <router-link
     :to="{
-      name: rotaConsultar,
-      params: { codigo },
+      name: propsRotaEditar,
+      params: { codigo: propsCodigo },
     }"
   >
-    <b-button variant="success" class="mx-2">
-      <BIconClipboardPlus />
-    </b-button>
-  </router-link>
-
-  <router-link
-    :to="{
-      name: rotaEditar,
-      params: { codigo },
-    }"
-  >
-    <b-button variant="primary" class="mx-2">
+    <b-button :id="`btn-editar-${propsCodigo}`" variant="primary" class="mx-2">
       <BIconBrushFill />
     </b-button>
   </router-link>
+  <b-tooltip :target="`btn-editar-${propsCodigo}`" triggers="focus" placement="bottom">
+    Editar
+  </b-tooltip>
 
-  <b-button variant="danger" class="mx-2" @click="deletar()">
+  <b-button
+    :id="`btn-deletar-${propsCodigo}`"
+    variant="danger"
+    class="mx-2"
+    @click="deletar()"
+  >
     <BIconTrashFill />
   </b-button>
+  <b-tooltip :target="`btn-deletar-${propsCodigo}`" triggers="focus" placement="bottom">
+    Deletar
+  </b-tooltip>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill, BIconClipboardPlus } from "bootstrap-icons-vue";
-import { BButton } from "bootstrap-vue-next";
+import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
+import { BButton, BTooltip } from "bootstrap-vue-next";
 
 export default defineComponent({
   name: "BotoesListaOpcoes",
   props: {
-    codigo: {
+    propsCodigo: {
       type: Number,
       reqiered: true,
     },
-    rotaEditar: {
-      type: String,
-      requered: true,
-    },
-    rotaConsultar: {
+    propsRotaEditar: {
       type: String,
       requered: true,
     },
@@ -50,8 +46,8 @@ export default defineComponent({
   components: {
     BIconBrushFill,
     BIconTrashFill,
-    BIconClipboardPlus,
     BButton,
+    BTooltip,
   },
   emits: ["deletarRegistro"],
   methods: {
