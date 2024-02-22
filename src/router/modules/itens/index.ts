@@ -13,5 +13,5 @@ export {
     ClienteRoutes,
     AtendimentoRoutes,
     RemessaFinanceiraRoutes,
-    UsuarioRoutes
+    UsuarioRoutes,
 };

@@ -1,8 +1,9 @@
 import ClienteLista from '@/components/Others/Cliente/ClienteLista.vue';
 import ClienteEditar from '@/components/Others/Cliente/ClienteEditar.vue';
 import ClienteCadastro from '@/components/Others/Cliente/ClienteCadastro.vue';
+import { PATHS } from '@/enum';
 
-const PATH = 'Cliente';
+const PATH = PATHS.Cliente;
 
 export const ClienteRoutes = (MODULO: string) => [
     {

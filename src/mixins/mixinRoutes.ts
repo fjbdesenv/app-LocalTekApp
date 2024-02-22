@@ -1,4 +1,5 @@
 import { Rotas } from '@/class/rotas';
+import { PATHS } from '@/enum';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
