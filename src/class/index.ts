@@ -7,6 +7,7 @@ import {
     Banco,
     Cliente,
     Atendimento,
+    AtendimentoEvento,
     RemessaFinanceira,
     Usuario
 } from "./itens";
@@ -19,6 +20,7 @@ export {
     Banco,
     Cliente,
     Atendimento,
+    AtendimentoEvento,
     RemessaFinanceira,
     Usuario,
     Api
