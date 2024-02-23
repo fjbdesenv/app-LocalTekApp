@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover mt-3">
+  <table :id="propsTableName" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -16,7 +16,7 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :props-codigo="registro.codigo"
+            :props-codigo="registro.codigo ? registro.codigo : 0"
             :props-rota-editar="rotas.edicao.status"
           />
         </td>
@@ -42,6 +42,12 @@ export default defineComponent({
   data: () => ({
     registros: new Array<Status>(),
   }),
+  props: {
+    propsTableName: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     BotoesListaOpcoes,
   },

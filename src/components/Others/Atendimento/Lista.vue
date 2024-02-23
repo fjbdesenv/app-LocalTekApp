@@ -26,13 +26,13 @@
         <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaAtendimento
-            :propscodigo-atendimento="registro.codigo"
+            :propscodigo-atendimento="registro.codigo ? registro.codigo : 0"
             :props-rota-evento="rotas.lista.atendimentoEvento"
             :props-rota-arquivo="rotas.lista.atendimentoArquivo"
           />
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :props-codigo="registro.codigo"
+            :props-codigo="registro.codigo ? registro.codigo : 0"
             :props-rota-editar="rotas.edicao.atendimento"
           />
         </td>

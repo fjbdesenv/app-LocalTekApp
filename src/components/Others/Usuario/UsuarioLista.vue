@@ -29,6 +29,7 @@ import BotoesListaCabecalho from "@/components/Buttons/BotoesListaCabecalho.vue"
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import SubTitle from "@/components/Titles/SubTitle.vue";
 import Lista from "./Lista.vue";
+import { PATHS } from "@/enum";
 
 export default defineComponent({
   name: "UsuarioLista",
@@ -41,7 +42,7 @@ export default defineComponent({
   mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MinxinPDF],
   created() {
     /* Adicionando Rotas */
-    this.path = "Usuario";
+    this.path = PATHS.Usuario;
     this.rotas.cadastro.usuario = this.getRouteCadastro(this.getModule(), this.path);
 
     /* Nome de tabela para gerar PDF */
