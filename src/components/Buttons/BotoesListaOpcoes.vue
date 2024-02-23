@@ -36,11 +36,11 @@ export default defineComponent({
   props: {
     propsCodigo: {
       type: Number,
-      reqiered: true,
+      required: true,
     },
     propsRotaEditar: {
       type: String,
-      requered: true,
+      required: true,
     },
   },
   components: {

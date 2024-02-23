@@ -34,7 +34,7 @@ import { defineComponent } from "vue";
 import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Banco } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaBancoComponente",

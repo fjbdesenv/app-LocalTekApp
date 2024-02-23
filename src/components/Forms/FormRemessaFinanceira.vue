@@ -326,7 +326,7 @@ import {
 } from "@/mixins";
 import { optionsTipoRemessa, optionsEmitente } from "@/assets/others/options";
 import { PATHS } from "@/enum";
-import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
+import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
 import ListaBancoOptions from "@/components/Forms/ListOptions/ListaBancoOptions.vue";

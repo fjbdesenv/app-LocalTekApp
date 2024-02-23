@@ -46,8 +46,8 @@ import { defineComponent } from "vue";
 import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
 import { Api, Atendimento } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesListaAtendimento from "@/components/Forms/Buttons/BotoesListaAtendimento.vue";
-import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import BotoesListaAtendimento from "@/components/Buttons/BotoesListaAtendimento.vue";
+import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaAtendimentoComponente",
