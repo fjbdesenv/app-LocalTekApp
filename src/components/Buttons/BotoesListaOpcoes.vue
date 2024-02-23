@@ -36,7 +36,7 @@ export default defineComponent({
   props: {
     propsCodigo: {
       type: Number,
-      required: true,
+      default: 0,
     },
     propsRotaEditar: {
       type: String,

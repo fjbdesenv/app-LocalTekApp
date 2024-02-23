@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover mt-3">
+  <table :id="`tabela-${propsTableName}`" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -84,6 +84,12 @@ export default defineComponent({
   data: () => ({
     registros: new Array<RemessaFinanceira>(),
   }),
+  props: {
+    propsTableName: {
+      type: String,
+      required: true,
+    },
+  },
   components: {
     BotoesListaOpcoes,
   },

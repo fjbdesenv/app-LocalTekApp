@@ -1,5 +1,5 @@
 <template>
-  <table :id="propsTableName" class="table table-hover mt-3">
+  <table :id="`tabela-${propsTableName}`" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -16,7 +16,7 @@
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :props-codigo="registro.codigo ? registro.codigo : 0"
+            :props-codigo="registro.codigo"
             :props-rota-editar="rotas.edicao.status"
           />
         </td>

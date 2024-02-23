@@ -46,7 +46,7 @@ export default defineComponent({
     this.rotas.cadastro.status = this.getRouteCadastro(this.getModule(), this.path);
 
     /* Nome de tabela para gerar PDF */
-    this.tableName = `tabela-${this.path}`;
+    this.tableName = this.path;
   },
 });
 </script>
