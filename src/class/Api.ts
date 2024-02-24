@@ -50,13 +50,17 @@ export class Api {
     public cnab;
     public banco;
     public cliente;
-    public atendimento;
     public remessafinanceira;
     public usuario;
+    public atendimento;
+    public atendimentoEventos
 
     /* Metodos para injeção de funcões de consulta */
     public auth(login: Login) {
         return this.axiosInstance.post('/auth', login);
+    }
+    public resourceEvento(codigoAtendimento: number) {
+        return this.resource(`/atendimento/${codigoAtendimento}/eventos`);
     }
 
     constructor() {
@@ -64,8 +68,9 @@ export class Api {
         this.cnab = this.resource('/cnabs');
         this.banco = this.resource('/bancos');
         this.cliente = this.resource('/clientes');
-        this.atendimento = this.resource('/atendimentos');
-        this.remessafinanceira = this.resource('/remessas-financeiras');
         this.usuario = this.resource('/usuarios');
+        this.remessafinanceira = this.resource('/remessas-financeiras');
+        this.atendimento = this.resource('/atendimentos');
+        this.atendimentoEventos = this.resourceEvento(0); /* Chamar resourceEvento(codigo) antes de usar*/
     }
 }

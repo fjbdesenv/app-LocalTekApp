@@ -3,22 +3,26 @@
     <b-form @submit="onSubmit">
       <h3 class="text-center">{{ title }}</h3>
 
-      <b-form-group label="Código do Atendimento na Tek-System:" label-for="input-1">
+      <b-form-group label="Descrição:" label-for="input-2">
         <b-form-input
-          id="input-1"
+          id="input-2"
           type="text"
-          v-model="form.codigo_atendimento_tek"
+          v-model="form.descricao"
           :disabled="disabled"
-          placeholder="Código do cliente na Tek-System"
+          placeholder="Descrição do evento"
           required
         ></b-form-input>
       </b-form-group>
 
-      <ListaClienteOptions
-        :props-value="getSelectedCliente"
-        :props-disabled="disabled"
-        @updateCliente="(value: number) => (form.codigo_cliente = value)"
-      />
+      <b-form-group label="Data:" label-for="input-3">
+        <b-form-input
+          id="input-3"
+          type="text"
+          v-model="form.data"
+          :disabled="disabled"
+          required
+        ></b-form-input>
+      </b-form-group>
 
       <ListaStatusOptions
         :props-value="getSelectedStatus"
@@ -26,7 +30,7 @@
         @updateStatus="(value) => (form.codigo_status = value)"
       />
       <BotoesForm
-        :props-router-name="rotas.lista.atendimento"
+        :props-router-name="rotas.lista.atendimentoEvento"
         :props-disabled="disabled"
         @editar="disabled = false"
       />
@@ -40,7 +44,7 @@
 import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
-import { Api, Atendimento } from "@/class";
+import { Api, AtendimentoEvento } from "@/class";
 import { PATHS } from "@/enum";
 import {
   MixinMessage,
@@ -52,12 +56,11 @@ import {
 import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
-import ListaClienteOptions from "@/components/Forms/ListOptions/ListaClienteOptions.vue";
 
 export default defineComponent({
-  name: "FormAtendimento",
+  name: "FormAtendimentoEvento",
   data: () => ({
-    form: new Atendimento(undefined),
+    form: new AtendimentoEvento(undefined),
   }),
   mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
@@ -67,7 +70,6 @@ export default defineComponent({
     BotoesForm,
     AlertMessage,
     ListaStatusOptions,
-    ListaClienteOptions,
   },
   computed: {
     ...mapGetters(["getSelectedCliente", "getSelectedStatus"]),
@@ -82,12 +84,15 @@ export default defineComponent({
 
     getRegistro(codigo: number) {
       const api = new Api();
+      const { codigoAtendimento } = this.$route.params;
 
-      api.atendimento
+      /* Ataliza a URL */
+      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
+
+      api.atendimentoEventos
         .findOne(codigo)
         .then((response) => {
-          this.form = new Atendimento(response.data);
-          this.setSelectedCliente(this.form.codigo_cliente); /* Atualizar store */
+          this.form = new AtendimentoEvento(response.data);
           this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
         })
         .catch((error) => {
@@ -98,9 +103,13 @@ export default defineComponent({
 
     create() {
       const api = new Api();
+      const { codigoAtendimento } = this.$route.params;
+
+      /* Ataliza a URL */
+      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
       this.form.normalizarSaida();
 
-      api.atendimento
+      api.atendimentoEventos
         .createOne(this.form)
         .then(() => {
           this.MSGdCreate();
@@ -113,11 +122,14 @@ export default defineComponent({
 
     update() {
       const api = new Api();
-      const codigo = Number(this.$route.params.codigo);
+      const { codigoAtendimento, codigo } = this.$route.params;
+
+      /* Ataliza a URL */
+      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
       this.form.normalizarSaida();
 
-      api.atendimento
-        .updateOne(codigo, this.form)
+      api.atendimentoEventos
+        .updateOne(+codigo, this.form)
         .then(() => {
           this.disabled = true;
           this.MSGUpdate();
@@ -135,9 +147,9 @@ export default defineComponent({
     }
 
     /* Adicionando Rotas */
-    this.rotas.lista.atendimento = this.getRouteLista(
+    this.rotas.lista.atendimentoEvento = this.getRouteLista(
       this.getModule(),
-      PATHS.Atendimento
+      PATHS.AtendimentoEvento
     );
   },
 });

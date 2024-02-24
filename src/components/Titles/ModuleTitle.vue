@@ -10,7 +10,7 @@
       <b-col class="title" cols="6">
         <h1 class="text-center py-2 m-0">{{ modulo }}</h1>
       </b-col>
-      <b-col class="title text-end" cols="3"> Usuário: {{ usuarioNome }} </b-col>
+      <b-col class="title p-2 text-end" cols="3"> Usuário: {{ usuarioNome }} </b-col>
     </b-row>
   </header>
 </template>

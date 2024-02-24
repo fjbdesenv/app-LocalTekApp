@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover mt-3">
+  <table :id="`tabela-${propsTableName}`" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -21,6 +21,7 @@
             :to="{
               name: rotas.edicao.atendimento,
               params: { codigo: registro.codigo_atendimento },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.atendimento?.codigo_atendimento_tek }}
@@ -32,6 +33,7 @@
             :to="{
               name: rotas.edicao.banco,
               params: { codigo: registro.codigo_banco },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.banco?.nome }}
@@ -43,6 +45,7 @@
             :to="{
               name: rotas.edicao.cnab,
               params: { codigo: registro.codigo_cnab },
+              query: { returnList: 'false' },
             }"
           >
             {{ registro.cnab?.descricao }}
@@ -71,10 +74,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
+import {
+  MixinConfirmacaoDeletar,
+  MixinModuloGet,
+  MixinRoutes,
+  MixinTable,
+} from "@/mixins";
 import { Api, RemessaFinanceira } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaRemessaFinanceiraComponente",
@@ -84,7 +92,7 @@ export default defineComponent({
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
     getRegitros() {
       const api = new Api();

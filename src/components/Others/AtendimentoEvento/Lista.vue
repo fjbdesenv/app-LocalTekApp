@@ -3,9 +3,8 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Nome</th>
-        <th>Banco Código</th>
-        <th>Banco Camara</th>
+        <th>Data</th>
+        <th>Descrição</th>
         <th>Status</th>
         <th></th>
       </tr>
@@ -13,15 +12,14 @@
     <tbody>
       <tr v-for="(registro, index) in registros" :key="index">
         <td>{{ registro.codigo }}</td>
-        <td>{{ registro.nome }}</td>
-        <td>{{ registro.codigo_banco }}</td>
-        <td>{{ registro.codigo_camara }}</td>
+        <td>{{ registro.data }}</td>
+        <td>{{ registro.descricao }}</td>
         <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
             :props-codigo="registro.codigo"
-            :props-rota-editar="rotas.edicao.banco"
+            :props-rota-editar="rotas.edicao.atendimentoEvento"
           />
         </td>
       </tr>
@@ -37,14 +35,14 @@ import {
   MixinRoutes,
   MixinTable,
 } from "@/mixins";
-import { Api, Banco } from "@/class";
+import { Api, AtendimentoEvento } from "@/class";
 import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
-  name: "ListaBancoComponente",
+  name: "ListaAtendimentoComponente",
   data: () => ({
-    registros: new Array<Banco>(),
+    registros: new Array<AtendimentoEvento>(),
   }),
   components: {
     BotoesListaOpcoes,
@@ -53,14 +51,18 @@ export default defineComponent({
   methods: {
     getRegitros() {
       const api = new Api();
+      const { codigoAtendimento } = this.$route.params;
+
+      /* Ataliza a URL */
+      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
 
       while (this.registros.length > 0) this.registros.pop();
 
-      api.banco
+      api.atendimentoEventos
         .findAll()
         .then((response) => {
-          const aux: Array<Banco> = response.data;
-          aux.forEach((item: Banco) => this.registros.push(item));
+          const aux: Array<AtendimentoEvento> = response.data;
+          aux.forEach((item: AtendimentoEvento) => this.registros.push(item));
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -71,8 +73,12 @@ export default defineComponent({
     deletar(codigo: number) {
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
+        const { codigoAtendimento } = this.$route.params;
 
-        api.banco
+        /* Ataliza a URL */
+        api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
+
+        api.atendimentoEventos
           .deleteOne(codigo)
           .then(() => {
             this.getRegitros();
@@ -89,8 +95,10 @@ export default defineComponent({
     this.getRegitros();
 
     /* Adicionando Rotas */
-    this.path = PATHS.Banco;
-    this.rotas.edicao.banco = this.getRouteEdicao(this.getModule(), this.path);
+    this.rotas.edicao.atendimentoEvento = this.getRouteEdicao(
+      this.getModule(),
+      PATHS.AtendimentoEvento
+    );
   },
 });
 </script>

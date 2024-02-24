@@ -6,11 +6,11 @@
     }"
   >
     <b-button :id="`btn-editar-${propsCodigo}`" variant="primary" class="mx-2">
-      <BIconBrushFill />
+      <BIconClipboardPlus />
     </b-button>
   </router-link>
   <b-tooltip :target="`btn-editar-${propsCodigo}`" triggers="focus" placement="bottom">
-    Editar
+    Consultar
   </b-tooltip>
 
   <b-button
@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BIconBrushFill, BIconTrashFill } from "bootstrap-icons-vue";
+import { BIconClipboardPlus, BIconTrashFill } from "bootstrap-icons-vue";
 import { BButton, BTooltip } from "bootstrap-vue-next";
 
 export default defineComponent({
@@ -36,15 +36,15 @@ export default defineComponent({
   props: {
     propsCodigo: {
       type: Number,
-      reqiered: true,
+      default: 0,
     },
     propsRotaEditar: {
       type: String,
-      requered: true,
+      required: true,
     },
   },
   components: {
-    BIconBrushFill,
+    BIconClipboardPlus,
     BIconTrashFill,
     BButton,
     BTooltip,

@@ -1,6 +1,8 @@
 export class Rotas {
     public cadastro = {
         atendimento: '',
+        atendimentoEvento: '',
+        atendimentoArquivo: '',
         banco: '',
         cliente: '',
         cnab: '',
@@ -11,6 +13,8 @@ export class Rotas {
 
     public edicao = {
         atendimento: '',
+        atendimentoEvento: '',
+        atendimentoArquivo: '',
         banco: '',
         cliente: '',
         cnab: '',
@@ -21,6 +25,8 @@ export class Rotas {
 
     public consulta = {
         atendimento: '',
+        atendimentoEvento: '',
+        atendimentoArquivo: '',
         banco: '',
         cliente: '',
         cnab: '',
@@ -31,6 +37,8 @@ export class Rotas {
 
     public lista = {
         atendimento: '',
+        atendimentoEvento: '',
+        atendimentoArquivo: '',
         banco: '',
         cliente: '',
         cnab: '',

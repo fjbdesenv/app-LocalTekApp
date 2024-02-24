@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover mt-3">
+  <table :id="`tabela-${propsTableName}`" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -18,15 +18,21 @@
             :to="{
               name: rotas.edicao.cliente,
               params: { codigo: registro.codigo_cliente },
+              query: { returnList: 'false' },
             }"
             >{{ registro.cliente?.razao }}</router-link
           >
         </td>
         <td>{{ registro.status?.descricao }}</td>
         <td class="d-flex justify-content-center">
+          <BotoesListaAtendimento
+            :propscodigo-atendimento="registro.codigo ? registro.codigo : 0"
+            :props-rota-evento="rotas.lista.atendimentoEvento"
+            :props-rota-arquivo="rotas.lista.atendimentoArquivo"
+          />
           <BotoesListaOpcoes
             @deletarRegistro="deletar(registro.codigo ? registro.codigo : 0)"
-            :props-codigo="registro.codigo"
+            :props-codigo="registro.codigo ? registro.codigo : 0"
             :props-rota-editar="rotas.edicao.atendimento"
           />
         </td>
@@ -37,10 +43,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
+import {
+  MixinConfirmacaoDeletar,
+  MixinModuloGet,
+  MixinRoutes,
+  MixinTable,
+} from "@/mixins";
 import { Api, Atendimento } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import BotoesListaAtendimento from "@/components/Buttons/BotoesListaAtendimento.vue";
+import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaAtendimentoComponente",
@@ -48,9 +60,10 @@ export default defineComponent({
     registros: new Array<Atendimento>(),
   }),
   components: {
+    BotoesListaAtendimento,
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
     getRegitros() {
       const api = new Api();
@@ -95,6 +108,14 @@ export default defineComponent({
       PATHS.Atendimento
     );
     this.rotas.edicao.cliente = this.getRouteEdicao(this.getModule(), PATHS.Cliente);
+    this.rotas.lista.atendimentoEvento = this.getRouteLista(
+      this.getModule(),
+      PATHS.AtendimentoEvento
+    );
+    // this.rotas.others.atendimentoArquivo = this.getRouteLista(
+    //   this.getModule(),
+    //   PATHS.AtendimentoEvento
+    // );
   },
 });
 </script>

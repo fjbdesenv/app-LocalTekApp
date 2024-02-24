@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-hover mt-3">
+  <table :id="`tabela-${propsTableName}`" class="table table-hover mt-3">
     <thead>
       <tr>
         <th>#</th>
@@ -32,10 +32,11 @@ import {
   MixinConfirmacaoDeletar,
   MixinModuloGet,
   MixinRoutes,
+  MixinTable,
 } from "@/mixins";
 import { Api, Cnab, Status } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesListaOpcoes from "@/components/Forms/Buttons/BotoesListaOpcoes.vue";
+import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
   name: "ListaStatusComponente",
@@ -45,7 +46,13 @@ export default defineComponent({
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
+  mixins: [
+    MixinMapStatusTipo,
+    MixinConfirmacaoDeletar,
+    MixinModuloGet,
+    MixinRoutes,
+    MixinTable,
+  ],
   methods: {
     getRegitros() {
       const api = new Api();

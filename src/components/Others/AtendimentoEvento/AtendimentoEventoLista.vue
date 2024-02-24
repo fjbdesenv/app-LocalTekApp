@@ -1,14 +1,14 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
-    <SubTitle :props-title="path" />
+    <SubTitle :props-title="`Eventos do Atendimento: ${codigoAtendimento}`" />
 
     <BotoesListaCabecalho
       :prop-show="show"
-      :props-rota-cadastro="rotas.cadastro.status"
+      :props-rota-cadastro="rotas.cadastro.atendimento"
       @gerarPDF="gerarPDF()"
     />
 
-    <ListaDeStatus
+    <Lista
       v-show="!show"
       :props-table-name="tableName"
       @deletado="MSGdeletado"
@@ -25,28 +25,32 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { MixinMessage, MixinModuloGet, MixinPDF, MixinRoutes } from "@/mixins";
+import { PATHS } from "@/enum";
 import BotoesListaCabecalho from "@/components/Buttons/BotoesListaCabecalho.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import SubTitle from "@/components/Titles/SubTitle.vue";
-import { PATHS } from "@/enum";
-import ListaDeStatus from "./Lista.vue";
+import Lista from "./Lista.vue";
 
 export default defineComponent({
-  name: "StatusLista",
+  name: "AtendimentoEventoLista",
+  data: () => ({
+    codigoAtendimento: 0,
+  }),
   components: {
     BotoesListaCabecalho,
     AlertMessage,
-    ListaDeStatus,
     SubTitle,
+    Lista,
   },
   mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinPDF],
   created() {
     /* Adicionando Rotas */
-    this.path = PATHS.Status;
-    this.rotas.cadastro.status = this.getRouteCadastro(this.getModule(), this.path);
+    this.path = PATHS.AtendimentoEvento;
+    this.rotas.cadastro.atendimento = this.getRouteCadastro(this.getModule(), this.path);
+    this.codigoAtendimento = Number(this.$route.params.codigoAtendimento);
 
     /* Nome de tabela para gerar PDF */
-    this.tableName = this.path;
+    this.tableName = `Eventos-Atend-${this.codigoAtendimento}`;
   },
 });
 </script>
