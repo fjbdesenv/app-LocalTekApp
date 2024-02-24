@@ -46,15 +46,15 @@ export default defineComponent({
   props: {
     propscodigoAtendimento: {
       type: Number,
-      reqiered: true,
+      required: true,
     },
     propsRotaArquivo: {
       type: String,
-      requered: true,
+      required: true,
     },
     propsRotaEvento: {
       type: String,
-      requered: true,
+      required: true,
     },
   },
   components: {

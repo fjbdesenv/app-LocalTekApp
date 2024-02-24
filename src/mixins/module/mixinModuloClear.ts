@@ -22,7 +22,10 @@ export default defineComponent({
 
                     if (!arrayModulos.includes(modulo)) this.$router.push({ name: 'Home' });
                 })
-                .catch((error: AxiosError) => this.$router.push({ name: 'Home' }));
+                .catch((error: AxiosError) => {
+                    console.error(error.message);
+                    this.$router.push({ name: 'Home' });
+                });
 
         } else {
             this.$router.push({ name: 'Home' });

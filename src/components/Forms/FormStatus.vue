@@ -42,7 +42,7 @@ import { MixinMessage, MixinModuloGet, MixinRoutes, MixinForm } from "@/mixins";
 import { optionsTipoStatus } from "@/assets/others/options";
 import { Api, Status } from "@/class";
 import { PATHS } from "@/enum";
-import BotoesForm from "@/components/Forms/Buttons/BotoesForm.vue";
+import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 
 export default defineComponent({
