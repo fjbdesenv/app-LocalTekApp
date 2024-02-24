@@ -2,14 +2,15 @@
   <div class="bg-light h-100 m-3 border rounded-3">
     <SubTitle :props-title="`Eventos do Atendimento: ${codigoAtendimento}`" />
 
-    <b-container v-if="!show">
-      <router-link :to="{ name: rotas.cadastro.atendimento }">
-        <b-button variant="primary" class="mt-3"> Novo Registro </b-button>
-      </router-link>
-    </b-container>
+    <BotoesListaCabecalho
+      :prop-show="show"
+      :props-rota-cadastro="rotas.cadastro.atendimento"
+      @gerarPDF="gerarPDF()"
+    />
 
     <Lista
       v-show="!show"
+      :props-table-name="tableName"
       @deletado="MSGdeletado"
       @naoDeletado="MSGNaoDeletado"
       @erro="MSGerrorInternal"
@@ -23,9 +24,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { BButton, BContainer } from "bootstrap-vue-next";
-import { MixinMessage, MixinModuloGet, MixinRoutes } from "@/mixins";
+import { MixinMessage, MixinModuloGet, MixinPDF, MixinRoutes } from "@/mixins";
 import { PATHS } from "@/enum";
+import BotoesListaCabecalho from "@/components/Buttons/BotoesListaCabecalho.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
 import SubTitle from "@/components/Titles/SubTitle.vue";
 import Lista from "./Lista.vue";
@@ -36,18 +37,20 @@ export default defineComponent({
     codigoAtendimento: 0,
   }),
   components: {
+    BotoesListaCabecalho,
     AlertMessage,
     SubTitle,
     Lista,
-    BContainer,
-    BButton,
   },
-  mixins: [MixinMessage, MixinModuloGet, MixinRoutes],
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinPDF],
   created() {
     /* Adicionando Rotas */
     this.path = PATHS.AtendimentoEvento;
     this.rotas.cadastro.atendimento = this.getRouteCadastro(this.getModule(), this.path);
     this.codigoAtendimento = Number(this.$route.params.codigoAtendimento);
+
+    /* Nome de tabela para gerar PDF */
+    this.tableName = `Eventos-Atend-${this.codigoAtendimento}`;
   },
 });
 </script>
