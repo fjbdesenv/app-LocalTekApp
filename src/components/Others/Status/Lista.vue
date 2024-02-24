@@ -32,6 +32,7 @@ import {
   MixinConfirmacaoDeletar,
   MixinModuloGet,
   MixinRoutes,
+  MixinTable,
 } from "@/mixins";
 import { Api, Cnab, Status } from "@/class";
 import { PATHS } from "@/enum";
@@ -42,16 +43,16 @@ export default defineComponent({
   data: () => ({
     registros: new Array<Status>(),
   }),
-  props: {
-    propsTableName: {
-      type: String,
-      required: true,
-    },
-  },
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinMapStatusTipo, MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
+  mixins: [
+    MixinMapStatusTipo,
+    MixinConfirmacaoDeletar,
+    MixinModuloGet,
+    MixinRoutes,
+    MixinTable,
+  ],
   methods: {
     getRegitros() {
       const api = new Api();

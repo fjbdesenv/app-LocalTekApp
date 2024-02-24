@@ -74,7 +74,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes } from "@/mixins";
+import {
+  MixinConfirmacaoDeletar,
+  MixinModuloGet,
+  MixinRoutes,
+  MixinTable,
+} from "@/mixins";
 import { Api, RemessaFinanceira } from "@/class";
 import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
@@ -84,16 +89,10 @@ export default defineComponent({
   data: () => ({
     registros: new Array<RemessaFinanceira>(),
   }),
-  props: {
-    propsTableName: {
-      type: String,
-      required: true,
-    },
-  },
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
     getRegitros() {
       const api = new Api();

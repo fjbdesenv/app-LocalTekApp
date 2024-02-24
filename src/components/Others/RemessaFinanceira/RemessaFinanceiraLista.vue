@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { MinxinPDF, MixinMessage, MixinModuloGet, MixinRoutes } from "@/mixins";
+import { MixinMessage, MixinModuloGet, MixinPDF, MixinRoutes } from "@/mixins";
 import { PATHS } from "@/enum";
 import BotoesListaCabecalho from "@/components/Buttons/BotoesListaCabecalho.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
@@ -38,7 +38,7 @@ export default defineComponent({
     SubTitle,
     Lista,
   },
-  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MinxinPDF],
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinPDF],
   created() {
     /* Adicionando Rotas */
     this.path = PATHS.RemessaFinanceira;
