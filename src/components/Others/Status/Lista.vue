@@ -54,7 +54,7 @@ export default defineComponent({
     MixinTable,
   ],
   methods: {
-    getRegitros() {
+    getRegistros() {
       const api = new Api();
 
       while (this.registros.length > 0) this.registros.pop();
@@ -62,8 +62,7 @@ export default defineComponent({
       api.status
         .findAll()
         .then((response) => {
-          const aux: Array<Cnab> = response.data;
-          aux.forEach((item: Cnab) => this.registros.push(item));
+          this.registros = response.data;
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -78,7 +77,7 @@ export default defineComponent({
         api.status
           .deleteOne(codigo)
           .then(() => {
-            this.getRegitros();
+            this.getRegistros();
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
@@ -89,7 +88,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.getRegitros();
+    this.getRegistros();
 
     /* Adicionando Rotas */
     this.path = PATHS.Status;

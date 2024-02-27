@@ -49,7 +49,7 @@ export default defineComponent({
   },
   mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
-    getRegitros() {
+    getRegistros() {
       const api = new Api();
       const { codigoAtendimento } = this.$route.params;
 
@@ -80,7 +80,7 @@ export default defineComponent({
         api.atendimentoEventos
           .deleteOne(codigo)
           .then(() => {
-            this.getRegitros();
+            this.getRegistros();
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
@@ -91,7 +91,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.getRegitros();
+    this.getRegistros();
 
     /* Adicionando Rotas */
     this.rotas.edicao.atendimentoEvento = this.getRouteEdicao(
