@@ -4,7 +4,7 @@
 
     <BotoesListaCabecalho
       :prop-show="show"
-      :props-rota-cadastro="rotas.cadastro.atendimento"
+      :props-rota-cadastro="rotas.cadastro.atendimentoEvento"
       @gerarPDF="gerarPDF()"
     />
 
@@ -46,7 +46,10 @@ export default defineComponent({
   created() {
     /* Adicionando Rotas */
     this.path = PATHS.AtendimentoEvento;
-    this.rotas.cadastro.atendimento = this.getRouteCadastro(this.getModule(), this.path);
+    this.rotas.cadastro.atendimentoEvento = this.getRouteCadastro(
+      this.getModule(),
+      this.path
+    );
     this.codigoAtendimento = Number(this.$route.params.codigoAtendimento);
 
     /* Nome de tabela para gerar PDF */

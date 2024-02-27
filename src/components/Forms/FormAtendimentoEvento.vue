@@ -72,10 +72,10 @@ export default defineComponent({
     ListaStatusOptions,
   },
   computed: {
-    ...mapGetters(["getSelectedCliente", "getSelectedStatus"]),
+    ...mapGetters(["getSelectedStatus"]),
   },
   methods: {
-    ...mapMutations(["setSelectedCliente", "setSelectedStatus"]),
+    ...mapMutations(["setSelectedStatus"]),
 
     onSubmit(event: Event) {
       event.preventDefault();
@@ -86,7 +86,7 @@ export default defineComponent({
       const api = new Api();
       const { codigoAtendimento } = this.$route.params;
 
-      /* Ataliza a URL */
+      /* Atualiza a URL */
       api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
 
       api.atendimentoEventos
@@ -105,7 +105,7 @@ export default defineComponent({
       const api = new Api();
       const { codigoAtendimento } = this.$route.params;
 
-      /* Ataliza a URL */
+      /* Atualiza a URL */
       api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
       this.form.normalizarSaida();
 
@@ -124,7 +124,7 @@ export default defineComponent({
       const api = new Api();
       const { codigoAtendimento, codigo } = this.$route.params;
 
-      /* Ataliza a URL */
+      /* Atualiza a URL */
       api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
       this.form.normalizarSaida();
 
