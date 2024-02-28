@@ -138,7 +138,7 @@ export default defineComponent({
           this.setSelectedNivel(this.form.nivel); /* Atualizar store */
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGNotFound();
         });
     },
@@ -154,7 +154,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },
@@ -172,7 +172,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },

@@ -1,6 +1,6 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
-    <b-form @submit="onSubmit">
+    <b-form @submit="onSubmit" enctype="multipart/form-data">
       <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Nome:" label-for="input-2">
@@ -104,7 +104,7 @@ export default defineComponent({
           this.form = new AtendimentoArquivo(response.data);
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGNotFound();
         });
     },
@@ -113,8 +113,9 @@ export default defineComponent({
       const api = new Api();
 
       const { codigoAtendimento } = this.$route.params;
+      const { arquivo } = this.form;
 
-      if (this.form.arquivo) {
+      if (arquivo) {
         /* Atualiza a URL */
         api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
         this.form.normalizarSaida();
@@ -125,7 +126,6 @@ export default defineComponent({
             this.MSGdCreate();
           })
           .catch((error) => {
-            // console.log(error?.message);
             console.log(error);
             this.MSGerrorInternal(error);
           });
@@ -147,7 +147,6 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          // console.log(error?.message);
           console.log(error);
           this.MSGerrorInternal(error);
         });

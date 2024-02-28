@@ -75,7 +75,7 @@ export default defineComponent({
           this.form = new Status(response.data);
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGNotFound();
         });
     },
@@ -90,7 +90,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },
@@ -107,7 +107,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },
