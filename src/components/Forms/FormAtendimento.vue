@@ -91,7 +91,7 @@ export default defineComponent({
           this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGNotFound();
         });
     },
@@ -106,7 +106,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },
@@ -123,7 +123,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error?.message);
+          console.log(error);
           this.MSGerrorInternal(error);
         });
     },

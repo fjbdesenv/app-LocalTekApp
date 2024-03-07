@@ -3,27 +3,27 @@ import AtendimentoEventoEditar from '@/components/Others/AtendimentoEvento/Atend
 import AtendimentoEventoCadastro from '@/components/Others/AtendimentoEvento/AtendimentoEventoCadastro.vue';
 import { PATHS } from '@/enum';
 
-const PATH_EVENTOS = PATHS.AtendimentoEvento;
+const PATH = PATHS.AtendimentoEvento;
 
 export const AtendimentoEventoRoutes = (MODULO: string) => [
     {
         /* Eventos do atendimento */
         path: ':codigoAtendimento/eventos',
-        redirect: { name: MODULO + PATH_EVENTOS + 'Lista' },
+        redirect: { name: MODULO + PATH + 'Lista' },
         children: [
             {
                 path: 'lista',
-                name: MODULO + PATH_EVENTOS + 'Lista',
+                name: MODULO + PATH + 'Lista',
                 component: AtendimentoEventoLista
             },
             {
                 path: 'editar/:codigo',
-                name: MODULO + PATH_EVENTOS + 'Editar',
+                name: MODULO + PATH + 'Editar',
                 component: AtendimentoEventoEditar
             },
             {
                 path: 'cadastro',
-                name: MODULO + PATH_EVENTOS + 'Cadastrar',
+                name: MODULO + PATH + 'Cadastrar',
                 component: AtendimentoEventoCadastro
             }
         ]

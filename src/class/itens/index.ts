@@ -4,6 +4,7 @@ import { Banco } from "./Banco";
 import { Cliente } from "./Cliente";
 import { Atendimento } from "./Atendimento";
 import { AtendimentoEvento } from "./AtendimentoEvento";
+import { AtendimentoArquivo } from "./AtendimentoArquivo";
 import { RemessaFinanceira } from "./RemessaFinanceira";
 import { Usuario } from "./Usuario";
 
@@ -15,6 +16,7 @@ export {
     Cliente,
     Atendimento,
     AtendimentoEvento,
+    AtendimentoArquivo,
     RemessaFinanceira,
     Usuario
 };

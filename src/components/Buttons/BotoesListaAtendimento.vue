@@ -7,8 +7,8 @@
   >
     <b-button
       :id="`btn-eventos-${propscodigoAtendimento}`"
-      variant="outline-info"
-      class="mx-2"
+      variant="outline-secondary"
+      class="mx-2 bg-secondary-subtle"
     >
       <BIconCalendarEvent />
     </b-button>
@@ -21,24 +21,32 @@
     Eventos
   </b-tooltip>
 
-  <!-- <router-link
+  <router-link
     :to="{
-      name: propsRotaArquivos,
-      params: { codigo: propsCodigo },
+      name: propsRotaArquivo,
+      params: { codigoAtendimento: propscodigoAtendimento },
     }"
   >
-    <b-button :id="`btn-arquivos-${propsCodigo}`" variant="outline-info" class="mx-2">
+    <b-button
+      :id="`btn-arquivos-${propscodigoAtendimento}`"
+      variant="outline-secondary"
+      class="mx-2 bg-secondary-subtle"
+    >
       <BIconFiles />
     </b-button>
   </router-link>
-  <b-tooltip :target="`btn-arquivos-${propsCodigo}`" triggers="focus" placement="bottom">
+  <b-tooltip
+    :target="`btn-arquivos-${propscodigoAtendimento}`"
+    triggers="focus"
+    placement="bottom"
+  >
     Arquivos
-  </b-tooltip> -->
+  </b-tooltip>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { /*BIconFiles,*/ BIconCalendarEvent } from "bootstrap-icons-vue";
+import { BIconFiles, BIconCalendarEvent } from "bootstrap-icons-vue";
 import { BButton, BTooltip } from "bootstrap-vue-next";
 
 export default defineComponent({
@@ -58,10 +66,17 @@ export default defineComponent({
     },
   },
   components: {
-    //BIconFiles,
+    BIconFiles,
     BIconCalendarEvent,
     BButton,
     BTooltip,
   },
 });
 </script>
+
+<style scoped>
+.btn:hover {
+  color: blue;
+  background: #aaa !important;
+}
+</style>

@@ -40,7 +40,7 @@ import { PATHS } from "@/enum";
 import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
 export default defineComponent({
-  name: "ListaAtendimentoComponente",
+  name: "ListaAtendimentoEventoComponente",
   data: () => ({
     registros: new Array<AtendimentoEvento>(),
   }),
@@ -49,11 +49,11 @@ export default defineComponent({
   },
   mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
-    getRegitros() {
+    getRegistros() {
       const api = new Api();
       const { codigoAtendimento } = this.$route.params;
 
-      /* Ataliza a URL */
+      /* Atualiza a URL */
       api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
 
       while (this.registros.length > 0) this.registros.pop();
@@ -61,8 +61,7 @@ export default defineComponent({
       api.atendimentoEventos
         .findAll()
         .then((response) => {
-          const aux: Array<AtendimentoEvento> = response.data;
-          aux.forEach((item: AtendimentoEvento) => this.registros.push(item));
+          this.registros = response.data;
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -75,13 +74,13 @@ export default defineComponent({
         const api = new Api();
         const { codigoAtendimento } = this.$route.params;
 
-        /* Ataliza a URL */
+        /* Atualiza a URL */
         api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
 
         api.atendimentoEventos
           .deleteOne(codigo)
           .then(() => {
-            this.getRegitros();
+            this.getRegistros();
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
@@ -92,7 +91,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.getRegitros();
+    this.getRegistros();
 
     /* Adicionando Rotas */
     this.rotas.edicao.atendimentoEvento = this.getRouteEdicao(
