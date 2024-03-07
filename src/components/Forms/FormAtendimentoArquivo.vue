@@ -1,6 +1,6 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
-    <b-form @submit="onSubmit" enctype="multipart/form-data">
+    <b-form @submit="onSubmit" id="form-arquivo" enctype="multipart/form-data">
       <h3 class="text-center">{{ title }}</h3>
 
       <b-form-group label="Nome:" label-for="input-2">
@@ -30,12 +30,13 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group v-if="!disabled" label="Arquivo:" label-for="input-4">
+      <b-form-group v-if="!disabled" label="Arquivo:" label-for="input-file">
         <b-form-file
-          id="input-4"
+          id="input-file"
           v-model="form.arquivo"
-          :state="Boolean(form.arquivo)"
+          @change="handleFileUpload"
           :disabled="disabled"
+          :accept="extensionsAceppts"
           required
         ></b-form-file>
       </b-form-group>
@@ -65,11 +66,14 @@ import {
 } from "@/mixins";
 import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
+import { extensionsAceppts } from "@/assets/others/extensions";
 
 export default defineComponent({
   name: "FormAtendimentoArquivo",
   data: () => ({
     form: new AtendimentoArquivo(undefined),
+    file: "",
+    extensionsAceppts
   }),
   mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
@@ -89,6 +93,10 @@ export default defineComponent({
     onSubmit(event: Event) {
       event.preventDefault();
       this.propsCadastro ? this.create() : this.update();
+    },
+
+    handleFileUpload(event: any) {
+      if (event) this.file = event?.target?.files[0];
     },
 
     getRegistro(codigo: number) {
@@ -111,37 +119,39 @@ export default defineComponent({
 
     create() {
       const api = new Api();
-
+      const formData = new FormData();
       const { codigoAtendimento } = this.$route.params;
-      const { arquivo } = this.form;
 
-      if (arquivo) {
-        /* Atualiza a URL */
-        api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
-        this.form.normalizarSaida();
-
-        api.atendimentoArquivos
-          .createOne(this.form)
-          .then(() => {
-            this.MSGdCreate();
-          })
-          .catch((error) => {
-            console.log(error);
-            this.MSGerrorInternal(error);
-          });
-      }
-    },
-
-    update() {
-      const api = new Api();
-      const { codigoAtendimento, codigo } = this.$route.params;
+      formData.append("arquivo", this.file);
 
       /* Atualiza a URL */
       api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
       this.form.normalizarSaida();
 
       api.atendimentoArquivos
-        .updateOne(+codigo, this.form)
+        .createOne(formData)
+        .then(() => {
+          this.MSGdCreate();
+        })
+        .catch((error) => {
+          console.log(error);
+          this.MSGerrorInternal(error);
+        });
+    },
+
+    update() {
+      const api = new Api();
+      const formData = new FormData();
+      const { codigo, codigoAtendimento } = this.$route.params;
+
+      formData.append("arquivo", this.file);
+
+      /* Atualiza a URL */
+      api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
+      this.form.normalizarSaida();
+
+      api.atendimentoArquivos
+        .updateOne(+codigo, formData)
         .then(() => {
           this.disabled = true;
           this.MSGUpdate();

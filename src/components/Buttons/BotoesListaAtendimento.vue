@@ -7,8 +7,8 @@
   >
     <b-button
       :id="`btn-eventos-${propscodigoAtendimento}`"
-      variant="outline-info"
-      class="mx-2"
+      variant="outline-secondary"
+      class="mx-2 bg-secondary-subtle"
     >
       <BIconCalendarEvent />
     </b-button>
@@ -29,8 +29,8 @@
   >
     <b-button
       :id="`btn-arquivos-${propscodigoAtendimento}`"
-      variant="outline-info"
-      class="mx-2"
+      variant="outline-secondary"
+      class="mx-2 bg-secondary-subtle"
     >
       <BIconFiles />
     </b-button>
@@ -73,3 +73,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.btn:hover {
+  color: blue;
+  background: #aaa !important;
+}
+</style>

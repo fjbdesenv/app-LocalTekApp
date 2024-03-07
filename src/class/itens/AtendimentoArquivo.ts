@@ -40,8 +40,5 @@ export class AtendimentoArquivo extends ItemDefault {
             this.tipo = this.arquivo.type;
             this.tamanho = Number(this.arquivo.size);
         }
-
-        /* Alterar quando for fazer o envio de arquivo*/
-        this.arquivo = undefined;
     }
 }
