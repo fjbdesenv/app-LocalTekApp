@@ -46,7 +46,7 @@ import {
   MixinRoutes,
   MixinTable,
 } from "@/mixins";
-import { Api, Usuario } from "@/class";
+import { Api, LocalStorage, Usuario } from "@/class";
 import { PATHS, NIVEL_ACESSO } from "@/enum";
 import BotoesListaOpcoes from "@/components/Buttons/BotoesListaOpcoes.vue";
 
@@ -77,6 +77,14 @@ export default defineComponent({
     },
 
     deletar(codigo: number) {
+
+      /* Validar usuário logado */
+      if (this.verificarUsuarioLogado(codigo)) {
+        this.$emit("usuarioLogado");
+        return;
+      }
+
+      /* Pede confirmação do usuário */
       if (this.confimacaoDeletar(codigo)) {
         const api = new Api();
 
@@ -90,6 +98,18 @@ export default defineComponent({
             this.$emit("naoDeletado");
             console.error(error.message);
           });
+      }
+    },
+
+    verificarUsuarioLogado(codigo: number): Boolean {
+      const localStore = new LocalStorage();
+      const usuario = localStore.usuario;
+
+      if (usuario) {
+        /* retorna false, se for outro usuário */
+        return usuario.codigo === codigo;
+      } else {
+        return true;
       }
     },
 
