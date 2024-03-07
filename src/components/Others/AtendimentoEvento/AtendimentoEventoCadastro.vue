@@ -7,7 +7,7 @@ import { defineComponent } from "vue";
 import FormAtendimentoEvento from "@/components/Forms/FormAtendimentoEvento.vue";
 
 export default defineComponent({
-  name: "AtendimentoCadastro",
+  name: "AtendimentoEventoCadastro",
   components: {
     FormAtendimentoEvento,
   },

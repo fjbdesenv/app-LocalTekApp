@@ -51,7 +51,7 @@ export default defineComponent({
   },
   mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
-    getRegitros() {
+    getRegistros() {
       const api = new Api();
 
       while (this.registros.length > 0) this.registros.pop();
@@ -59,8 +59,7 @@ export default defineComponent({
       api.banco
         .findAll()
         .then((response) => {
-          const aux: Array<Banco> = response.data;
-          aux.forEach((item: Banco) => this.registros.push(item));
+          this.registros = response.data;
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -75,7 +74,7 @@ export default defineComponent({
         api.banco
           .deleteOne(codigo)
           .then(() => {
-            this.getRegitros();
+            this.getRegistros();
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
@@ -86,7 +85,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.getRegitros();
+    this.getRegistros();
 
     /* Adicionando Rotas */
     this.path = PATHS.Banco;

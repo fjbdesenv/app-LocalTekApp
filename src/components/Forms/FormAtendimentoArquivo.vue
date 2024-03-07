@@ -1,34 +1,46 @@
 <template>
   <div v-show="!show" class="bg-light m-3 p-3 border rounded-3">
-    <b-form @submit="onSubmit">
+    <b-form @submit="onSubmit" id="form-arquivo" enctype="multipart/form-data">
       <h3 class="text-center">{{ title }}</h3>
 
-      <b-form-group label="Descrição:" label-for="input-2">
+      <b-form-group label="Nome:" label-for="input-2">
         <b-form-input
           id="input-2"
           type="text"
-          v-model="form.descricao"
-          :disabled="disabled"
-          placeholder="Descrição do evento"
-          required
+          v-model="form.nome"
+          disabled
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group label="Data:" label-for="input-3">
+      <b-form-group label="Tipo:" label-for="input-3">
         <b-form-input
           id="input-3"
           type="text"
-          v-model="form.data"
-          :disabled="disabled"
-          required
+          v-model="form.tipo"
+          disabled
         ></b-form-input>
       </b-form-group>
 
-      <ListaStatusOptions
-        :props-value="getSelectedStatus"
-        :props-disabled="disabled"
-        @updateStatus="(value) => (form.codigo_status = value)"
-      />
+      <b-form-group label="Tamanho (bytes):" label-for="input-4">
+        <b-form-input
+          id="input-4"
+          type="text"
+          v-model="form.tamanho"
+          disabled
+        ></b-form-input>
+      </b-form-group>
+
+      <b-form-group v-if="!disabled" label="Arquivo:" label-for="input-file">
+        <b-form-file
+          id="input-file"
+          v-model="form.arquivo"
+          @change="handleFileUpload"
+          :disabled="disabled"
+          :accept="extensionsAceppts"
+          required
+        ></b-form-file>
+      </b-form-group>
+
       <BotoesForm
         :props-router-name="rotas.lista.atendimentoEvento"
         :props-disabled="disabled"
@@ -41,10 +53,9 @@
 </template>
 
 <script lang="ts">
-import { mapMutations, mapGetters } from "vuex";
 import { defineComponent } from "vue";
-import { BForm, BFormInput, BFormGroup } from "bootstrap-vue-next";
-import { Api, AtendimentoEvento } from "@/class";
+import { BForm, BFormInput, BFormGroup, BFormFile } from "bootstrap-vue-next";
+import { Api, AtendimentoArquivo } from "@/class";
 import { PATHS } from "@/enum";
 import {
   MixinMessage,
@@ -55,12 +66,14 @@ import {
 } from "@/mixins";
 import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
-import ListaStatusOptions from "@/components/Forms/ListOptions/ListaStatusOptions.vue";
+import { extensionsAceppts } from "@/assets/others/extensions";
 
 export default defineComponent({
-  name: "FormAtendimentoEvento",
+  name: "FormAtendimentoArquivo",
   data: () => ({
-    form: new AtendimentoEvento(undefined),
+    form: new AtendimentoArquivo(undefined),
+    file: "",
+    extensionsAceppts
   }),
   mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
   components: {
@@ -68,18 +81,22 @@ export default defineComponent({
     BFormInput,
     BFormGroup,
     BotoesForm,
+    BFormFile,
     AlertMessage,
-    ListaStatusOptions,
   },
   computed: {
-    ...mapGetters(["getSelectedStatus"]),
+    fileObserved(): File | undefined {
+      return this.form.arquivo;
+    },
   },
   methods: {
-    ...mapMutations(["setSelectedStatus"]),
-
     onSubmit(event: Event) {
       event.preventDefault();
       this.propsCadastro ? this.create() : this.update();
+    },
+
+    handleFileUpload(event: any) {
+      if (event) this.file = event?.target?.files[0];
     },
 
     getRegistro(codigo: number) {
@@ -87,13 +104,12 @@ export default defineComponent({
       const { codigoAtendimento } = this.$route.params;
 
       /* Atualiza a URL */
-      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
+      api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
 
-      api.atendimentoEventos
+      api.atendimentoArquivos
         .findOne(codigo)
         .then((response) => {
-          this.form = new AtendimentoEvento(response.data);
-          this.setSelectedStatus(this.form.codigo_status); /* Atualizar store */
+          this.form = new AtendimentoArquivo(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -103,14 +119,17 @@ export default defineComponent({
 
     create() {
       const api = new Api();
+      const formData = new FormData();
       const { codigoAtendimento } = this.$route.params;
 
+      formData.append("arquivo", this.file);
+
       /* Atualiza a URL */
-      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
+      api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
       this.form.normalizarSaida();
 
-      api.atendimentoEventos
-        .createOne(this.form)
+      api.atendimentoArquivos
+        .createOne(formData)
         .then(() => {
           this.MSGdCreate();
         })
@@ -122,14 +141,17 @@ export default defineComponent({
 
     update() {
       const api = new Api();
-      const { codigoAtendimento, codigo } = this.$route.params;
+      const formData = new FormData();
+      const { codigo, codigoAtendimento } = this.$route.params;
+
+      formData.append("arquivo", this.file);
 
       /* Atualiza a URL */
-      api.atendimentoEventos = api.resourceEvento(+codigoAtendimento);
+      api.atendimentoArquivos = api.resourceArquivo(+codigoAtendimento);
       this.form.normalizarSaida();
 
-      api.atendimentoEventos
-        .updateOne(+codigo, this.form)
+      api.atendimentoArquivos
+        .updateOne(+codigo, formData)
         .then(() => {
           this.disabled = true;
           this.MSGUpdate();
@@ -138,6 +160,16 @@ export default defineComponent({
           console.log(error);
           this.MSGerrorInternal(error);
         });
+    },
+  },
+  watch: {
+    fileObserved() {
+      if (this.form.arquivo) {
+        /* Atualizar o form com os dados do arquivo */
+        this.form.tipo = this.form.arquivo?.type;
+        this.form.nome = this.form.arquivo?.name;
+        this.form.tamanho = this.form.arquivo?.size;
+      }
     },
   },
   created() {

@@ -20,7 +20,7 @@ export default defineComponent({
                     this.gerarListaStatusOptions();
                 })
                 .catch((error) => {
-                    console.log(error?.message);
+                    console.log(error);
                     this.MSGerrorInternal(error);
                 });
         },

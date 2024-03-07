@@ -2,6 +2,7 @@ import AtendimentoLista from '@/components/Others/Atendimento/AtendimentoLista.v
 import AtendimentoEditar from '@/components/Others/Atendimento/AtendimentoEditar.vue';
 import AtendimentoCadastro from '@/components/Others/Atendimento/AtendimentoCadastro.vue';
 import { AtendimentoEventoRoutes } from './atendimentoEvento';
+import { AtendimentoArquivoRoutes } from './atendimentoArquivo';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.Atendimento;
@@ -27,7 +28,8 @@ export const AtendimentoRoutes = (MODULO: string) => [
                 component: AtendimentoCadastro
             },
 
-            ...AtendimentoEventoRoutes(MODULO)
+            ...AtendimentoEventoRoutes(MODULO),
+            ...AtendimentoArquivoRoutes(MODULO)
 
         ]
     }

@@ -65,7 +65,7 @@ export default defineComponent({
   },
   mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
   methods: {
-    getRegitros() {
+    getRegistros() {
       const api = new Api();
 
       while (this.registros.length > 0) this.registros.pop();
@@ -73,8 +73,7 @@ export default defineComponent({
       api.atendimento
         .findAll()
         .then((response) => {
-          const aux: Array<Atendimento> = response.data;
-          aux.forEach((item: Atendimento) => this.registros.push(item));
+          this.registros = response.data;
         })
         .catch((error: ErrorEvent) => {
           this.$emit("erro", error);
@@ -89,7 +88,7 @@ export default defineComponent({
         api.atendimento
           .deleteOne(codigo)
           .then(() => {
-            this.getRegitros();
+            this.getRegistros();
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
@@ -100,7 +99,7 @@ export default defineComponent({
     },
   },
   created() {
-    this.getRegitros();
+    this.getRegistros();
 
     /* Adicionando Rotas */
     this.rotas.edicao.atendimento = this.getRouteEdicao(
@@ -112,10 +111,10 @@ export default defineComponent({
       this.getModule(),
       PATHS.AtendimentoEvento
     );
-    // this.rotas.others.atendimentoArquivo = this.getRouteLista(
-    //   this.getModule(),
-    //   PATHS.AtendimentoEvento
-    // );
+    this.rotas.lista.atendimentoArquivo = this.getRouteLista(
+      this.getModule(),
+      PATHS.AtendimentoArquivo
+    );
   },
 });
 </script>

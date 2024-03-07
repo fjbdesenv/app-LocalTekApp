@@ -1,10 +1,10 @@
 <template>
   <div class="bg-light h-100 m-3 border rounded-3">
-    <SubTitle :props-title="`Eventos do Atendimento: ${codigoAtendimento}`" />
+    <SubTitle :props-title="`Arquivos do Atendimento: ${codigoAtendimento}`" />
 
     <BotoesListaCabecalho
       :prop-show="show"
-      :props-rota-cadastro="rotas.cadastro.atendimentoEvento"
+      :props-rota-cadastro="rotas.cadastro.atendimentoArquivo"
       @gerarPDF="gerarPDF()"
     />
 
@@ -32,7 +32,7 @@ import SubTitle from "@/components/Titles/SubTitle.vue";
 import Lista from "./Lista.vue";
 
 export default defineComponent({
-  name: "AtendimentoEventoLista",
+  name: "AtendimentoArquivoLista",
   data: () => ({
     codigoAtendimento: 0,
   }),
@@ -45,15 +45,15 @@ export default defineComponent({
   mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinPDF],
   created() {
     /* Adicionando Rotas */
-    this.path = PATHS.AtendimentoEvento;
-    this.rotas.cadastro.atendimentoEvento = this.getRouteCadastro(
+    this.path = PATHS.AtendimentoArquivo;
+    this.rotas.cadastro.atendimentoArquivo = this.getRouteCadastro(
       this.getModule(),
       this.path
     );
     this.codigoAtendimento = Number(this.$route.params.codigoAtendimento);
 
     /* Nome de tabela para gerar PDF */
-    this.tableName = `Eventos-Atend-${this.codigoAtendimento}`;
+    this.tableName = `Arquivos-Atend-${this.codigoAtendimento}`;
   },
 });
 </script>
