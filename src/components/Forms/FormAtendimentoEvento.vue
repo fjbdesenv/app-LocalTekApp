@@ -17,7 +17,7 @@
       <b-form-group label="Data:" label-for="input-3">
         <b-form-input
           id="input-3"
-          type="text"
+          type="date"
           v-model="form.data"
           :disabled="disabled"
           required
