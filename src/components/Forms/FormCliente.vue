@@ -189,12 +189,12 @@ export default defineComponent({
     cnpjCpf(newValue) {
       if (this.form.tipo === 1) {
         const maskCpf = Mask.cpf(newValue);
-        if (maskCpf != this.cnpjCpf) this.form.cnpj_cpf = maskCpf;
+        this.form.cnpj_cpf = maskCpf;
       }
 
       if (this.form.tipo === 2) {
         const maskCnpj = Mask.cnpj(newValue);
-        if (maskCnpj != this.cnpjCpf) this.form.cnpj_cpf = maskCnpj;
+        this.form.cnpj_cpf = maskCnpj;
       }
     },
   },
@@ -225,6 +225,18 @@ export default defineComponent({
     create() {
       const api = new Api();
       this.form.normalizarSaida();
+      
+      const aux = Mask.soNumeros(this.cnpjCpf || "");
+
+      if (this.tipo === 1 && aux.length != 11) {
+        alert("CPF não tem 11 números, verifique!");
+        return;
+      }
+
+      if (this.tipo === 2 && aux.length < 14) {
+        alert("CNPJ não tem 14 números, verifique!");
+        return;
+      }
 
       api.cliente
         .createOne(this.form)

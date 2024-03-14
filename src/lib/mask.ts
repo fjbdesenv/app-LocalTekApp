@@ -25,5 +25,9 @@ export const Mask = {
 
         if (maskCPF.length > 14) maskCPF = maskCPF.slice(0, 18); /* Aceita apenas 14 números */
         return maskCPF;
+    },
+
+    soNumeros(value: string) {
+        return value.replace(/\D/g, "");
     }
 }
