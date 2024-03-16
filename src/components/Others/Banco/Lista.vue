@@ -33,6 +33,7 @@
 import { defineComponent } from "vue";
 import {
   MixinConfirmacaoDeletar,
+  MixinErro,
   MixinModuloGet,
   MixinRoutes,
   MixinTable,
@@ -49,7 +50,7 @@ export default defineComponent({
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable, MixinErro],
   methods: {
     getRegistros() {
       const api = new Api();
@@ -58,12 +59,11 @@ export default defineComponent({
 
       api.banco
         .findAll()
-        .then((response) => {
-          this.registros = response.data;
+        .then(({ data }) => {
+          this.registros = data;
         })
         .catch((error: ErrorEvent) => {
-          this.$emit("erro", error);
-          console.error(error.message);
+          this.mapeamentoErro(error, 1);
         });
     },
 
@@ -78,8 +78,7 @@ export default defineComponent({
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
-            this.$emit("naoDeletado");
-            console.error(error.message);
+            this.mapeamentoErro(error, 1);
           });
       }
     },

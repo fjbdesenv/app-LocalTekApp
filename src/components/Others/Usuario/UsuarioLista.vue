@@ -13,6 +13,7 @@
       :props-table-name="tableName"
       @deletado="MSGdeletado"
       @naoDeletado="MSGNaoDeletado"
+      @usuarioLogado="MSGUsuarioLogado"
       @erro="MSGerrorInternal"
     />
 

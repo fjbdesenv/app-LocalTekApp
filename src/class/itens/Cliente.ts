@@ -7,6 +7,7 @@ export class Cliente extends ItemDefault {
     public razao?: string;
     public nome_fantasia?: string;
     public email?: string;
+    public tipo?: number; /* 1 - CPF | 2 - CNPJ */
     public cnpj_cpf?: string;
     public status?: Status;
 
@@ -26,6 +27,7 @@ export class Cliente extends ItemDefault {
         this.razao = cliente ? cliente?.razao : '';
         this.nome_fantasia = cliente ? cliente?.nome_fantasia : '';
         this.email = cliente ? cliente?.email : '';
+        this.tipo = cliente ? cliente?.tipo : 2;
         this.cnpj_cpf = cliente ? cliente?.cnpj_cpf : '';
         this.codigo_status = cliente ? cliente?.codigo_status : 0;
     }
@@ -37,6 +39,7 @@ export class Cliente extends ItemDefault {
         this.data_criacao = undefined;
         this.data_atualizacao = undefined;
 
+        this.tipo = Number(this.tipo);
         this.codigo_cliente_tek = Number(this.codigo_cliente_tek);
         this.codigo_status = Number(this.codigo_status);
     }
