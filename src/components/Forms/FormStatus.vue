@@ -38,7 +38,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { BForm, BFormInput, BFormGroup, BFormSelect } from "bootstrap-vue-next";
-import { MixinMessage, MixinModuloGet, MixinRoutes, MixinForm } from "@/mixins";
+import {
+  MixinMessage,
+  MixinModuloGet,
+  MixinRoutes,
+  MixinForm,
+  MixinErro,
+} from "@/mixins";
 import { optionsTipoStatus } from "@/assets/others/options";
 import { Api, Status } from "@/class";
 import { PATHS } from "@/enum";
@@ -59,7 +65,7 @@ export default defineComponent({
     BotoesForm,
     AlertMessage,
   },
-  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinForm],
+  mixins: [MixinMessage, MixinModuloGet, MixinRoutes, MixinForm, MixinErro],
   methods: {
     onSubmit(event: Event) {
       event.preventDefault();
@@ -90,8 +96,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
 
@@ -107,8 +112,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
   },

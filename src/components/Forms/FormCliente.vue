@@ -127,6 +127,7 @@ import {
   MixinModuloGet,
   MixinRoutes,
   MixinForm,
+  MixinErro,
 } from "@/mixins";
 import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
@@ -142,7 +143,14 @@ export default defineComponent({
       { item: 2, name: "Jurídica" },
     ],
   }),
-  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
+  mixins: [
+    MixinMessage,
+    MixinListStatus,
+    MixinModuloGet,
+    MixinRoutes,
+    MixinForm,
+    MixinErro,
+  ],
   components: {
     BRow,
     BCol,
@@ -225,7 +233,7 @@ export default defineComponent({
     create() {
       const api = new Api();
       this.form.normalizarSaida();
-      
+
       const aux = Mask.soNumeros(this.cnpjCpf || "");
 
       if (this.tipo === 1 && aux.length != 11) {
@@ -244,8 +252,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
 
@@ -261,8 +268,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
   },

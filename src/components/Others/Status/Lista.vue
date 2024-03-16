@@ -33,6 +33,7 @@ import {
   MixinModuloGet,
   MixinRoutes,
   MixinTable,
+  MixinErro,
 } from "@/mixins";
 import { Api, Status } from "@/class";
 import { PATHS } from "@/enum";
@@ -52,6 +53,7 @@ export default defineComponent({
     MixinModuloGet,
     MixinRoutes,
     MixinTable,
+    MixinErro,
   ],
   methods: {
     getRegistros() {
@@ -61,12 +63,11 @@ export default defineComponent({
 
       api.status
         .findAll()
-        .then((response) => {
-          this.registros = response.data;
+        .then(({ data }) => {
+          this.registros = data;
         })
         .catch((error: ErrorEvent) => {
-          this.$emit("erro", error);
-          console.error(error.message);
+          this.mapeamentoErro(error, 1);
         });
     },
 
@@ -80,9 +81,8 @@ export default defineComponent({
             this.getRegistros();
             this.$emit("deletado");
           })
-          .catch((error: ErrorEvent) => {
-            this.$emit("naoDeletado");
-            console.error(error.message);
+          .catch((error: any) => {
+            this.mapeamentoErro(error, 1);
           });
       }
     },
