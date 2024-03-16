@@ -48,6 +48,7 @@ import {
   MixinRoutes,
   MixinModuloGet,
   MixinForm,
+  MixinErro,
 } from "@/mixins";
 import BotoesForm from "@/components/Buttons/BotoesForm.vue";
 import AlertMessage from "@/components/Alerts/AlertMessage.vue";
@@ -59,7 +60,14 @@ export default defineComponent({
   data: () => ({
     form: new Atendimento(undefined),
   }),
-  mixins: [MixinMessage, MixinListStatus, MixinModuloGet, MixinRoutes, MixinForm],
+  mixins: [
+    MixinMessage,
+    MixinListStatus,
+    MixinModuloGet,
+    MixinRoutes,
+    MixinForm,
+    MixinErro,
+  ],
   components: {
     BForm,
     BFormInput,
@@ -106,8 +114,7 @@ export default defineComponent({
           this.MSGdCreate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
 
@@ -123,8 +130,7 @@ export default defineComponent({
           this.MSGUpdate();
         })
         .catch((error) => {
-          console.log(error);
-          this.MSGerrorInternal(error);
+          this.mapeamentoErro(error, 2);
         });
     },
   },

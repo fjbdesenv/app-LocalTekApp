@@ -6,9 +6,10 @@ import MixinListStatus from "./mixinListStatus";
 import MixinMapStatusTipo from "./mixinMapStatusTipo";
 import MixinConfirmacaoDeletar from "./mixinConfirmacaoDeletar";
 import MixinRoutes from "./mixinRoutes";
+import MixinTable from "./mixinTable";
+import MixinErro from "./mixinErro";
 import MixinForm from "./mixinForm";
 import MixinPDF from "./mixinPDF";
-import MixinTable from "./mixinTable";
 
 export {
     MixinModuloClear,
@@ -19,7 +20,8 @@ export {
     MixinMapStatusTipo,
     MixinConfirmacaoDeletar,
     MixinRoutes,
+    MixinTable,
+    MixinErro,
     MixinForm,
     MixinPDF,
-    MixinTable
 };

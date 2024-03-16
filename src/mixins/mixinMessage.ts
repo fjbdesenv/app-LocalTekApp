@@ -41,5 +41,8 @@ export default defineComponent({
         MSGdCreate() {
             this.messageShowTime('Registro criado com sucesso!', 'success', 1500);
         },
+        MSGUsuarioLogado() {
+            this.messageShowTime('Usuário logado, não pode ser excluido!', 'danger', 1500);
+        },
     },
 });

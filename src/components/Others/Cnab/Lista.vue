@@ -34,6 +34,7 @@ import {
   MixinModuloGet,
   MixinRoutes,
   MixinTable,
+  MixinErro,
 } from "@/mixins";
 import { Api, Cnab } from "@/class";
 import { PATHS } from "@/enum";
@@ -47,7 +48,7 @@ export default defineComponent({
   components: {
     BotoesListaOpcoes,
   },
-  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable],
+  mixins: [MixinConfirmacaoDeletar, MixinModuloGet, MixinRoutes, MixinTable, MixinErro],
   methods: {
     getRegistros() {
       const api = new Api();
@@ -56,12 +57,11 @@ export default defineComponent({
 
       api.cnab
         .findAll()
-        .then((response) => {
-          this.registros = response.data;
+        .then(({ data }) => {
+          this.registros = data;
         })
         .catch((error: ErrorEvent) => {
-          this.$emit("erro", error);
-          console.error(error.message);
+          this.mapeamentoErro(error, 1);
         });
     },
 
@@ -76,8 +76,7 @@ export default defineComponent({
             this.$emit("deletado");
           })
           .catch((error: ErrorEvent) => {
-            this.$emit("naoDeletado");
-            console.error(error.message);
+            this.mapeamentoErro(error, 1);
           });
       }
     },
