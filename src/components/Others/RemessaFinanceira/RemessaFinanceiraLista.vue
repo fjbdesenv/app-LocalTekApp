@@ -4,7 +4,7 @@
 
     <BotoesListaCabecalho
       :prop-show="show"
-      :props-rota-cadastro="rotas.cadastro.usuario"
+      :props-rota-cadastro="rotas.cadastro.remessaFinanceira"
       @gerarPDF="gerarPDF()"
     />
 
