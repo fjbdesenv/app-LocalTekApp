@@ -1,4 +1,3 @@
-import AdministradorView from '@/views/modules/AdministradorView.vue';
 import { MODULOS } from '@/enum';
 import {
     StatusRoutes,
@@ -6,6 +5,8 @@ import {
 } from './itens';
 
 const MODULO = MODULOS.Administrador;
+const AdministradorView = () => import('@/views/modules/EspecificidadesView.vue');
+
 const AdministradorRoutes = [
     {
         path: 'administrador',

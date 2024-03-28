@@ -1,9 +1,9 @@
-import CnabLista from '@/components/Others/Cnab/CnabLista.vue';
-import CnabEditar from '@/components/Others/Cnab/CnabEditar.vue';
-import CnabCadastro from '@/components/Others/Cnab/CnabCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.Cnab;
+const CnabLista = () => import('@/components/Others/Cnab/CnabLista.vue');
+const CnabEditar = () => import('@/components/Others/Cnab/CnabEditar.vue');
+const CnabCadastro = () => import('@/components/Others/Cnab/CnabCadastro.vue');
 
 export const CnabRoutes = (MODULO: string) => [
     {

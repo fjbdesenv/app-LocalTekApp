@@ -1,9 +1,9 @@
-import RemessaFinanceiraLista from '@/components/Others/RemessaFinanceira/RemessaFinanceiraLista.vue';
-import RemessaFinanceiraEditar from '@/components/Others/RemessaFinanceira/RemessaFinanceiraEditar.vue';
-import RemessaFinanceiraCadastro from '@/components/Others/RemessaFinanceira/RemessaFinanceiraCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.RemessaFinanceira;
+const RemessaFinanceiraLista = () => import('@/components/Others/RemessaFinanceira/RemessaFinanceiraLista.vue');
+const RemessaFinanceiraEditar = () => import('@/components/Others/RemessaFinanceira/RemessaFinanceiraEditar.vue');
+const RemessaFinanceiraCadastro = () => import('@/components/Others/RemessaFinanceira/RemessaFinanceiraCadastro.vue');
 
 export const RemessaFinanceiraRoutes = (MODULO: string) => [
     {

@@ -1,12 +1,12 @@
-import EspecificidadesView from '@/views/modules/EspecificidadesView.vue';
 import { MODULOS } from '@/enum';
 import {
     ClienteRoutes,
     AtendimentoRoutes,
 } from './itens';
 
-
 const MODULO = MODULOS.Especificidade;
+const EspecificidadesView = () => import('@/views/modules/EspecificidadesView.vue');
+
 export const EspecificidadeRoutes = [
     {
         path: 'especificidades',

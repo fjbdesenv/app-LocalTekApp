@@ -1,4 +1,4 @@
-import HomeView from '@/views/HomeView.vue';
+const HomeView = () => import('@/views/HomeView.vue');
 
 export const HomeRoutes = [
     {
