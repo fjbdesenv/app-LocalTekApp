@@ -1,4 +1,3 @@
-import RemessasView from '@/views/modules/RemessasView.vue';
 import { MODULOS } from '@/enum';
 import {
     CnabRoutes,
@@ -9,6 +8,8 @@ import {
 } from './itens';
 
 const MODULO = MODULOS.Remessa;
+const RemessasView = () => import('@/views/modules/RemessasView.vue');
+
 export const RemessasRoutes = [
     {
         path: 'remessas',

@@ -1,9 +1,9 @@
-import UsuarioLista from '@/components/Others/Usuario/UsuarioLista.vue';
-import UsuarioEditar from '@/components/Others/Usuario/UsuarioEditar.vue';
-import UsuarioCadastro from '@/components/Others/Usuario/UsuarioCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.Usuario;
+const UsuarioLista = () => import('@/components/Others/Usuario/UsuarioLista.vue');
+const UsuarioEditar = () => import('@/components/Others/Usuario/UsuarioEditar.vue');
+const UsuarioCadastro = () => import('@/components/Others/Usuario/UsuarioCadastro.vue');
 
 export const UsuarioRoutes = (MODULO: string) => [
     {

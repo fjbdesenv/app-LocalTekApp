@@ -1,9 +1,9 @@
-import BancoLista from '@/components/Others/Banco/BancoLista.vue';
-import BancoEditar from '@/components/Others/Banco/BancoEditar.vue';
-import BancoCadastro from '@/components/Others/Banco/BancoCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.Banco;
+const BancoLista = () => import('@/components/Others/Banco/BancoLista.vue');
+const BancoEditar = () => import('@/components/Others/Banco/BancoEditar.vue');
+const BancoCadastro = () => import( '@/components/Others/Banco/BancoCadastro.vue');
 
 export const BancoRoutes = (MODULO: string) => [
     {

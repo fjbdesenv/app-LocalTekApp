@@ -1,9 +1,9 @@
-import AtendimentoEventoLista from '@/components/Others/AtendimentoEvento/AtendimentoEventoLista.vue';
-import AtendimentoEventoEditar from '@/components/Others/AtendimentoEvento/AtendimentoEventoEditar.vue';
-import AtendimentoEventoCadastro from '@/components/Others/AtendimentoEvento/AtendimentoEventoCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.AtendimentoEvento;
+const AtendimentoEventoLista = () => import('@/components/Others/AtendimentoEvento/AtendimentoEventoLista.vue');
+const AtendimentoEventoEditar = () => import('@/components/Others/AtendimentoEvento/AtendimentoEventoEditar.vue');
+const AtendimentoEventoCadastro = () => import('@/components/Others/AtendimentoEvento/AtendimentoEventoCadastro.vue');
 
 export const AtendimentoEventoRoutes = (MODULO: string) => [
     {

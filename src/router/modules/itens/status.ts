@@ -1,9 +1,9 @@
-import StatusLista from '@/components/Others/Status/StatusLista.vue';
-import StatusEditar from '@/components/Others/Status/StatusEditar.vue';
-import StatusCadastro from '@/components/Others/Status/StatusCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.Status;
+const StatusLista = () => import('@/components/Others/Status/StatusLista.vue');
+const StatusEditar = () => import('@/components/Others/Status/StatusEditar.vue');
+const StatusCadastro = () => import('@/components/Others/Status/StatusCadastro.vue');
 
 export const StatusRoutes = (MODULO: string) => [
     {

@@ -1,9 +1,9 @@
-import AtendimentoArquivoLista from '@/components/Others/AtendimentoArquivo/AtendimentoArquivoLista.vue';
-import AtendimentoArquivoEditar from '@/components/Others/AtendimentoArquivo/AtendimentoArquivoEditar.vue';
-import AtendimentoArquivoCadastro from '@/components/Others/AtendimentoArquivo/AtendimentoArquivoCadastro.vue';
 import { PATHS } from '@/enum';
 
 const PATH = PATHS.AtendimentoArquivo;
+const AtendimentoArquivoLista = () => import('@/components/Others/AtendimentoArquivo/AtendimentoArquivoLista.vue');
+const AtendimentoArquivoEditar = () => import('@/components/Others/AtendimentoArquivo/AtendimentoArquivoEditar.vue');
+const AtendimentoArquivoCadastro = () => import('@/components/Others/AtendimentoArquivo/AtendimentoArquivoCadastro.vue');
 
 export const AtendimentoArquivoRoutes = (MODULO: string) => [
     {

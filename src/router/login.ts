@@ -1,4 +1,4 @@
-import LoginView from '@/views/LoginView.vue'
+const LoginView = () => import('@/views/LoginView.vue');
 
 export const LoginRoutes = [
     {

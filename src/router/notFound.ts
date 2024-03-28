@@ -1,4 +1,4 @@
-import NotFoundView from '@/views/NotFoundView.vue';
+const NotFoundView = () => import('@/views/NotFoundView.vue');
 
 export const NotFoundRoutes = [
     {
